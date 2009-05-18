@@ -108,7 +108,7 @@ void streamShutdown(ResourceContextRef rc);
 static const GUID APP_GUID = { 0xbaeef0cf, 0xd06e, 0x490c, { 0x92, 0x6, 0x3b, 0x25, 0x25, 0xc2, 0x84, 0x9c } };
 
 HRESULT AddNotification(HWND hWnd,LPCTSTR notmess,int flagvs)
-{
+{    //окошки тут
 	//flagvs:
 	//0-сообщение
 	//1-статус
