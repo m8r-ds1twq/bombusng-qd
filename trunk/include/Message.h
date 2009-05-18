@@ -23,7 +23,7 @@ public:
     virtual void render(HDC hdc, RECT &rt, bool measure) const;
 
     virtual HMENU getContextMenu(HMENU menu);
-    virtual bool OnMenuCommand(int cmdId, HWND parent);
+    virtual bool OnMenuCommand(int cmdId, HWND parent, HWND edithwnd);
 
     virtual const wchar_t * getText() const;
 

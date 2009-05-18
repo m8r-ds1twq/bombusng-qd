@@ -15,7 +15,7 @@ class VirtualListElement {
 public:
     typedef boost::shared_ptr<VirtualListElement> ref;
     virtual HMENU getContextMenu(HMENU menu){ return menu; }
-    virtual bool OnMenuCommand(int cmdId, HWND parent) { return false; }
+    virtual bool OnMenuCommand(int cmdId, HWND parent, HWND edithwnd) { return false; }
 };
 //////////////////////////////////////////////////////////////////////////
 
@@ -51,6 +51,7 @@ public:
     bool wrapList;
     // enable different background colors for odd and even list elements
     bool colorInterleaving;
+	HWND hEditBox;
 
 protected:
 
@@ -64,7 +65,6 @@ protected:
 
     std::wstring title;
     WndTitleRef  wt;    
-
     void init();
 
 private:

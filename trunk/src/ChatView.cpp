@@ -223,7 +223,7 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
             p->msgList->wrapList=false;
             p->msgList->colorInterleaving=true;
 
-            p->editWnd=DoCreateEditControl(hWnd);
+			p->editWnd=p->msgList->hEditBox=DoCreateEditControl(hWnd);
             p->calcEditHeight();
 
             p->msgList->bindODRList(p->contact->messageList);
@@ -425,24 +425,8 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
 				L"Очистить", 
 				MB_YESNO | MB_ICONWARNING);
 			if (result==IDYES) {
-				int result=MessageBox(
-					p->getHWnd(), 
-					L"Вы уверенны?", 
-					L"Мммда...", 
-					MB_YESNO | MB_ICONWARNING);
-				if (result==IDYES) {
-					int result=MessageBox(
-						p->getHWnd(), 
-						L"Очищенно", 
-						L"Жми меня!", 
-						MB_YESNO | MB_ICONWARNING);
-					if (result==IDYES) {
-						p->contact->messageList->clear();
-						p->msgList->moveCursorEnd();
-					}
-				}
-				//p->contact->messageList->clear();
-				//p->msgList->moveCursorEnd();
+				p->contact->messageList->clear();
+				p->msgList->moveCursorEnd();
 			}
 			break;
 		}
@@ -939,7 +923,7 @@ HMENU MessageElement::getContextMenu( HMENU menu ) {
 		AppendMenu(menu, MF_SEPARATOR , 0, NULL);
 
 	AppendMenu(menu, MF_STRING | MF_GRAYED, CGETNICK, L"Ник" );
-	AppendMenu(menu, MF_STRING | MF_GRAYED, CQUOTE, L"Цитировать" );
+	AppendMenu(menu, MF_STRING, CQUOTE, L"Цитировать" );
 	AppendMenu(menu, MF_SEPARATOR , 0, NULL);
 	AppendMenu(menu, MF_STRING, WM_COPY, L"Копировать" );
 	AppendMenu(menu, MF_STRING, GOTOURL, L"Открыть url" );
@@ -952,7 +936,7 @@ HMENU MessageElement::getContextMenu( HMENU menu ) {
 }
 
 
-bool MessageElement::OnMenuCommand(int cmdId, HWND parent){
+bool MessageElement::OnMenuCommand(int cmdId, HWND parent, HWND edithwnd){
     switch (cmdId) {
         case WM_COPY:
             {
@@ -1013,6 +997,22 @@ int result=MessageBox(NULL, wcstok(strurl,L" "), TEXT("Открыть URL?"), MB_YESNO 
                 InvalidateRect(parent, NULL, true);
                 return true;
             }
+		case CQUOTE:
+				if (!edithwnd) return true;
+				std::wstring copy=wstr;
+                // striping formating
+                size_t i=0;
+                while (i<copy.length()) {
+                    if (copy[i]<0x09) {
+                        copy.erase(i,1);
+                        continue;
+                    }
+                    i++;
+                }
+				copy=L"»"+copy;
+				SendMessage(edithwnd, EM_REPLACESEL, TRUE, (LPARAM)copy.c_str());
+				SetFocus(edithwnd);
+				return true;
     }
     return false;
 }

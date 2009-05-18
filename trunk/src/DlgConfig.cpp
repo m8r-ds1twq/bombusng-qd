@@ -184,8 +184,11 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                     GetDlgCheckBox(hDlg, IDC_X_AUTOCONNECT, cfg->connectOnStartup);
 
 					BOOL f1Int,f2Int,f3Int,f4Int,reconint,tabc2,tol2;
+					extern int tabHeight;
+					tabHeight-=cfg->tabconf;
 					cfg->tabconf = GetDlgItemInt(hDlg,  IDC_TAB_CONF, &tabc2 , false);
-					    if (!reconint) cfg->tabconf = 12;
+					    if (!tabc2) cfg->tabconf = 12;
+						tabHeight+=cfg->tabconf;
 					cfg->reconnectTries = GetDlgItemInt(hDlg, IDC_RECONNECT_TRIES, &reconint , false);
 					    if (!reconint) cfg->reconnectTries = 3;
 

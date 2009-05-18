@@ -15,7 +15,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian resources
+// русский resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 #ifdef _WIN32
@@ -41,16 +41,6 @@ BEGIN
             MENUITEM "Extended Away",               IDM_STATUS_EXTENDEDAWAY
             MENUITEM "DND",                         IDM_STATUS_DND
             MENUITEM "Off line",                    IDM_STATUS_OFFLINE
-        END
-        POPUP "Контакт"
-        BEGIN
-            POPUP "Подписка"
-            BEGIN
-                MENUITEM "Запросить",                   ID_SUBSCRIBE_GRAND
-                MENUITEM "Дать",                        ID_SUBSCRIPTION_GRANTSUBSCRIPTION
-                MENUITEM "Удалить",                     ID_SUBSCRIPTION_REVOKESUBSCRIPTION
-            END
-            MENUITEM "Инфа",                        ID_CONTACT_INFO
         END
         MENUITEM SEPARATOR
         MENUITEM "Добавить контакт",            ID_JABBER_ADDACONTACT
@@ -250,7 +240,7 @@ BEGIN
     CONTROL         "Ignore SSL Warnings",IDC_X_SSL_WARNINGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,55,83,10
     EDITTEXT        IDC_E_HOSTIP,4,18,101,12,ES_LOWERCASE | ES_AUTOHSCROLL
     EDITTEXT        IDC_E_PORT,116,18,36,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           ":",-1,111,21,10,8
+    LTEXT           ":",-1,111,21,10,10
     CONTROL         "Прокси  Host:port",IDC_X_NSRV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,7,75,10
     CONTROL         "Послать ""Keep-Alive"" packets",IDC_X_ZLIB2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_DISABLED | WS_TABSTOP,11,85,112,10
     CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,107,14,14
@@ -272,19 +262,19 @@ IDD_OPTIONS2 DIALOG  0, 0, 156, 129
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 EXSTYLE 0x80000000L
 CAPTION "Сообщения"
-FONT 10, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg"
 BEGIN
-    CONTROL         "Composing events",IDC_X_COMPOSING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,8,75,14
-    CONTROL         "Доставка",IDC_X_DELIVERY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,20,83,14
-    CONTROL         "История чата",IDC_X_HISTORY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,32,72,14
-    CONTROL         "SIP панель",IDC_X_SIP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,44,81,14
-    CONTROL         "Показ статусов в комнате",IDM_SHOW_STATUS_IN_MUC,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,56,110,14
+    CONTROL         "Composing events",IDC_X_COMPOSING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,7,75,10
+    CONTROL         "Доставка",IDC_X_DELIVERY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,17,83,10
+    CONTROL         "История чата",IDC_X_HISTORY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,27,72,10
+    CONTROL         "SIP панель",IDC_X_SIP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,38,81,10
+    CONTROL         "Показ статусов в комнате",IDM_SHOW_STATUS_IN_MUC,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,50,110,10
     CONTROL         "Показ статусов в чате",IDM_SHOW_STATUS_IN_SIMPLE_CHAT,
-                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,68,115,14
-    CONTROL         "Хранить историю комнаты",IDM_SAVE_HISTORY_MUC,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,80,110,14
+                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,61,115,10
+    CONTROL         "Хранить историю комнаты",IDM_SAVE_HISTORY_MUC,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,72,110,10
     CONTROL         "Хранить историю в  HTML",IDM_SAVE_HISTORY_IN_HTML,
-                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,92,110,14
-    CONTROL         "Поле ввода x2",IDC_EDITX2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,107,65,8
+                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,83,110,10
+    CONTROL         "Поле ввода x2",IDC_EDITX2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,94,65,10
 END
 
 IDD_OPTIONS3 DIALOG  0, 0, 156, 129
@@ -317,24 +307,24 @@ IDD_OPTIONS4 DIALOG  0, 0, 156, 129
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 EXSTYLE 0x80000000L
 CAPTION "*Разное"
-FONT 10, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg"
 BEGIN
-    LTEXT           "Настройка шрифта: ",IDC_STATIC,13,48,85,8
-    LTEXT           "Высота Сообщений",IDC_STATIC,13,73,69,9
-    LTEXT           "Ширина Сообщений",IDC_STATIC,13,84,70,9
-    LTEXT           "Высота ростера",IDC_STATIC,21,98,66,12
-    LTEXT           "Ширина ростера",IDC_STATIC,21,110,66,12
+    LTEXT           "Настройка шрифта: ",IDC_STATIC,13,48,85,10
+    LTEXT           "Высота Сообщений",IDC_STATIC,13,73,69,10
+    LTEXT           "Ширина Сообщений",IDC_STATIC,13,85,70,10
+    LTEXT           "Высота ростера",IDC_STATIC,12,98,66,10
+    LTEXT           "Ширина ростера",IDC_STATIC,12,108,66,10
     EDITTEXT        IDC_X_MSG_FONT_HEIGHT,90,72,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
     EDITTEXT        IDC_X_MSG_FONT_WIDTH,90,84,18,10,ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_X_ROSTER_FONT_HEIGHT,90,97,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
     EDITTEXT        IDC_X_ROSTER_FONT_WIDTH,90,109,18,10,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Automatically connect on startup",IDC_X_AUTOCONNECT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,7,120,8
-    EDITTEXT        IDC_RECONNECT_TRIES,114,16,24,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Попыток переподключения",IDC_STATIC,13,19,93,7
-    LTEXT           "Размер табов",IDC_STATIC,58,33,49,7
-    EDITTEXT        IDC_TAB_CONF,114,31,24,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Толщина",IDC_STATIC,16,60,69,9
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,7,120,10
+    EDITTEXT        IDC_RECONNECT_TRIES,114,18,24,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Попыток переподключения",IDC_STATIC,13,21,97,10
+    LTEXT           "Размер табов",IDC_STATIC,13,35,49,10
+    EDITTEXT        IDC_TAB_CONF,114,33,24,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Толщина",IDC_STATIC,13,60,69,10
     EDITTEXT        IDC_X_MSG_FONT_TOLSH,90,59,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
 END
 
@@ -517,7 +507,7 @@ BEGIN
     IDS_SEND                "Send"
 END
 
-#endif    // Russian resources
+#endif    // русский resources
 /////////////////////////////////////////////////////////////////////////////
 
 
