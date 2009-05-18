@@ -1,0 +1,539 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resourceppc.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "resdefce.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU MENU 
+BEGIN
+    POPUP "Меню"
+    BEGIN
+        MENUITEM "Статус",                      IDM_JABBER_STATUS
+        POPUP "Быстро статус"
+        BEGIN
+            MENUITEM "On line",                     IDM_STATUS_ONLINE
+            MENUITEM "FFC",                         IDM_STATUS_FFC
+            MENUITEM "Away",                        IDM_STATUS_AWAY
+            MENUITEM "Extended Away",               IDM_STATUS_EXTENDEDAWAY
+            MENUITEM "DND",                         IDM_STATUS_DND
+            MENUITEM "Off line",                    IDM_STATUS_OFFLINE
+        END
+        POPUP "Контакт"
+        BEGIN
+            POPUP "Подписка"
+            BEGIN
+                MENUITEM "Запросить",                   ID_SUBSCRIBE_GRAND
+                MENUITEM "Дать",                        ID_SUBSCRIPTION_GRANTSUBSCRIPTION
+                MENUITEM "Удалить",                     ID_SUBSCRIPTION_REVOKESUBSCRIPTION
+            END
+            MENUITEM "Инфа",                        ID_CONTACT_INFO
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Добавить контакт",            ID_JABBER_ADDACONTACT
+        MENUITEM "Войти в комнату",             ID_JABBER_JOINCONFERENCE
+        MENUITEM "Аккаунт",                     IDM_JABBER_ACCOUNT
+        POPUP "Инструменты"
+        BEGIN
+            MENUITEM "Обзор сервисов",              ID_TOOLS_SERVICEDISCOVERY
+            MENUITEM "Файлы",                       ID_TOOLS_FILETRANSFERS, GRAYED
+            MENUITEM "Мой vCard",                   ID_TOOLS_MYVCARD
+            MENUITEM SEPARATOR
+            MENUITEM "Log",                         IDM_WINDOWS_LOG
+            MENUITEM "Stream Info",                 IDM_JABBER_STREAMINFO
+            MENUITEM "color re",                    ID_TOOLS_COLORRE
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Настройки",                   ID_JABBER_OPTIONS
+        MENUITEM SEPARATOR
+        MENUITEM "О программе",                 IDM_HELP_ABOUT
+        MENUITEM "Выход",                       IDM_EXIT
+    END
+    MENUITEM "Окна",                        IDS_WINDOWS
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_UI ACCELERATORS 
+BEGIN
+    "Q",            IDM_EXIT,               VIRTKEY, CONTROL, NOINVERT
+    "A",            IDM_HELP_ABOUT,         VIRTKEY, CONTROL, NOINVERT
+    "1",            IDM_JABBER,             VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "About Bombus"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "BombusQD",IDC_STATIC_2,7,15,36,8,SS_NOPREFIX
+    LTEXT           "(c) 2006-2007, Eugene Stahov (evgs)",IDC_STATIC_3,7,29,142,10
+    ICON            IDI_BOMBUS,IDC_STATIC,128,7,20,20
+    LTEXT           "$VERSION$",IDC_AVERSION,45,15,65,8
+    EDITTEXT        IDC_AREV,7,74,142,35,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "http://bombus-im.org",IDC_STATIC_4,7,39,106,9
+    LTEXT           "Mod of original NG.",IDC_STATIC_5,7,50,106,8
+    LTEXT           "$HARDWARE$",IDC_AHW,7,62,142,10
+END
+
+IDD_STATUS DIALOG  0, 0, 156, 124
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Выбор статуса"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    COMBOBOX        IDC_C_STATUS,33,7,116,71,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_E_STATUS,7,41,142,41,ES_AUTOHSCROLL
+    EDITTEXT        IDC_E_PRIORITY,49,87,29,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_PRIORITY,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,83,86,11,14
+    CONTROL         "Globas status",GLOBAL_STATUS,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,7,103,60,14
+    DEFPUSHBUTTON   "Ок",IDOK,24,117,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,84,117,50,14
+    COMBOBOX        IDC_C_PRESET,33,22,76,38,CBS_DROPDOWN | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Save",IDC_X_PRESAVE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,117,24,32,10
+    LTEXT           "Приоритет",IDC_STATIC,7,89,37,8
+    LTEXT           "Статус",IDC_STATIC,7,7,24,8
+    LTEXT           "Preset",IDC_STATIC,7,24,24,8
+    CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE | WS_TABSTOP,7,103,14,14
+END
+
+IDD_DIRECT_PRESENCE DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Послать присутвие"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    COMBOBOX        IDC_C_STATUS,33,24,116,71,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_E_STATUS,7,58,142,24,ES_AUTOHSCROLL
+    EDITTEXT        IDC_E_PRIORITY,49,87,29,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_PRIORITY,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,83,86,11,14
+    DEFPUSHBUTTON   "Ок",IDOK,24,108,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,84,108,50,14
+    COMBOBOX        IDC_C_PRESET,33,40,76,38,CBS_DROPDOWN | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Save",IDC_X_PRESAVE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,117,41,32,10
+    LTEXT           "Приоритет",IDC_STATIC,7,89,40,8
+    LTEXT           "Статус",IDC_STATIC,7,24,24,8
+    LTEXT           "Preset",IDC_STATIC,7,41,24,8
+    EDITTEXT        IDC_E_JID,7,7,142,14,ES_AUTOHSCROLL
+    CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,7,108,14,14
+END
+
+IDD_EDIT_CONTACT DIALOG  0, 0, 156, 122
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Ред. контакт"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_E_NICK,37,41,77,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Resolve",ID_VCARD_NICK,117,41,35,13
+    COMBOBOX        IDC_C_GROUP,37,58,115,57,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Обновить",IDOK,24,95,50,14,WS_GROUP
+    PUSHBUTTON      "Отмена",IDCANCEL,84,95,50,14
+    EDITTEXT        IDC_E_JID,37,7,77,13,ES_LOWERCASE | ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "VCard",ID_VCARD,117,7,35,13,WS_DISABLED
+    LTEXT           "Контакт",IDC_STATIC,5,9,32,8
+    LTEXT           "Ник",IDC_STATIC,5,43,32,8
+    LTEXT           "Группа",IDC_STATIC,4,60,24,8
+    CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,101,14,14
+END
+
+IDD_CONFERENCE DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Войти в комнату"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    COMBOBOX        IDC_C_BOOKMARK,13,81,84,71,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_E_ROOM,7,13,47,12,ES_LOWERCASE | ES_AUTOHSCROLL
+    COMBOBOX        IDC_C_NICK,7,39,62,71,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_E_SERVER,68,13,81,12,ES_LOWERCASE | ES_AUTOHSCROLL
+    EDITTEXT        IDC_E_PASSWORD,83,38,66,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Войти",IDOK,24,112,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,84,112,50,14
+    EDITTEXT        IDC_E_HISTSZ,119,55,29,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_HIST_SZ,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,109,54,11,14
+    PUSHBUTTON      "Save",IDC_SAVE,102,81,42,11,WS_DISABLED
+    PUSHBUTTON      "Delete",IDC_DELETE,102,95,42,11,WS_DISABLED
+    LTEXT           "История",IDC_STATIC,72,57,33,8
+    LTEXT           "Комната",IDC_STATIC,7,3,31,8
+    CONTROL         "Автовход",IDC_X_AUTOJOIN,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,95,49,10
+    GROUPBOX        "Закладки",IDC_STATIC,7,71,142,38
+    LTEXT           "Сервер",IDC_STATIC,69,3,31,8
+    LTEXT           "Пароль",IDC_STATIC,84,29,46,8
+    LTEXT           "@",IDC_STATIC,57,16,10,8
+    LTEXT           "Ник",IDC_STATIC,7,29,14,8
+    CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,7,108,14,14
+END
+
+IDD_ADD_CONTACT DIALOG  0, 0, 156, 122
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Добавить "
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_E_JID,37,7,77,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_E_NICK,37,41,77,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Resolve",ID_VCARD_NICK,117,41,35,13
+    COMBOBOX        IDC_C_GROUP,37,58,115,57,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Подписка",IDC_X_SUBSCR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,78,94,10
+    DEFPUSHBUTTON   "Добавить",IDOK,24,95,50,14,WS_GROUP
+    PUSHBUTTON      "Отмена",IDCANCEL,84,95,50,14
+    PUSHBUTTON      "VCard",ID_VCARD,117,7,35,13,WS_DISABLED
+    COMBOBOX        IDC_C_SERVICE,37,24,115,52,CBS_DROPDOWNLIST | CBS_LOWERCASE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Контакт",IDC_STATIC,5,9,32,8
+    LTEXT           "Service",IDC_STATIC,4,26,33,8
+    LTEXT           "Ник",IDC_STATIC,5,43,32,8
+    LTEXT           "Группа",IDC_STATIC,4,60,24,8
+    CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,101,14,14
+END
+
+IDD_ACCNT1 DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Аккаунт"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_E_JID,47,7,105,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_E_PASSWORD,47,22,78,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Пароль",IDC_STATIC,4,24,43,8
+    LTEXT           "Jabber ID *",IDC_STATIC,4,9,42,8
+    EDITTEXT        IDC_E_RESOURCE,47,37,78,12,ES_AUTOHSCROLL
+    LTEXT           "Resource",IDC_STATIC,4,39,36,8
+    LTEXT           "Пример Jabber ID:  user@jabber.ru",IDC_STATIC,4,59,148,14
+    CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,108,14,14
+END
+
+IDD_ACCNT2 DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Коннект"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Сжатие(если есть)",IDC_X_ZLIB,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,75,80,10
+    CONTROL         "Шифрование",IDC_X_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,45,60,10
+    CONTROL         "Plain password",IDC_X_PLAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,65,63,10
+    CONTROL         "Legacy non-SASL authentication",IDC_X_SASL,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,35,119,10
+    CONTROL         "Ignore SSL Warnings",IDC_X_SSL_WARNINGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,55,83,10
+    EDITTEXT        IDC_E_HOSTIP,4,18,101,12,ES_LOWERCASE | ES_AUTOHSCROLL
+    EDITTEXT        IDC_E_PORT,116,18,36,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           ":",-1,111,21,10,8
+    CONTROL         "Прокси  Host:port",IDC_X_NSRV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,7,75,10
+    CONTROL         "Послать ""Keep-Alive"" packets",IDC_X_ZLIB2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_DISABLED | WS_TABSTOP,11,85,112,10
+    CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,107,14,14
+END
+
+IDD_OPTIONS1 DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Ростер"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Показ групп",IDC_X_GROUPS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_DISABLED | WS_TABSTOP,11,17,57,10
+    CONTROL         "Показ offline контактов",IDC_X_OFFLINES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,7,96,10
+    CONTROL         "Сортировать контакты по статусу",IDC_X_PRESENCESORT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,28,135,10
+END
+
+IDD_OPTIONS2 DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Сообщения"
+FONT 10, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Composing events",IDC_X_COMPOSING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,8,75,14
+    CONTROL         "Доставка",IDC_X_DELIVERY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,20,83,14
+    CONTROL         "История чата",IDC_X_HISTORY,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,32,72,14
+    CONTROL         "SIP панель",IDC_X_SIP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,44,81,14
+    CONTROL         "Показ статусов в комнате",IDM_SHOW_STATUS_IN_MUC,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,56,110,14
+    CONTROL         "Показ статусов в чате",IDM_SHOW_STATUS_IN_SIMPLE_CHAT,
+                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,68,115,14
+    CONTROL         "Хранить историю комнаты",IDM_SAVE_HISTORY_MUC,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,80,110,14
+    CONTROL         "Хранить историю в  HTML",IDM_SAVE_HISTORY_IN_HTML,
+                    "Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,92,110,14
+    CONTROL         "Поле ввода x2",IDC_EDITX2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,4,107,65,8
+END
+
+IDD_OPTIONS3 DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Cигналы"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Звук",IDC_X_SOUNDS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,17,32,10
+    CONTROL         "вкл. вибру для смартофона",IDC_X_VIBRA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,7,110,10
+    CONTROL         "composing",IDC_SOUNDCOM,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,28,49,10
+    CONTROL         "Блинк(мигание экрана)",IDC_X_BLINK1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,54,94,10
+    CONTROL         "выключить в конце экран",IDC_X_BLINK2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,65,105,10
+    CONTROL         "Вспл.окошко",IDC_X_VSMESS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,12,79,59,10
+    CONTROL         "Показывать везде",IDC_X_VSTRYMESS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,19,90,82,10
+    CONTROL         "status",IDC_SOUND_STATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,19,40,36,10
+    CONTROL         "status",IDC_VS_STATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,19,102,36,10
+END
+
+IDD_ACCNT3 DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Сеть"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Устанавливать соединение",IDC_X_DIALUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,7,133,10
+END
+
+IDD_OPTIONS4 DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "*Разное"
+FONT 10, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Настройка шрифта: ",IDC_STATIC,13,48,85,8
+    LTEXT           "Высота Сообщений",IDC_STATIC,13,73,69,9
+    LTEXT           "Ширина Сообщений",IDC_STATIC,13,84,70,9
+    LTEXT           "Высота ростера",IDC_STATIC,21,98,66,12
+    LTEXT           "Ширина ростера",IDC_STATIC,21,110,66,12
+    EDITTEXT        IDC_X_MSG_FONT_HEIGHT,90,72,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
+    EDITTEXT        IDC_X_MSG_FONT_WIDTH,90,84,18,10,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_X_ROSTER_FONT_HEIGHT,90,97,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
+    EDITTEXT        IDC_X_ROSTER_FONT_WIDTH,90,109,18,10,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Automatically connect on startup",IDC_X_AUTOCONNECT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,7,120,8
+    EDITTEXT        IDC_RECONNECT_TRIES,114,16,24,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Попыток переподключения",IDC_STATIC,13,19,93,7
+    LTEXT           "Размер табов",IDC_STATIC,58,33,49,7
+    EDITTEXT        IDC_TAB_CONF,114,31,24,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Толщина",IDC_STATIC,16,60,69,9
+    EDITTEXT        IDC_X_MSG_FONT_TOLSH,90,59,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_STATUS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 117
+    END
+
+    IDD_DIRECT_PRESENCE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_EDIT_CONTACT, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+    END
+
+    IDD_CONFERENCE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_ADD_CONTACT, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+    END
+
+    IDD_ACCNT1, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_ACCNT2, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 121
+    END
+
+    IDD_OPTIONS1, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_OPTIONS2, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_OPTIONS3, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_ACCNT3, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_OPTIONS4, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resourceppc.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""resdefce.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""uippc.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_BOMBUS              ICON                    "bombus.ico"
+IDI_MESS_IC             ICON                    "mess.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_APP_TITLE           "Bombus"
+    IDC_UI                  "UI"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_JABBER              "Jabber"
+    IDS_WINDOWS             "Windows"
+    IDS_EXIT                "EXIT"
+    IDS_HELP                "Help"
+    IDS_SEND                "Send"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "uippc.rc2"  // non-Microsoft Visual C++ edited resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

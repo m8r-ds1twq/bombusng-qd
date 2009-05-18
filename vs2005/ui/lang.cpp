@@ -1,0 +1,1 @@
+//char *langres[]={"jabber","EXIT"};
