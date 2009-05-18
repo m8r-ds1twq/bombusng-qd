@@ -202,7 +202,7 @@ LRESULT CALLBACK VirtualListView::WndProc( HWND hWnd, UINT message, WPARAM wPara
 
                 bool cmdProcessed=false;
                 if (velement) 
-                    cmdProcessed=velement->OnMenuCommand(cmdId, p->getHWnd());
+					cmdProcessed=velement->OnMenuCommand(cmdId, p->getHWnd(), p->hEditBox);
 
                 if (!cmdProcessed)
                     p->OnCommand(cmdId, NULL);
@@ -422,6 +422,7 @@ void VirtualListView::init() {
 }
 
 VirtualListView::VirtualListView( HWND parent, const std::string & title ) {
+	hEditBox = NULL;
     parentHWnd=parent;
     init();
 
@@ -465,7 +466,7 @@ void VirtualListView::notifyListUpdate( bool redraw ) {
 void VirtualListView::eventOk() { 
     VirtualListElement *velement=dynamic_cast<VirtualListElement *>(cursorPos.get());
     if (velement) 
-        velement->OnMenuCommand(IDOK, getHWnd());
+        velement->OnMenuCommand(IDOK, getHWnd(), NULL);
 }
 
 void VirtualListView::moveCursor( int direction ) {
