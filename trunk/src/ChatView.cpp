@@ -980,16 +980,17 @@ int result=MessageBox(NULL, wcstok(strurl,L" "), TEXT("Открыть URL?"), MB_YESNO 
 			
                 return true;
             }
-        case IDOK:
+         case IDOK:
             {
                 singleLine=!singleLine;
-                smiles=!smiles;
-				
-                return true;
+                smiles=TRUE;
+				if(!singleLine){init();return true;}
+                //
             }
         case IDM_SMILES:
             {
                 smiles=!smiles;
+				if(smiles){init();return true;}
                 RECT rt={0,0,width,0};
                 render(NULL, rt, true);
                 width=rt.right-rt.left;
