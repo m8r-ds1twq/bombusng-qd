@@ -99,7 +99,7 @@ int prepareAccount();
 int initJabber(ResourceContextRef rc);
 //void streamShutdown();
 void streamShutdown(ResourceContextRef rc);
-
+HWND hwnvs;
 
 
 //
@@ -284,7 +284,7 @@ if(hInst2){
 
     mainWnd=hWnd = CreateWindow(szWindowClass, szTitle, WS_VISIBLE,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL);
-
+hwnvs=mainWnd;
     if (!hWnd)
     {
         return FALSE;
@@ -357,9 +357,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 					 //colorsload();
 					break;
-				case 98553://À”◊ÿ≈ ÷»‘–¿ »¡Œ Ã≈Õﬂ“‹—ﬂ ÃŒ∆≈“
+				case AKTIVW:
+					SetForegroundWindow(mainWnd);
 					SetActiveWindow(mainWnd);
-//Œ“À¿ƒ ¿ ;) MessageBox(hWnd, TEXT("Clicked"), TEXT("!"), 0);
+					SetFocus(mainWnd);
+//Œ“À¿ƒ ¿ ;)	MessageBox(hWnd, TEXT("Clicked"), TEXT("!"), 0);
+				
 
 					DeleteNotification();
 				break;
@@ -923,7 +926,7 @@ ProcessResult MessageRecv::blockArrived(JabberDataBlockRef block, const Resource
 if(Config::getInstance()->vsmess){
    
 
-		if ((mainWnd != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
+		if ((hwnvs != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
 
 std::wstring messn2;
 std::wstring mesfrom2;
@@ -931,9 +934,9 @@ messn2=utf8::utf8_wchar(msg->body.c_str());
 if (mucMessage) {mesfrom2=utf8::utf8_wchar(from.c_str());}else{
 	mesfrom2=utf8::utf8_wchar(c->getFullName());}
 
-std::wstring messn1=L"<input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:98553\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" > <br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br>";
+std::wstring messn1=L"<input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" > <br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br>";
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
-AddNotification(mainWnd,(LPCTSTR)messn1.c_str(),0);}
+AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
 
 }
 }
@@ -1004,14 +1007,14 @@ std::wstring statvs;
 	rc->roster->makeViewList();
 	if(typevs=="chat" || typevs=="away" || typevs=="xa" || typevs=="dnd" || typevs=="online" || typevs=="offline"){
     statvs=L"<br>ÛÒÚ‡ÌÓ‚ËÎ ÒÚ‡ÚÛÒ:<br>"+utf8::utf8_wchar(typevs);
-	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:98553\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><br>"+utf8::utf8_wchar(contact->getFullName())+statvs+L" <br>"+utf8::utf8_wchar(statusMessage2);
+	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><br>"+utf8::utf8_wchar(contact->getFullName())+statvs+L" <br>"+utf8::utf8_wchar(statusMessage2);
 	
 	
 
-if (Config::getInstance()->vs_status){
-if ((mainWnd != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
+if (Config::getInstance()->vs_status && Config::getInstance()->vsmess){
+if ((hwnvs != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
-AddNotification(mainWnd,(LPCTSTR)statusMessage1.c_str(),1);}}
+AddNotification(hwnvs,(LPCTSTR)statusMessage1.c_str(),1);}}
 	if(typevs=="offline"){Notify::PlayNotify(4);}else{Notify::PlayNotify(3);}
 	}
 
