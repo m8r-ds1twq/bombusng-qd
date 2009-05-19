@@ -341,7 +341,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     HDC hdc;
 
     static SHACTIVATEINFO s_sai;
-	
+	Serialize s(L"config\\status", Serialize::READ);
     switch (message) 
     {
         case WM_COMMAND:
@@ -388,40 +388,37 @@ SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 				*/
 				
 				case IDM_STATUS_ONLINE:
-					rc->status=presence::ONLINE;
-					rosterWnd->setIcon(rc->status);
-					rc->sendPresence();
-					initJabber(rc);
-					break;
-				case IDM_STATUS_FFC:					
-					rc->status=presence::CHAT;
-					rosterWnd->setIcon(rc->status);
-					rc->sendPresence();
-					initJabber(rc);
-					break;
-				case IDM_STATUS_AWAY:					
-					rc->status=presence::AWAY;
-					rosterWnd->setIcon(rc->status);
-					rc->sendPresence();
-					initJabber(rc);
-					break;
-				case IDM_STATUS_EXTENDEDAWAY:					
-					rc->status=presence::XA;
-					rosterWnd->setIcon(rc->status);
-					rc->sendPresence();
-					initJabber(rc);
-					break;
-				case IDM_STATUS_DND:					
-					rc->status=presence::DND;
-					rosterWnd->setIcon(rc->status);
-					rc->sendPresence();
-					initJabber(rc);
-					break;
+				case IDM_STATUS_FFC:	
+				case IDM_STATUS_AWAY:		
+				case IDM_STATUS_EXTENDEDAWAY:		
+				case IDM_STATUS_DND:		
 				case IDM_STATUS_OFFLINE:
-					rc->status=presence::OFFLINE;
-					rc->sendPresence();
-					streamShutdown(rc);
+					switch(wmId)
+					{
+					case IDM_STATUS_ONLINE:
+						rc->status=presence::ONLINE;
+						break;
+					case IDM_STATUS_FFC:
+						rc->status=presence::CHAT;
+						break;
+					case IDM_STATUS_AWAY:
+						rc->status=presence::AWAY;
+						break;
+					case IDM_STATUS_EXTENDEDAWAY:
+						rc->status=presence::XA;
+						break;
+					case IDM_STATUS_DND:
+						rc->status=presence::DND;
+						break;
+					case IDM_STATUS_OFFLINE:
+						rc->status=presence::OFFLINE;
+						break;
+					}
+					s.streamString(rc->presenceMessage, "");
+					s.streamInt(rc->priority, 0);
 					rosterWnd->setIcon(rc->status);
+					rc->sendPresence();
+					initJabber(rc);
 					break;
 				/* !КОНЕЦ! статусов */ 
 			
@@ -435,7 +432,7 @@ SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 
                 case ID_JABBER_JOINCONFERENCE:
                     if (rc->isLoggedIn())
-                        DlgMucJoin::createDialog(hWnd, rc, "qd-ng@conference.jabber.ru");
+                        DlgMucJoin::createDialog(hWnd, rc, "siemensclub@conference.jabber.ru");
                     break;
 
                 case ID_TOOLS_MYVCARD:

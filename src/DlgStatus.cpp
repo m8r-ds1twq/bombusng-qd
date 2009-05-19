@@ -53,7 +53,9 @@ INT_PTR CALLBACK DlgStatus::dialogProc(HWND hDlg, UINT message, WPARAM wParam, L
             SendDlgItemMessage(hDlg, IDC_C_STATUS, CB_SETCURSEL, p->rc->status, 0);
 
             if (p->contact) SetDlgItemText(hDlg, IDC_E_JID, p->contact->jid.getJid());
-
+			Serialize s(L"config\\status", Serialize::READ);
+			s.streamString(p->rc->presenceMessage, "");
+			s.streamInt(p->rc->priority, 0);
             SetDlgItemText(hDlg, IDC_E_STATUS, p->rc->presenceMessage);
 
             SendDlgItemMessage(hDlg, IDC_SPIN_PRIORITY, UDM_SETRANGE32, -128, 128);
@@ -100,6 +102,9 @@ INT_PTR CALLBACK DlgStatus::dialogProc(HWND hDlg, UINT message, WPARAM wParam, L
                 } else {
                     initJabber(p->rc);
                 }
+				Serialize s(L"config\\status", Serialize::WRITE);
+				s.streamString(pmessage, "");
+				s.streamInt(p->rc->priority, 0);
             }
 
             /*

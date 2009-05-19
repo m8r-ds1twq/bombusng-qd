@@ -119,7 +119,7 @@
 #define ID_TOOLS_STREAMINFO             32794
 #define ID_TOOLS_MYVCARD                32795
 #define ID_Menu                         32796
-#define ID_HELP                         32797
+//#define ID_HELP                         32797
 #define ID_WINDOWS                      32798
 #define ID_JABBER_ACCOUNT2              32799
 #define IDM_JABBER_ACCOUNT2             32800
@@ -154,7 +154,7 @@
 #define IDM_EXIT                        40000
 #define IDM_HELP_ABOUT                  40002
 #define AKTIVW                          42350
-#define IDC_STATIC                      -1
+//#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

@@ -49,7 +49,7 @@ BEGIN
         POPUP "Инструменты"
         BEGIN
             MENUITEM "Обзор сервисов",              ID_TOOLS_SERVICEDISCOVERY
-            MENUITEM "Файлы",                       ID_TOOLS_FILETRANSFERS, GRAYED
+            MENUITEM "Файлы",                       ID_TOOLS_FILETRANSFERS
             MENUITEM "Мой vCard",                   ID_TOOLS_MYVCARD
             MENUITEM SEPARATOR
             MENUITEM "Log",                         IDM_WINDOWS_LOG
@@ -92,7 +92,7 @@ FONT 8, "MS Shell Dlg"
 BEGIN
     LTEXT           "BombusQD",IDC_STATIC_2,7,15,36,8,SS_NOPREFIX
     LTEXT           "(c) 2006-2007, Eugene Stahov (evgs)",IDC_STATIC_3,7,29,142,10
-    ICON            IDI_BOMBUS,IDC_STATIC,128,7,20,20
+    ICON            IDI_BOMBUS,-1,128,7,20,20
     LTEXT           "$VERSION$",IDC_AVERSION,45,15,65,8
     EDITTEXT        IDC_AREV,7,74,142,35,ES_AUTOHSCROLL | ES_READONLY
     LTEXT           "http://bombus-im.org",IDC_STATIC_4,7,39,106,9
@@ -115,9 +115,9 @@ BEGIN
     PUSHBUTTON      "Отмена",IDCANCEL,84,117,50,14
     COMBOBOX        IDC_C_PRESET,33,22,76,38,CBS_DROPDOWN | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Save",IDC_X_PRESAVE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,117,24,32,10
-    LTEXT           "Приоритет",IDC_STATIC,7,89,37,8
-    LTEXT           "Статус",IDC_STATIC,7,7,24,8
-    LTEXT           "Preset",IDC_STATIC,7,24,24,8
+    LTEXT           "Приоритет",-1,7,89,37,8
+    LTEXT           "Статус",-1,7,7,24,8
+    LTEXT           "Preset",-1,7,24,24,8
     CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE | WS_TABSTOP,7,103,14,14
 END
 
@@ -135,9 +135,9 @@ BEGIN
     PUSHBUTTON      "Отмена",IDCANCEL,84,108,50,14
     COMBOBOX        IDC_C_PRESET,33,40,76,38,CBS_DROPDOWN | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Save",IDC_X_PRESAVE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,117,41,32,10
-    LTEXT           "Приоритет",IDC_STATIC,7,89,40,8
-    LTEXT           "Статус",IDC_STATIC,7,24,24,8
-    LTEXT           "Preset",IDC_STATIC,7,41,24,8
+    LTEXT           "Приоритет",-1,7,89,40,8
+    LTEXT           "Статус",-1,7,24,24,8
+    LTEXT           "Preset",-1,7,41,24,8
     EDITTEXT        IDC_E_JID,7,7,142,14,ES_AUTOHSCROLL
     CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,7,108,14,14
 END
@@ -155,9 +155,9 @@ BEGIN
     PUSHBUTTON      "Отмена",IDCANCEL,84,95,50,14
     EDITTEXT        IDC_E_JID,37,7,77,13,ES_LOWERCASE | ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "VCard",ID_VCARD,117,7,35,13,WS_DISABLED
-    LTEXT           "Контакт",IDC_STATIC,5,9,32,8
-    LTEXT           "Ник",IDC_STATIC,5,43,32,8
-    LTEXT           "Группа",IDC_STATIC,4,60,24,8
+    LTEXT           "Контакт",-1,5,9,32,8
+    LTEXT           "Ник",-1,5,43,32,8
+    LTEXT           "Группа",-1,4,60,24,8
     CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,101,14,14
 END
 
@@ -178,14 +178,14 @@ BEGIN
     CONTROL         "",IDC_SPIN_HIST_SZ,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,109,54,11,14
     PUSHBUTTON      "Save",IDC_SAVE,102,81,42,11,WS_DISABLED
     PUSHBUTTON      "Delete",IDC_DELETE,102,95,42,11,WS_DISABLED
-    LTEXT           "История",IDC_STATIC,72,57,33,8
-    LTEXT           "Комната",IDC_STATIC,7,3,31,8
+    LTEXT           "История",-1,72,57,33,8
+    LTEXT           "Комната",-1,7,3,31,8
     CONTROL         "Автовход",IDC_X_AUTOJOIN,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,95,49,10
-    GROUPBOX        "Закладки",IDC_STATIC,7,71,142,38
-    LTEXT           "Сервер",IDC_STATIC,69,3,31,8
-    LTEXT           "Пароль",IDC_STATIC,84,29,46,8
-    LTEXT           "@",IDC_STATIC,57,16,10,8
-    LTEXT           "Ник",IDC_STATIC,7,29,14,8
+    GROUPBOX        "Закладки",-1,7,71,142,38
+    LTEXT           "Сервер",-1,69,3,31,8
+    LTEXT           "Пароль",-1,84,29,46,8
+    LTEXT           "@",-1,57,16,10,8
+    LTEXT           "Ник",-1,7,29,14,8
     CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,7,108,14,14
 END
 
@@ -204,10 +204,10 @@ BEGIN
     PUSHBUTTON      "Отмена",IDCANCEL,84,95,50,14
     PUSHBUTTON      "VCard",ID_VCARD,117,7,35,13,WS_DISABLED
     COMBOBOX        IDC_C_SERVICE,37,24,115,52,CBS_DROPDOWNLIST | CBS_LOWERCASE | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Контакт",IDC_STATIC,5,9,32,8
-    LTEXT           "Service",IDC_STATIC,4,26,33,8
-    LTEXT           "Ник",IDC_STATIC,5,43,32,8
-    LTEXT           "Группа",IDC_STATIC,4,60,24,8
+    LTEXT           "Контакт",-1,5,9,32,8
+    LTEXT           "Service",-1,4,26,33,8
+    LTEXT           "Ник",-1,5,43,32,8
+    LTEXT           "Группа",-1,4,60,24,8
     CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,101,14,14
 END
 
@@ -219,11 +219,11 @@ FONT 8, "MS Shell Dlg"
 BEGIN
     EDITTEXT        IDC_E_JID,47,7,105,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_E_PASSWORD,47,22,78,12,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Пароль",IDC_STATIC,4,24,43,8
-    LTEXT           "Jabber ID *",IDC_STATIC,4,9,42,8
+    LTEXT           "Пароль",-1,4,24,43,8
+    LTEXT           "Jabber ID *",-1,4,9,42,8
     EDITTEXT        IDC_E_RESOURCE,47,37,78,12,ES_AUTOHSCROLL
-    LTEXT           "Resource",IDC_STATIC,4,39,36,8
-    LTEXT           "Пример Jabber ID:  user@jabber.ru",IDC_STATIC,4,59,148,14
+    LTEXT           "Resource",-1,4,39,36,8
+    LTEXT           "Пример Jabber ID:  user@jabber.ru",-1,4,59,148,14
     CONTROL         "SIP1",IDC_SIP1,"SIPPREF",NOT WS_VISIBLE,4,108,14,14
 END
 
@@ -309,11 +309,11 @@ EXSTYLE 0x80000000L
 CAPTION "*Разное"
 FONT 8, "MS Shell Dlg"
 BEGIN
-    LTEXT           "Настройка шрифта: ",IDC_STATIC,13,48,85,10
-    LTEXT           "Высота Сообщений",IDC_STATIC,13,73,69,10
-    LTEXT           "Ширина Сообщений",IDC_STATIC,13,85,70,10
-    LTEXT           "Высота ростера",IDC_STATIC,12,98,66,10
-    LTEXT           "Ширина ростера",IDC_STATIC,12,108,66,10
+    LTEXT           "Настройка шрифта: ",-1,13,48,85,10
+    LTEXT           "Высота Сообщений",-1,13,73,69,10
+    LTEXT           "Ширина Сообщений",-1,13,85,70,10
+    LTEXT           "Высота ростера",-1,12,98,66,10
+    LTEXT           "Ширина ростера",-1,12,108,66,10
     EDITTEXT        IDC_X_MSG_FONT_HEIGHT,90,72,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
     EDITTEXT        IDC_X_MSG_FONT_WIDTH,90,84,18,10,ES_AUTOHSCROLL | ES_NUMBER
     EDITTEXT        IDC_X_ROSTER_FONT_HEIGHT,90,97,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
@@ -321,10 +321,10 @@ BEGIN
     CONTROL         "Automatically connect on startup",IDC_X_AUTOCONNECT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,7,120,10
     EDITTEXT        IDC_RECONNECT_TRIES,114,18,24,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Попыток переподключения",IDC_STATIC,13,21,97,10
-    LTEXT           "Размер табов",IDC_STATIC,13,35,49,10
+    LTEXT           "Попыток переподключения",-1,13,21,97,10
+    LTEXT           "Размер табов",-1,13,35,49,10
     EDITTEXT        IDC_TAB_CONF,114,33,24,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Толщина",IDC_STATIC,13,60,69,10
+    LTEXT           "Толщина",-1,13,60,69,10
     EDITTEXT        IDC_X_MSG_FONT_TOLSH,90,59,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
 END
 
