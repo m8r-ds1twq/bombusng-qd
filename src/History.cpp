@@ -3,7 +3,7 @@
 #include "config.h"
 
 #include <stdio.h>
-
+extern std::wstring appRootPath;
 History::ref History::getInstance() {
     if (!instance) instance=History::ref(new History());
     return instance;
@@ -12,29 +12,35 @@ History::ref History::getInstance() {
 void History::appendHistory( Contact::ref c, Message::ref msg, bool isMuc) {
     if (!Config::getInstance()->history) return;
     std::wstring filePath=historyPath;
+	std::wstring filePathavatar=appRootPath;
+    
 	if(isMuc){
 	  filePath+=L"\\chatrooms\\";
 	}else{
+		filePathavatar+=L"userdata\\avatars\\";
 	  filePath+='\\';
 	}
     //todo: normalize filename
+	std::string  fulljid=c->jid.getBareJid();
     filePath+=utf8::utf8_wchar(c->jid.getBareJid());
+	filePathavatar+=utf8::utf8_wchar(c->jid.getBareJid());
+std::string filePathavatar2=utf8::wchar_utf8(filePathavatar);
 	filePath+=Config::getInstance()->saveHistoryHtml?L".html":L".txt";
 DWORD attrs=GetFileAttributes(filePath.c_str());
 BOOL flagfilehistori=0;
 if (attrs==0xFFFFFFFF) {flagfilehistori=1;}
     FILE *f=_wfopen(filePath.c_str(), L"a");
     if (f==NULL) return;
-//std::wstring htm=TEXT('<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>История BombusQD</title></head><body>');
+
 
     std::string t=strtime::toLocalDateTime(msg->time);
 //[18.02.2009,00:00:00]
 //(nick) message
-	fpos_t  pos;
+
 	if(!Config::getInstance()->saveHistoryHtml){
 	   fprintf(f, "[%s] %s%s\n", t.c_str(), isMuc?"":msg->fromName.c_str(), msg->getMessageText().c_str());
 	}else{
-		if(flagfilehistori){fprintf(f,"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><title>history BombusQD</title></head><body>");}
+		if(flagfilehistori){fprintf(f,isMuc?"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><title>history BombusQD</title></head><body>":"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><title>history BombusQD</title></head><body><a href=\"%s.jpg\"><img alt=\" %s\" src=\" %s.jpg\"  />%s</a>",isMuc?"":filePathavatar2.c_str(),fulljid.c_str(),filePathavatar2.c_str(),fulljid.c_str());}
 		
 		
 	fprintf(f,
@@ -47,11 +53,14 @@ if (attrs==0xFFFFFFFF) {flagfilehistori=1;}
     fclose(f);
 }
 
-extern std::wstring appRootPath;
+
 
 History::History() {
     historyPath=appRootPath+L"history";
+    historyPath2=appRootPath+L"history\\chatrooms";
     CreateDirectory(historyPath.c_str(), NULL);
+    CreateDirectory(historyPath2.c_str(), NULL);
+ 
 //historyPath=appRootPath+L"\\chatrooms\\";
 
     /*DWORD attrs=GetFileAttributes(historyPath.c_str());
