@@ -36,6 +36,7 @@ extern ImgListRef skin;
 extern SmileParser *smileParser;
 extern HWND		mainWnd;
 extern TabsCtrlRef tabs;			/* to vCard ICO */
+HMENU g_hnicknames;
 
 //LONG tolshina=400;
 //////////////////////////////////////////////////////////////////////////
@@ -135,8 +136,7 @@ long WINAPI EditSubClassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
                 if (cmdId==ADD_SMILE) SmileBox::showSmileBox(hWnd, pt.x, pt.y, smileParser);
 
                 DestroyMenu(hmenu);
-
-                if (cmdId>0) PostMessage(hWnd, cmdId, 0, 0);
+				if (cmdId>0) PostMessage(hWnd, cmdId, 0, 0);
 
                 return 0;
             }
@@ -330,7 +330,7 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
             //int ySplit=height-p->editHeight;
 // добавить опуцию в настройки :)
 			int ySplit;
-				if(Config::getInstance()->editx2){ySplit=//(sysinfo::screenIsRotate())?height-p->editHeight/2 : 
+				if(!Config::getInstance()->editx2){ySplit=//(sysinfo::screenIsRotate())?height-p->editHeight/2 : 
 					height-p->editHeight/2;}else{ySplit=height-p->editHeight;}
 			//Оставляем поле ввода сообщения в 2 раза меньше оригинала
 
@@ -381,6 +381,7 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
             if (wParam==IDC_COMPOSING) {
                 p->setComposingState(lParam!=0);
             }
+
             break;             
         }
         /*case WM_CTLCOLORSTATIC:
@@ -445,7 +446,6 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
         //TODO: Destroy all child data associated eith this window
 
         return 0;
-
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
@@ -701,7 +701,6 @@ void ChatView::setComposingState( bool composing ) {
     */
     rc->jabberStream->sendStanza(*out);
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 class FontMetricCache {

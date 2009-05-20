@@ -470,7 +470,7 @@ HMENU RosterListView::getContextMenu() {
     RosterGroup *rg = dynamic_cast<RosterGroup *>(cursorPos.get());
     if (rg) {
         if (rg->type==RosterGroup::ROSTER)
-            AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::RENAMEGRP,           TEXT("Rename"));
+            AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::RENAMEGRP,           TEXT("Переименовать"));
 
     }
     
@@ -482,58 +482,58 @@ HMENU RosterListView::getContextMenu() {
         MucRoom * mr= dynamic_cast<MucRoom *>(cursorPos.get());
 
         if (type==RosterGroup::TRANSPORTS) {
-            AppendMenu(hmenu, MF_STRING, RosterListView::LOGON,                TEXT("Logon"));
-            AppendMenu(hmenu, MF_STRING, RosterListView::LOGOFF,               TEXT("Logoff"));
-            AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::RESOLVENICKNAMES,     TEXT("Resolve Nicknames"));
+            AppendMenu(hmenu, MF_STRING, RosterListView::LOGON,                TEXT("Включить"));
+            AppendMenu(hmenu, MF_STRING, RosterListView::LOGOFF,               TEXT("Выключить"));
+            AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::RESOLVENICKNAMES,     TEXT("Получить ники"));
             AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
         }
-        AppendMenu(hmenu, MF_STRING , RosterListView::OPENCHAT,                TEXT("Open chat"));
+        AppendMenu(hmenu, MF_STRING , RosterListView::OPENCHAT,                TEXT("Открыть чат"));
 
         AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
 
         if (!mr) {
 
             AppendMenu(hmenu, MF_STRING, RosterListView::VCARD,                    TEXT("VCard"));
-            AppendMenu(hmenu, MF_STRING, RosterListView::CLIENTINFO,               TEXT("Client Info"));
-            AppendMenu(hmenu, MF_STRING, RosterListView::COMMANDS,                 TEXT("Commands"));
+            AppendMenu(hmenu, MF_STRING, RosterListView::CLIENTINFO,               TEXT("Инфо о клиенте"));
+            AppendMenu(hmenu, MF_STRING, RosterListView::COMMANDS,                 TEXT("Команды"));
 
             AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
 
             if (type==RosterGroup::ROSTER) {
-                AppendMenu(hmenu, MF_STRING, RosterListView::EDITCONTACT,          TEXT("Edit contact"));
+                AppendMenu(hmenu, MF_STRING, RosterListView::EDITCONTACT,          TEXT("Изменить контакт"));
 
                 HMENU subscrMenu=CreatePopupMenu();
-                AppendMenu(subscrMenu, MF_STRING, RosterListView::SUBSCRIBE, TEXT("Ask subscription"));
-                AppendMenu(subscrMenu, MF_STRING, RosterListView::SUBSCRIBED, TEXT("Grant subscription"));
-                AppendMenu(subscrMenu, MF_STRING, RosterListView::UNSUBSCRIBED, TEXT("Revoke subscription"));
+                AppendMenu(subscrMenu, MF_STRING, RosterListView::SUBSCRIBE, TEXT("Запросить подписку"));
+                AppendMenu(subscrMenu, MF_STRING, RosterListView::SUBSCRIBED, TEXT("Предоставить подписку"));
+                AppendMenu(subscrMenu, MF_STRING, RosterListView::UNSUBSCRIBED, TEXT("Отозвать подписку"));
 
-                AppendMenu(hmenu, MF_POPUP, (LPARAM)subscrMenu,               TEXT("Subscription"));
+                AppendMenu(hmenu, MF_POPUP, (LPARAM)subscrMenu,               TEXT("Подписка"));
             }
 
             if (type==RosterGroup::NOT_IN_LIST)
-                AppendMenu(hmenu, MF_STRING, RosterListView::ADDCONTACT,           TEXT("Add contact"));
+                AppendMenu(hmenu, MF_STRING, RosterListView::ADDCONTACT,           TEXT("Добавить контакт"));
 
             if (type!=RosterGroup::MUC && type!=RosterGroup::SELF_CONTACT) {
-                AppendMenu(hmenu, MF_STRING, RosterListView::DELETECONTACT,            TEXT("Delete"));
+                AppendMenu(hmenu, MF_STRING, RosterListView::DELETECONTACT,            TEXT("Удалить"));
 
                 AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
 
-                AppendMenu(hmenu, MF_STRING, RosterListView::SENDSTATUS,               TEXT("Send status"));
+                AppendMenu(hmenu, MF_STRING, RosterListView::SENDSTATUS,               TEXT("Отправить статус"));
             }
             if (type!=RosterGroup::TRANSPORTS) {
-                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::SENDFILE,             TEXT("Send file"));
+                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::SENDFILE,             TEXT("Отправить файл"));
 				//Скрыто значит..
-                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::INVITE,               TEXT("Invite"));
+                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::INVITE,               TEXT("Пригласить"));
             }
         }
 
         if (mr) {
             if (mr->status!=presence::OFFLINE) {
-                AppendMenu(hmenu, MF_STRING, RosterListView::SENDSTATUS,               TEXT("Send status"));
-                AppendMenu(hmenu, MF_STRING , RosterListView::MUC_LEAVE,   TEXT("Leave room"));
+                AppendMenu(hmenu, MF_STRING, RosterListView::SENDSTATUS,               TEXT("Отправить статус"));
+                AppendMenu(hmenu, MF_STRING , RosterListView::MUC_LEAVE,   TEXT("Покинуть комнату"));
             }
             else 
-                AppendMenu(hmenu, MF_STRING , RosterListView::MUC_REENTER,  TEXT("Reenter room"));
+                AppendMenu(hmenu, MF_STRING , RosterListView::MUC_REENTER,  TEXT("Перезайти в комнату"));
 
             MucGroup::ref roomGrp;
             roomGrp=boost::dynamic_pointer_cast<MucGroup> (roster.lock()->findGroup(mr->group));
@@ -541,14 +541,14 @@ HMENU RosterListView::getContextMenu() {
             MucContact::Affiliation myAff=roomGrp->selfContact->affiliation;
             if (myAff==MucContact::OWNER || myAff==MucContact::ADMIN) {
                 AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
-                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLOUTCASTS,           TEXT("Outcasts/Banned"));
-                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLMEMBERS,            TEXT("Members"));
+                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLOUTCASTS,           TEXT("Забаненные"));
+                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLMEMBERS,            TEXT("Участники"));
             }
             if (myAff==MucContact::OWNER) {
-                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLADMINS,             TEXT("Admins"));
-                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLOWNERS,             TEXT("Owners"));
+                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLADMINS,             TEXT("Администраторы"));
+                AppendMenu(hmenu, MF_STRING | MF_GRAYED, RosterListView::MLOWNERS,             TEXT("Владельцы"));
                 AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
-                AppendMenu(hmenu, MF_STRING, RosterListView::MUCCONFIG,               TEXT("Configure room"));
+                AppendMenu(hmenu, MF_STRING, RosterListView::MUCCONFIG,               TEXT("Настроить комнату"));
             }
         }
 
@@ -572,35 +572,35 @@ HMENU RosterListView::getContextMenu() {
 
             if (!canKick && !canBan) return hmenu;
             AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
-            if (canKick) AppendMenu(hmenu, MF_STRING, RosterListView::MUCKICK, L"Kick");
-            if (canBan)  AppendMenu(hmenu, MF_STRING, RosterListView::MUCBAN,  L"Ban");
+            if (canKick) AppendMenu(hmenu, MF_STRING, RosterListView::MUCKICK, L"Выкинуть");
+            if (canBan)  AppendMenu(hmenu, MF_STRING, RosterListView::MUCBAN,  L"Забанить");
 
             if (canKick) {
                 HMENU roleMenu=CreatePopupMenu();
-                AppendMenu(roleMenu, MF_STRING | (mc->role==MucContact::VISITOR ? MF_CHECKED : 0), RosterListView::MUCVISITOR, L"Visitor");
-                AppendMenu(roleMenu, MF_STRING | (mc->role==MucContact::PARTICIPANT ? MF_CHECKED : 0), RosterListView::MUCPARTICIPANT, L"Participant");
-                AppendMenu(roleMenu, MF_STRING | (mc->role==MucContact::MODERATOR ? MF_CHECKED : 0), RosterListView::MUCMODERATOR, L"Moderator");
+                AppendMenu(roleMenu, MF_STRING | (mc->role==MucContact::VISITOR ? MF_CHECKED : 0), RosterListView::MUCVISITOR, L"Гость");
+                AppendMenu(roleMenu, MF_STRING | (mc->role==MucContact::PARTICIPANT ? MF_CHECKED : 0), RosterListView::MUCPARTICIPANT, L"Посетитель");
+                AppendMenu(roleMenu, MF_STRING | (mc->role==MucContact::MODERATOR ? MF_CHECKED : 0), RosterListView::MUCMODERATOR, L"Модератор");
 
-                AppendMenu(hmenu, MF_POPUP, (LPARAM)roleMenu,               TEXT("Role"));
+                AppendMenu(hmenu, MF_POPUP, (LPARAM)roleMenu,               TEXT("Роль"));
             }
 
             if (myAff>=MucContact::ADMIN) {
                 HMENU afflMenu=CreatePopupMenu();
                 bool hasItems=false;
                 if (myAff==MucContact::OWNER || myAff>=mc->affiliation) {
-                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::NONE ? MF_CHECKED : 0), RosterListView::MUCNONE, L"None");
-                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::MEMBER ? MF_CHECKED : 0), RosterListView::MUCMEMBER, L"Member");
+                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::NONE ? MF_CHECKED : 0), RosterListView::MUCNONE, L"Никто");
+                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::MEMBER ? MF_CHECKED : 0), RosterListView::MUCMEMBER, L"Участник");
                     hasItems=true;
                 }
                 if (myAff==MucContact::OWNER) {
-                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::ADMIN ? MF_CHECKED : 0), RosterListView::MUCADMIN, L"Admin");
-                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::OWNER ? MF_CHECKED : 0), RosterListView::MUCOWNER, L"Owner");
+                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::ADMIN ? MF_CHECKED : 0), RosterListView::MUCADMIN, L"Администратор");
+                    AppendMenu(afflMenu, MF_STRING | (mc->affiliation==MucContact::OWNER ? MF_CHECKED : 0), RosterListView::MUCOWNER, L"Владелец");
                     //hasItems=true; // rudimentary here
                 }
 
                 //finally
                 if (hasItems)
-                    AppendMenu(hmenu, MF_POPUP, (LPARAM)afflMenu,               TEXT("Affiliation"));
+                    AppendMenu(hmenu, MF_POPUP, (LPARAM)afflMenu,               TEXT("Звание"));
                 else 
                     DestroyMenu(afflMenu);
             }
@@ -610,13 +610,13 @@ HMENU RosterListView::getContextMenu() {
         if (c->enableServerHistory!=Contact::DISABLED_STATE) {
             HMENU sshMenu=CreatePopupMenu();
             AppendMenu(sshMenu, MF_STRING | (c->enableServerHistory==Contact::DEFAULT ? MF_CHECKED : 0), 
-                RosterListView::SSH_DEFAULT, TEXT("Global state"));
+                RosterListView::SSH_DEFAULT, TEXT("Как в настройках"));
             AppendMenu(sshMenu, MF_STRING | (c->enableServerHistory==Contact::BLOCK ? MF_CHECKED : 0), 
-                RosterListView::SSH_DISABLED, TEXT("Disabled"));
+                RosterListView::SSH_DISABLED, TEXT("Выключена"));
             AppendMenu(sshMenu, MF_STRING | (c->enableServerHistory==Contact::ALLOW ? MF_CHECKED : 0), 
-                RosterListView::SSH_ENABLED, TEXT("Enabled"));
+                RosterListView::SSH_ENABLED, TEXT("Включена"));
 
-            AppendMenu(hmenu, MF_POPUP, (LPARAM)sshMenu,               TEXT("History"));
+            AppendMenu(hmenu, MF_POPUP, (LPARAM)sshMenu,               TEXT("История"));
 
         }
 
@@ -704,7 +704,7 @@ void RosterListView::OnCommand( int cmdId, LONG lParam ) {
         case RosterListView::DELETECONTACT:
             {
                 std::wstring name=utf8::utf8_wchar(focusedContact->getFullName());
-                int result=MessageBox(getHWnd(), name.c_str(), TEXT("Delete contact ?"), MB_YESNO | MB_ICONWARNING);
+                int result=MessageBox(getHWnd(), name.c_str(), TEXT("Удалить контакт ?"), MB_YESNO | MB_ICONWARNING);
                 if (result==IDYES) {
                     roster.lock()->deleteContact(focusedContact);
                 }
@@ -743,7 +743,7 @@ void RosterListView::OnCommand( int cmdId, LONG lParam ) {
                 if (cmdId==MUCPARTICIPANT) role=MucContact::PARTICIPANT;
                 if (cmdId==MUCKICK) {
                     std::wstring name=utf8::utf8_wchar(focusedContact->getFullName());
-                    int result=MessageBox(getHWnd(), name.c_str(), TEXT("Kick this dude ?"), MB_YESNO | MB_ICONWARNING);
+                    int result=MessageBox(getHWnd(), name.c_str(), TEXT("Выкинуть ?"), MB_YESNO | MB_ICONWARNING);
                     if (result==IDNO) break;
                     role=MucContact::NONE_ROLE;
                 }
@@ -773,16 +773,16 @@ void RosterListView::OnCommand( int cmdId, LONG lParam ) {
                 if (newAffiliation==mc->affiliation) break;
 
                 if (mc->affiliation==MucContact::OWNER || newAffiliation==MucContact::OWNER) {
-                    char *fmt="Are you sure want to revoke owner's priveleges from %s?";
+                    char *fmt="Вы действительно хотите лишить %s привилегий владельца?";
                     if (newAffiliation==MucContact::OWNER) fmt=
-                        "Are you sure want to grant owner's priveleges to %s?\n"
-                        "WARNING!!! Owner's priveleges are maximal priveleges in conference!";
+                        "Вы действительно хотите предоставить %s привилегии владельца?\n"
+                        "ВНИМАНИЕ!!! Привилегия владельца - самая высокая привилегия в конференции!";
 
                     std::wstring msg=utf8::utf8_wchar(boost::str(boost::format(fmt) % focusedContact->getFullName()));
                     int result=MessageBox(
                         getHWnd(), 
                         msg.c_str(), 
-                        TEXT("Modifying ownership"), 
+                        TEXT("Изменение привилегий владельца"), 
                         MB_YESNO | MB_ICONWARNING);
                     if (result==IDNO) break;
                 }
@@ -790,7 +790,7 @@ void RosterListView::OnCommand( int cmdId, LONG lParam ) {
                 std::wstring name=utf8::utf8_wchar(focusedContact->getFullName());
 
                 if (newAffiliation==MucContact::OUTCAST) {
-                    int result=MessageBox(getHWnd(), name.c_str(), TEXT("Sure to BAN???"), MB_YESNO | MB_ICONWARNING);
+                    int result=MessageBox(getHWnd(), name.c_str(), TEXT("Забанить???"), MB_YESNO | MB_ICONWARNING);
                     if (result==IDNO) break;
                 }
 
