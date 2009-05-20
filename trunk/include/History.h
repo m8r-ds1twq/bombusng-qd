@@ -11,6 +11,7 @@ private:
     History();
     static History::ref instance;
     std::wstring historyPath;
+    std::wstring historyPath2;
     bool writeHistory;
 
 public:
