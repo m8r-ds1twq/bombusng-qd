@@ -1013,7 +1013,7 @@ int result=MessageBox(NULL, wcstok(strurl,L" "), TEXT("Открыть URL?"), MB_YESNO 
                     }
                     i++;
                 }
-				copy=L"»"+copy;
+				copy=L"<<"+copy+L">> ";
 				SendMessage(edithwnd, EM_REPLACESEL, TRUE, (LPARAM)copy.c_str());
 				SetFocus(edithwnd);
 				return true;
