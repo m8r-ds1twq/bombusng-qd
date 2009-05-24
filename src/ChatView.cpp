@@ -104,10 +104,10 @@ long WINAPI EditSubClassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
             shrg.ptDown.y = HIWORD(lParam);
             shrg.dwFlags = SHRG_RETURNCMD /*| SHRG_NOANIMATION*/;
 
-            if (SHRecognizeGesture(&shrg) == GN_CONTEXTMENU) {
+			if (SHRecognizeGesture(&shrg) == GN_CONTEXTMENU) {
 
                 DWORD sel=SendMessage(hWnd, EM_GETSEL, 0, 0);
-
+ 
                 UINT paste = (IsClipboardFormatAvailable(CF_UNICODETEXT))?  MF_STRING : MF_STRING | MF_GRAYED;
                 UINT cut = (LOWORD(sel)!=HIWORD(sel))? MF_STRING : MF_STRING | MF_GRAYED;
                 UINT undo= (SendMessage(hWnd, EM_CANUNDO, 0, 0))? MF_STRING : MF_STRING | MF_GRAYED;;
@@ -306,7 +306,8 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
 
             skin->drawElement(hdc, icons::ICON_CLOSE,p->width-2-iconwidth, 0);
             skin->drawElement(hdc, icons::ICON_TRASHCAN_INDEX,p->width-2-iconwidth*2, 0);
-            skin->drawElement(hdc, icons::ICON_VCARD,p->width-2-iconwidth*3,0);  // vCard in Tab
+            if(!muc)
+			{skin->drawElement(hdc, icons::ICON_VCARD,p->width-2-iconwidth*3,0);}  // vCard in Tab//не нужен в конфе
 			DeleteObject(NormalFont);
 
 		}
@@ -544,19 +545,22 @@ void ChatView::sendJabberMessage() {
 
     Message::ref msg=Message::ref(new Message(body, rc->account->getNickname(), false, Message::SENT, strtime::getCurrentUtc() ));
     bool muc=boost::dynamic_pointer_cast<MucRoom>(contact);
-
+if (Config::getInstance()->history)
+		{if (!muc){
+			History::getInstance()->appendHistory(contact, msg,false);}}
 	if (Config::getInstance()->saveHistoryMuc){
 		if (!muc){
 			contact->messageList->push_back(msg);
+
 		}
-        //History::getInstance()->appendHistory(contact, msg,true);
+       // History::getInstance()->appendHistory(contact, msg,true);
 	}else{
        if (!muc) {
          contact->messageList->push_back(msg);
-         //History::getInstance()->appendHistory(contact, msg,false);
+        
        }
 	}
-
+ 
     msgList->moveCursorEnd();
     redraw();
 
