@@ -210,7 +210,7 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
     PAINTSTRUCT ps;
     HDC hdc;
     ChatView *p=(ChatView *) GetWindowLong(hWnd, GWL_USERDATA);
-
+bool muc2=0;
     switch (message) {
     case WM_CREATE:
         {
@@ -237,6 +237,7 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
             //p->contact->nUnread=0;
 			int avataraWidth = Config::getInstance()->avatarWidth ;
 			bool muc=boost::dynamic_pointer_cast<MucRoom>(p->contact);
+			muc2=muc;
 			 if(muc){
 			   avataraWidth = 0;
 			 }
@@ -271,10 +272,17 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
 
 			if(!muc)
 			{//Если конфа,убираем инфо панель
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"gajim")!=NULL){skin->drawElement(hdc, icons::ICON_GAJIM, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_NG, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUSMOD, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"Siemens Native Jabber Client")!=NULL){skin->drawElement(hdc, icons::ICON_SJC, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"tkabber")!=NULL){skin->drawElement(hdc, icons::ICON_TKAB, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"qip")!=NULL){skin->drawElement(hdc, icons::ICON_QIP, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"pidgin")!=NULL){skin->drawElement(hdc, icons::ICON_PIDGIN, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"miranda")!=NULL){skin->drawElement(hdc, icons::ICON_MIRANDA, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"kopete")!=NULL){skin->drawElement(hdc, icons::ICON_KOPET, avataraWidth , iconwidth);}
 
-				skin->drawElement(hdc, icons::ICON_BOMBUS_NG, avataraWidth , iconwidth);
-
-				ExtTextOut(hdc, avataraWidth + iconwidth + 4, iconwidth, NULL, NULL,
+		ExtTextOut(hdc, avataraWidth + iconwidth + 4, iconwidth, NULL, NULL,
 					utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),
 					p->contact->getClientIdIcon().length(),
 					NULL);
@@ -432,7 +440,8 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
 			}
 			break;
 		}
-
+if(!muc2)
+			{
 		if (GET_X_LPARAM(lParam) > (p->width)-2-(skin->getElementWidth())*3) {
 				if (!rc->isLoggedIn()) break;
 				WndRef vc=VcardForm::createVcardForm(tabs->getHWnd(),p->contact->rosterJid, rc, false);
@@ -441,7 +450,7 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
 				tabs->switchByWndRef(vc);
                 break;
 		}
-
+}
 
     case WM_DESTROY:
         //TODO: Destroy all child data associated eith this window
