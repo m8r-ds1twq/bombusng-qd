@@ -210,7 +210,7 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
     PAINTSTRUCT ps;
     HDC hdc;
     ChatView *p=(ChatView *) GetWindowLong(hWnd, GWL_USERDATA);
-bool muc2=0;
+
     switch (message) {
     case WM_CREATE:
         {
@@ -237,11 +237,16 @@ bool muc2=0;
             //p->contact->nUnread=0;
 			int avataraWidth = Config::getInstance()->avatarWidth ;
 			bool muc=boost::dynamic_pointer_cast<MucRoom>(p->contact);
-			muc2=muc;
+			
 			 if(muc){
 			   avataraWidth = 0;
 			 }
-            RECT rc = { 0, 0, 200, (boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50) };
+			 RECT rc ;
+			rc.top=0;rc.left=0;
+if (!sysinfo::screenIsVGA()) {
+	rc.right=200;
+	rc.bottom=(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50) ;}else{rc.right=390;
+	rc.bottom=(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50) ;}
 			SetBkMode(hdc, TRANSPARENT);
             SetTextColor(hdc, p->contact->getColor());
             //p->contact->draw(hdc, rc);
@@ -359,8 +364,8 @@ if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"kopete")!=NU
             ); */
 
 
-            DeferWindowPos(hdwp, p->msgList->getHWnd(), HWND_TOP, 0, (boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50), 
-                GET_X_LPARAM(lParam), ySplit-(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50), 
+			DeferWindowPos(hdwp, p->msgList->getHWnd(), HWND_TOP, 0, sysinfo::screenIsVGA()?(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:65):(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50), 
+                GET_X_LPARAM(lParam), ySplit-(sysinfo::screenIsVGA()?(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:65):(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50)), 
                 SWP_NOZORDER 
                 );
             /*DeferWindowPos(hdwp, rosterWnd, HWND_TOP, 0, tabHeight, 
@@ -440,7 +445,7 @@ if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"kopete")!=NU
 			}
 			break;
 		}
-if(!muc2)
+if(!boost::dynamic_pointer_cast<MucRoom>(p->contact))
 			{
 		if (GET_X_LPARAM(lParam) > (p->width)-2-(skin->getElementWidth())*3) {
 				if (!rc->isLoggedIn()) break;
