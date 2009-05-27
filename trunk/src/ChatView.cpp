@@ -983,20 +983,28 @@ bool MessageElement::OnMenuCommand(int cmdId, HWND parent, HWND edithwnd){
      case GOTOURL:
 		 {
       
-                std::wstring copy=wstr;
-				wchar_t *strurl=new wchar_t[copy.length()+1]; 
-				int flagurl=0;
-               
-
-
-				wcsncpy(strurl,(const wchar_t*)wcsstr((const wchar_t*)copy.c_str(),(const wchar_t*)L"http://"),copy.length()) ;
-
-int result=MessageBox(NULL, wcstok(strurl,L" "), TEXT("Открыть URL?"), MB_YESNO | MB_ICONWARNING );
- 
-     if (result==IDYES)ExecFile(wcstok(strurl,L" "),L"");
+				wchar_t *strurl=new wchar_t[wstr.length()+1];
+				wcscpy(strurl,wstr.c_str()); 
+				wchar_t *strurl2=new wchar_t[wstr.length()+1]; 
 			
+               
+					strurl=wcsstr(strurl,L"http://");	
+			while(strurl!=NULL){
+
+				wcscpy(strurl2,strurl);
+				strurl2=wcstok(strurl2,L" \n;\,<>*\"\'\[\]\{\}");
+				int result=MessageBox(NULL, strurl2, TEXT("Открыть URL?"), MB_YESNOCANCEL | MB_ICONWARNING );
+					if (result==IDYES){ExecFile(strurl2,L"");}
+					if (result==IDCANCEL){ return true;}
+				memset(strurl,20,2);
+ //result=MessageBox(NULL, strurl, TEXT("Открыть URL?1"), MB_YESNO | MB_ICONWARNING );
+
+				strurl=wcsstr(strurl,L"http://");	
+//result=MessageBox(NULL, strurl, TEXT("Открыть URL?2"), MB_YESNO | MB_ICONWARNING );
+							}
+
                 return true;
-            }
+		 }
          case IDOK:
             {
                 singleLine=!singleLine;
