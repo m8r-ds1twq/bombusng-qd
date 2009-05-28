@@ -21,8 +21,9 @@ public:
     virtual void onCommand(int cmdId, ResourceContextRef rc);
     //virtual void eventOk()=0;
     typedef boost::shared_ptr <IconTextElement> ref;
+	int clientIcon;
 
-
+	IconTextElement::IconTextElement() { clientIcon = 0; }
 protected:
     enum {
         ICON_SPACING=4
