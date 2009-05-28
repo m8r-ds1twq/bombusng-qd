@@ -29,10 +29,18 @@ void IconTextElement::init() {
 void IconTextElement::draw(HDC hdc, RECT &rt) const {
     //SetBkMode(hdc, TRANSPARENT);
     int iconIdx=getIconIndex();
+
+	
     if (iconIdx>=0) {
         skin->drawElement(hdc, getIconIndex(), rt.left, rt.top);
+if(clientIcon==0){//как было
         rt.left+=skin->getElementWidth()+ICON_SPACING;//Ўирина элемента
-    } else rt.left+=1;
+			}else{//добавл€ем иконку клиента
+		skin->drawElement(hdc, clientIcon, (rt.left+skin->getElementWidth()), rt.top);
+		rt.left+=2*(skin->getElementWidth())+ICON_SPACING;
+
+}
+	} else rt.left+=1;
 
 	strcpy((char*)FONT_ICON_TXT.lfFaceName, "Tahoma"); 
 	FONT_ICON_TXT.lfHeight = Config::getInstance()->roster_font_height; 
