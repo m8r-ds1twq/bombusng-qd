@@ -159,6 +159,21 @@ bool Contact::compareKT( Contact::ref left, Contact::ref right ) {
 void Contact::update() {
     std::string s=(nickname.empty())? jid.getBareJid():nickname;
     std::string resource=jid.getResource();
+	clientIcon=0;
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){clientIcon=icons::ICON_BOMBUS_NG;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"tkabber")!=NULL){clientIcon=icons::ICON_TKAB;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){clientIcon=icons::ICON_BOMBUSMOD;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"gajim")!=NULL){clientIcon=icons::ICON_GAJIM;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"Siemens Native Jabber Client")!=NULL){clientIcon=icons::ICON_SJC;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"qip")!=NULL){clientIcon=icons::ICON_QIP;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"pidgin")!=NULL){clientIcon=icons::ICON_PIDGIN;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"miranda")!=NULL){clientIcon=icons::ICON_MIRANDA;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"kopete")!=NULL){clientIcon=icons::ICON_KOPET;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/java")!=NULL){clientIcon=icons::ICON_BOMBUS;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"psi")!=NULL){clientIcon=icons::ICON_PSI;}else{
+		clientIcon=0;
+
+	}}}}}}}}}}}
     if (resource.length()) { s+='/'; s+=resource; }
     wjid=utf8::utf8_wchar( s );
     init();
@@ -218,7 +233,7 @@ void Contact::processPresence( JabberDataBlockRef block ) {
 <priority>30</priority>
 <show>xa</show>
 <x xmlns="vcard-temp:x:update" />
-<c xmlns="http://jabber.org/protocol/caps" node="http://gajim.org" ver="2sSROk7c/BXz4QRPKkeriaW4V6M=" hash="sha-1" />
+<c xmlns="http://jabber.org/protocol/caps" node="http://gajim.org" ver="2sSROk7c/BXz4QRPKkeriaW4V6M=" hash="sha-1" />icons::ICON_BOMBUS_NG
 <status>ага</status>
 </presence>
 */

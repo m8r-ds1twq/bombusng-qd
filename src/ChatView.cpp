@@ -286,6 +286,8 @@ if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"qip")!=NULL)
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"pidgin")!=NULL){skin->drawElement(hdc, icons::ICON_PIDGIN, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"miranda")!=NULL){skin->drawElement(hdc, icons::ICON_MIRANDA, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"kopete")!=NULL){skin->drawElement(hdc, icons::ICON_KOPET, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.org/java")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"psi")!=NULL){skin->drawElement(hdc, icons::ICON_PSI, avataraWidth , iconwidth);}
 
 		ExtTextOut(hdc, avataraWidth + iconwidth + 4, iconwidth, NULL, NULL,
 					utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),
