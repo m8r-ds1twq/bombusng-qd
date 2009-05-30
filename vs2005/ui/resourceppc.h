@@ -25,6 +25,7 @@
 #define IDD_CONFIG_P1                   113
 #define IDD_ACCNT1                      113
 #define IDC_COMPLETE                    114
+#define IDC_SB                          1682
 #define IDD_ACCNT2                      114
 #define IDC_COMPOSING                   115
 #define IDD_OPTIONS1                    115
@@ -146,6 +147,7 @@
 #define IDM_SAVE_HISTORY_IN_HTML        32821
 #define CGETNICK                        32821
 #define CQUOTE                          32822
+#define SB_                             36585
 #define CCLRMSGS                        32823
 #define CCLPMSGS                        32824
 #define CSAVECHAT                       32825

@@ -111,7 +111,6 @@ long WINAPI EditSubClassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
                 UINT paste = (IsClipboardFormatAvailable(CF_UNICODETEXT))?  MF_STRING : MF_STRING | MF_GRAYED;
                 UINT cut = (LOWORD(sel)!=HIWORD(sel))? MF_STRING : MF_STRING | MF_GRAYED;
                 UINT undo= (SendMessage(hWnd, EM_CANUNDO, 0, 0))? MF_STRING : MF_STRING | MF_GRAYED;;
-
                 HMENU hmenu = CreatePopupMenu();
                 if (hmenu==NULL) break;
 
@@ -123,6 +122,7 @@ long WINAPI EditSubClassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
                 AppendMenu(hmenu, paste, WM_PASTE, TEXT("Вставить") );
                 AppendMenu(hmenu, MF_SEPARATOR, 0, NULL);
                 AppendMenu(hmenu, undo, EM_UNDO, TEXT("Отмена") );
+				AppendMenu(hmenu, MF_STRING, SB_, TEXT("ТЕМА") );
 
                 POINT pt={LOWORD(lParam), HIWORD(lParam) };
                 ClientToScreen(hWnd, &pt);
@@ -134,7 +134,7 @@ long WINAPI EditSubClassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
                     NULL);
 
                 if (cmdId==ADD_SMILE) SmileBox::showSmileBox(hWnd, pt.x, pt.y, smileParser);
-
+				 if (cmdId==SB_)PostMessage(GetParent(hWnd), WM_COMMAND, IDC_SB, 0);
                 DestroyMenu(hmenu);
 				if (cmdId>0) PostMessage(hWnd, cmdId, 0, 0);
 
@@ -392,6 +392,9 @@ if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusng-qd.
             if (wParam==IDS_SEND) {
                 p->sendJabberMessage();
             }
+			if (wParam==IDC_SB) {
+                p->sendJabberMessagesb();
+            }
             if (wParam==IDC_COMPLETE) {
                 p->mucNickComplete();
             }
@@ -603,6 +606,49 @@ if (Config::getInstance()->history)
     }
     composing=false;
     //Reset form
+    rc->jabberStream->sendStanza(*out);
+
+    LastActivity::update();
+
+    SendMessage(editWnd, WM_SETTEXT, 1, (LPARAM) L"");
+	SipShowIM(SIPF_OFF);
+}
+
+
+void ChatView::sendJabberMessagesb() {
+    int len=SendMessage(editWnd, WM_GETTEXTLENGTH, 0, 0);
+    if (len==0) return;
+    len+=1; //null-terminating char
+
+    wchar_t *buf=new wchar_t[len+1];
+    wchar_t *buf2=new wchar_t[len+12];
+	
+    int actualLen=SendMessage(editWnd, WM_GETTEXT, len, (LPARAM) buf);
+	wcscpy(buf2,L"Тема:");
+	wcscat(buf2,(const wchar_t*)buf);
+	
+	
+    std::string body=utf8::wchar_utf8(buf2);
+    delete[] buf; 
+	delete[] buf2; 
+
+    std::trimTail(body);
+    if (body.length()==0) return;
+    Message::ref msg=Message::ref(new Message(body, rc->account->getNickname(), false, Message::SENT, strtime::getCurrentUtc() ));
+    bool muc=boost::dynamic_pointer_cast<MucRoom>(contact);
+	if (!muc)return;
+
+ 
+    msgList->moveCursorEnd();
+    redraw();
+
+    
+
+    std::string to=contact->jid.getBareJid();
+    JabberDataBlockRef out=msg->constructStanzasb(to);
+    
+    
+    
     rc->jabberStream->sendStanza(*out);
 
     LastActivity::update();

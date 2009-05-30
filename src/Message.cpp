@@ -48,7 +48,14 @@ JabberDataBlockRef Message::constructStanza(const std::string &to) const {
     return out;
 }
 
-
+JabberDataBlockRef Message::constructStanzasb(const std::string &to) const {
+    JabberDataBlockRef out=JabberDataBlockRef(new JabberDataBlock("message"));
+    out->setAttribute("type", "groupchat");
+    out->setAttribute("to", to);
+    out->addChild("subject", body.c_str());
+    out->addChild("body", body.c_str());
+    return out;
+}
 int Message::getColor() const{
     switch (type) {
         case Message::SENT: return 0x0000b0; //RED
