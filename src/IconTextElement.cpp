@@ -30,14 +30,14 @@ void IconTextElement::draw(HDC hdc, RECT &rt) const {
     //SetBkMode(hdc, TRANSPARENT);
     int iconIdx=getIconIndex();
 
-	
+	LONG rtk=rt.right-skin->getElementWidth();
     if (iconIdx>=0) {
         skin->drawElement(hdc, getIconIndex(), rt.left, rt.top);
 		rt.left+=skin->getElementWidth()+ICON_SPACING;
 		if(clientIcon>0){//добавляем иконку клиента
 			//skin->drawElement(hdc, clientIcon, (rt.left+skin->getElementWidth()), rt.top);
 			//rt.left+=skin->getElementWidth()+ICON_SPACING;
-			skin->drawElement(hdc, clientIcon, (rt.right-skin->getElementWidth()), rt.top);
+			//skin->drawElement(hdc, clientIcon, (rt.right-skin->getElementWidth()), rt.top);
 			rt.right-=skin->getElementWidth()-ICON_SPACING;
 		}
 	} else rt.left+=1;
@@ -54,6 +54,7 @@ void IconTextElement::draw(HDC hdc, RECT &rt) const {
 	HFONT NormalFont  = CreateFontIndirectW(&FONT_ICON_TXT); 
 	SelectObject(hdc, NormalFont); 
     DrawText(hdc, getText(), -1, &rt, DT_LEFT | DT_TOP | DT_END_ELLIPSIS);
+	if(clientIcon>0){skin->drawElement(hdc, clientIcon, rtk, rt.top);}
 	DeleteObject(NormalFont);
 }
 
