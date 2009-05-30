@@ -162,7 +162,7 @@ void Contact::update() {
 	clientIcon=0;
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){clientIcon=icons::ICON_BOMBUS_NG;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"tkabber")!=NULL){clientIcon=icons::ICON_TKAB;}else{
-	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){clientIcon=icons::ICON_BOMBUSMOD;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){clientIcon=icons::ICON_BOMBUS_QD;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"gajim")!=NULL){clientIcon=icons::ICON_GAJIM;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"Siemens Native Jabber Client")!=NULL){clientIcon=icons::ICON_SJC;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"qip")!=NULL){clientIcon=icons::ICON_QIP;}else{
@@ -171,9 +171,13 @@ void Contact::update() {
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"kopete")!=NULL){clientIcon=icons::ICON_KOPET;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/java")!=NULL){clientIcon=icons::ICON_BOMBUS;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"psi")!=NULL){clientIcon=icons::ICON_PSI;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod.net.ru")!=NULL){clientIcon=icons::ICON_BOMBUSMOD;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusng-qd.googlecode.com")!=NULL){clientIcon=icons::ICON_BOMBUS_QD_NG;
+
+	}else{
 		clientIcon=0;
 
-	}}}}}}}}}}}
+	}}}}}}}}}}}}}
     if (resource.length()) { s+='/'; s+=resource; }
     wjid=utf8::utf8_wchar( s );
     init();

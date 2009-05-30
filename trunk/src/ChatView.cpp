@@ -279,7 +279,7 @@ if (!sysinfo::screenIsVGA()) {
 			{//Если конфа,убираем инфо панель
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"gajim")!=NULL){skin->drawElement(hdc, icons::ICON_GAJIM, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_NG, avataraWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUSMOD, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_QD, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"Siemens Native Jabber Client")!=NULL){skin->drawElement(hdc, icons::ICON_SJC, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"tkabber")!=NULL){skin->drawElement(hdc, icons::ICON_TKAB, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"qip")!=NULL){skin->drawElement(hdc, icons::ICON_QIP, avataraWidth , iconwidth);}
@@ -288,6 +288,8 @@ if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"miranda")!=N
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"kopete")!=NULL){skin->drawElement(hdc, icons::ICON_KOPET, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.org/java")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS, avataraWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"psi")!=NULL){skin->drawElement(hdc, icons::ICON_PSI, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod.net.ru")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUSMOD, avataraWidth , iconwidth);}
+if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusng-qd.googlecode.com")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_QD_NG, avataraWidth , iconwidth);}
 
 		ExtTextOut(hdc, avataraWidth + iconwidth + 4, iconwidth, NULL, NULL,
 					utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),

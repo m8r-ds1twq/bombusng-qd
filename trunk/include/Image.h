@@ -101,6 +101,8 @@ enum IconDef {
 
     ICON_BOMBUSMOD=0x60,//BombusMod
 	ICON_BOMBUS=0x61,//Bombus
+	ICON_BOMBUS_QD=0x74,
+	ICON_BOMBUS_QD_NG=0x56,
 	ICON_BOMBUS_NG=0x62,//BombusNG
 	ICON_PSI=0x63,//Psi
 	ICON_MIRANDA=0x64,//Miranda
