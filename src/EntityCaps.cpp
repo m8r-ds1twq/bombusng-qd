@@ -113,7 +113,7 @@ MyCaps::MyCaps() {
     identityName=appName;//+" "+appVersion;
     identityCategory="client";
     identityType="handheld";
-    node="http://bombus-im.org/ng";
+    node="http://bombusng-qd.googlecode.com";
     //node+=identityName;
     alg="sha-1";
 
