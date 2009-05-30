@@ -33,13 +33,13 @@ void IconTextElement::draw(HDC hdc, RECT &rt) const {
 	
     if (iconIdx>=0) {
         skin->drawElement(hdc, getIconIndex(), rt.left, rt.top);
-if(clientIcon==0){//как было
-        rt.left+=skin->getElementWidth()+ICON_SPACING;//Ўирина элемента
-			}else{//добавл€ем иконку клиента
-		skin->drawElement(hdc, clientIcon, (rt.left+skin->getElementWidth()), rt.top);
-		rt.left+=2*(skin->getElementWidth())+ICON_SPACING;
-
-}
+		rt.left+=skin->getElementWidth()+ICON_SPACING;
+		if(clientIcon>0){//добавл€ем иконку клиента
+			//skin->drawElement(hdc, clientIcon, (rt.left+skin->getElementWidth()), rt.top);
+			//rt.left+=skin->getElementWidth()+ICON_SPACING;
+			skin->drawElement(hdc, clientIcon, (rt.right-skin->getElementWidth()), rt.top);
+			rt.right-=skin->getElementWidth()-ICON_SPACING;
+		}
 	} else rt.left+=1;
 
 	strcpy((char*)FONT_ICON_TXT.lfFaceName, "Tahoma"); 
