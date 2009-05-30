@@ -22,6 +22,7 @@ public:
 
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
     void sendJabberMessage();
+	void sendJabberMessagesb();//c темой
     void mucNickComplete();
     void setComposingState(bool composing);
     //virtual const wchar_t * getWindowTitle() const;

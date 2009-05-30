@@ -55,6 +55,11 @@ JabberDataBlockRef JabberDataBlock::addChild(const char *_tagName, const char *_
 	addChild(child);
 	return child;
 }
+JabberDataBlockRef JabberDataBlock::addnod(const char *_tagName, const char *nod) {
+	JabberDataBlockRef child=addChild(_tagName, NULL);
+	child->setAttribute("xmlns", "http://jabber.org/protocol/caps");
+   child->setAttribute("node", nod);
+   return child;}
 
 JabberDataBlockRef JabberDataBlock::addChildNS(const char *_tagName, const char *xmlns ) {
     JabberDataBlockRef child=addChild(_tagName, NULL);

@@ -118,6 +118,8 @@ INT_PTR CALLBACK DlgMucJoin::dialogProc(HWND hDlg, UINT message, WPARAM wParam, 
                 p->rc->priority); 
             JabberDataBlockRef xMuc=joinPresence->addChildNS("x", "http://jabber.org/protocol/muc");
             if (!pass.empty()) xMuc->addChild("password",pass.c_str());
+			xMuc=joinPresence->addnod("c", "http://bombusng-qd.googlecode.com");
+			
 
             if (p->rc->isLoggedIn())
                 p->rc->jabberStream->sendStanza(joinPresence);

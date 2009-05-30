@@ -929,12 +929,22 @@ if(Config::getInstance()->vsmess){
 		if ((hwnvs != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
 
 std::wstring messn2;
+std::wstring messn1;
 std::wstring mesfrom2;
 messn2=utf8::utf8_wchar(msg->body.c_str());
-if (mucMessage) {mesfrom2=utf8::utf8_wchar(from.c_str());}else{
-	mesfrom2=utf8::utf8_wchar(c->getFullName());}
 
-std::wstring messn1=L"<input type=\"button\" value=\"我市垡躙" name=\"cmd:42350\" ><input type=\"button\" value=\"抢市垡躙" name=\"cmd:700\" > <br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br>";
+if (mucMessage) {mesfrom2=utf8::utf8_wchar(from.c_str());
+messn1=L"<input type=\"button\" value=\"我市垡躙" name=\"cmd:42350\" ><input type=\"button\" value=\"抢市垡躙" name=\"cmd:700\" > <br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br>";
+
+}else{std::wstring filePathavatar5=L"file://"+appRootPath;
+filePathavatar5+=L"userdata\\avatars\\";
+filePathavatar5+=utf8::utf8_wchar(c->jid.getBareJid());
+mesfrom2=utf8::utf8_wchar(c->getFullName());
+ messn1=L"<img height=32 width=32 alt=\" "+filePathavatar5+L".jpg\" src=\""+filePathavatar5+L".jpg\"  />"+L"<input type=\"button\" value=\"我市垡躙" name=\"cmd:42350\" ><input type=\"button\" value=\"抢市垡躙" name=\"cmd:700\" > <br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br>";
+
+	
+}
+
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
 

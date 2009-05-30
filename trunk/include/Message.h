@@ -56,7 +56,7 @@ public:
     Message(std::string body, std::string fromName, bool appendFrom, int type, const PackedTime &time);
 
     JabberDataBlockRef constructStanza(const std::string &to) const;
-
+	JabberDataBlockRef constructStanzasb(const std::string &to) const;
     std::string body;
     std::string fromName;
 
