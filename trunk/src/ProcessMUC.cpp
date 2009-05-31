@@ -350,7 +350,9 @@ MucRoom::MucRoom( const std::string &jid ) {
 }
 
 void MucRoom::update() {
+
     wjid=utf8::utf8_wchar( jid.getBareJid() );
+
     init();
 }
 //////////////////////////////////////////////////////////////////////////
@@ -376,7 +378,25 @@ MucContact::MucContact( const std::string &jid )
     enableServerHistory=Contact::DISABLED_STATE;
 }
 
-void MucContact::update() {
+void MucContact::update() {clientIcon=0;
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){clientIcon=icons::ICON_BOMBUS_NG;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"tkabber")!=NULL){clientIcon=icons::ICON_TKAB;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){clientIcon=icons::ICON_BOMBUS_QD;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"gajim")!=NULL){clientIcon=icons::ICON_GAJIM;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"Siemens Native Jabber Client")!=NULL){clientIcon=icons::ICON_SJC;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"qip")!=NULL){clientIcon=icons::ICON_QIP;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"pidgin")!=NULL){clientIcon=icons::ICON_PIDGIN;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"miranda")!=NULL){clientIcon=icons::ICON_MIRANDA;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"kopete")!=NULL){clientIcon=icons::ICON_KOPET;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/java")!=NULL){clientIcon=icons::ICON_BOMBUS;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"psi")!=NULL){clientIcon=icons::ICON_PSI;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod.net.ru")!=NULL){clientIcon=icons::ICON_BOMBUSMOD;}else{
+	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusng-qd.googlecode.com")!=NULL){clientIcon=icons::ICON_BOMBUS_QD_NG;
+
+	}else{
+		clientIcon=0;
+
+	}}}}}}}}}}}}}
     wjid=utf8::utf8_wchar( jid.getResource() );
     init();
 }
