@@ -940,13 +940,13 @@ std::wstring mesfrom2;
 messn2=utf8::utf8_wchar(msg->body.c_str());
 
 if (mucMessage) {mesfrom2=utf8::utf8_wchar(from.c_str());
-messn1=L"<input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" > <br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br>";
+messn1=L"<input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" > <body bgcolor=\"#ffcccc\"><br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br></body>";
 
 }else{std::wstring filePathavatar5=L"file://"+appRootPath;
 filePathavatar5+=L"userdata\\avatars\\";
 filePathavatar5+=utf8::utf8_wchar(c->jid.getBareJid());
 mesfrom2=utf8::utf8_wchar(c->getFullName());
- messn1=L"<img height=32 width=32 alt=\" "+filePathavatar5+L".jpg\" src=\""+filePathavatar5+L".jpg\"  />"+L"<input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" > <br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br>";
+ messn1=L"<img height=32 width=32 alt=\" "+filePathavatar5+L".jpg\" src=\""+filePathavatar5+L".jpg\"  />"+L"<input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" > <br><font color=\"#ff0090\"><b>--"+mesfrom2+L"-- </b></font><br><font color=\"#000090\">"+messn2+L"</font><br>";
 
 	
 }
@@ -1022,15 +1022,20 @@ std::wstring statvs;
     contact->processPresence(block);
 
 	rc->roster->makeViewList();
-bufc=contact;
+
 	if(typevs=="chat" || typevs=="away" || typevs=="xa" || typevs=="dnd" || typevs=="online" || typevs=="offline"){
     statvs=L"<br>ÛÒÚ‡ÌÓ‚ËÎ ÒÚ‡ÚÛÒ:<br>"+utf8::utf8_wchar(typevs);
-	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><br>"+utf8::utf8_wchar(contact->getFullName())+statvs+L" <br>"+utf8::utf8_wchar(statusMessage2);
-	
-	
+
+		if(typevs=="chat")	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><body bgcolor=\"#53ff53\"><br><b><br><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="away")	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><body bgcolor=\"#00cccc\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="xa")	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><body bgcolor=\"#7975cb\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="dnd")	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><body bgcolor=\"#cc0000\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="online")	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><body bgcolor=\"#ffffff\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="offline")	statusMessage1=L"<br><input type=\"button\" value=\"Œ“ –€“‹\" name=\"cmd:42350\" ><input type=\"button\" value=\"«¿ –€“‹\" name=\"cmd:700\" ><body bgcolor=\"#777777\"><br><b><font color=\"#ffffff\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+
 
 if (Config::getInstance()->vs_status && Config::getInstance()->vsmess){
-if ((hwnvs != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
+if ((hwnvs != GetActiveWindow()) || (Config::getInstance()->vstrymess)){bufc=contact;
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 AddNotification(hwnvs,(LPCTSTR)statusMessage1.c_str(),1);}}
 	if(typevs=="offline"){Notify::PlayNotify(4);}else{Notify::PlayNotify(3);}
