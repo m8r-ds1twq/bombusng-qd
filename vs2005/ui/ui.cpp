@@ -93,7 +93,7 @@ int tabHeight;
 int rosterStatus = 0;
 int reconnectTry = 3;
 int socketError = 0;
-
+Contact::ref bufc;
 int COLORS[14];
 int prepareAccount();
 int initJabber(ResourceContextRef rc);
@@ -339,7 +339,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     int wmId, wmEvent;
     PAINTSTRUCT ps;
     HDC hdc;
-
+WndRef chat2;
     static SHACTIVATEINFO s_sai;
 	Serialize s(L"config\\status", Serialize::READ);
     switch (message) 
@@ -362,7 +362,13 @@ SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 					SetActiveWindow(mainWnd);
 					SetFocus(mainWnd);
 //ÎÒËÀÄÊÀ ;)	MessageBox(hWnd, TEXT("Clicked"), TEXT("!"), 0);
-				
+				chat2=tabs->getWindowByODR(bufc);
+					 if (!chat2) {
+        //Contact::ref r=roster.lock()->findContact(c->jid.getJid());
+					 chat2=WndRef(new ChatView(tabs->getHWnd(), bufc));
+                    tabs->addWindow(chat2);
+                      }
+					 tabs->switchByWndRef(chat2);
 
 					DeleteNotification();
 				break;
@@ -944,7 +950,7 @@ mesfrom2=utf8::utf8_wchar(c->getFullName());
 
 	
 }
-
+bufc=c;
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
 
@@ -1014,7 +1020,9 @@ std::wstring statvs;
 	
 //}
     contact->processPresence(block);
+
 	rc->roster->makeViewList();
+bufc=contact;
 	if(typevs=="chat" || typevs=="away" || typevs=="xa" || typevs=="dnd" || typevs=="online" || typevs=="offline"){
     statvs=L"<br>óñòàíîâèë ñòàòóñ:<br>"+utf8::utf8_wchar(typevs);
 	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><br>"+utf8::utf8_wchar(contact->getFullName())+statvs+L" <br>"+utf8::utf8_wchar(statusMessage2);
