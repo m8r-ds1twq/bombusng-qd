@@ -94,7 +94,7 @@ int rosterStatus = 0;
 int reconnectTry = 3;
 int socketError = 0;
 Contact::ref bufc;
-int COLORS[14];
+int COLORS[30];
 int prepareAccount();
 int initJabber(ResourceContextRef rc);
 //void streamShutdown();
@@ -937,16 +937,40 @@ if(Config::getInstance()->vsmess){
 std::wstring messn2;
 std::wstring messn1;
 std::wstring mesfrom2;
-messn2=utf8::utf8_wchar(msg->body.c_str());
 
-if (mucMessage) {mesfrom2=utf8::utf8_wchar(from.c_str());
-messn1=L"<input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" > <body bgcolor=\"#ffcccc\"><br><font color=\"#ff0090\">--"+mesfrom2+L"-- </font><br><font color=\"#000090\">"+messn2+L"</font><br></body>";
+char * cnotif=new char[55];
+std::string cnotifs;
+//messn2=utf8::utf8_wchar(msg->body.c_str());
 
-}else{std::wstring filePathavatar5=L"file://"+appRootPath;
-filePathavatar5+=L"userdata\\avatars\\";
-filePathavatar5+=utf8::utf8_wchar(c->jid.getBareJid());
-mesfrom2=utf8::utf8_wchar(c->getFullName());
- messn1=L"<img height=32 width=32 alt=\" "+filePathavatar5+L".jpg\" src=\""+filePathavatar5+L".jpg\"  />"+L"<input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" > <br><font color=\"#ff0090\"><b>--"+mesfrom2+L"-- </b></font><br><font color=\"#000090\">"+messn2+L"</font><br>";
+if (mucMessage) {
+	//printf(cnotif,#%06X\"><br><b><font color=\"#%06X\">--%S--</font></b><br><font color=\"#%06X\">%S</font></body>",,COLORS[15],from.c_str(),COLORS[14],msg->body.c_str());
+	messn1=L"<input type=\"button\" value=\"îòêðûòü\" name=\"cmd:42350\" ><input type=\"button\" value=\"çàêðûòü\" name=\"cmd:700\" > <body bgcolor=\"";
+	sprintf(cnotif,"#%06X\"><br><b><font color=\"",COLORS[13]);
+cnotifs=cnotif;
+messn1+= utf8::utf8_wchar(cnotifs);
+sprintf(cnotif,"#%06X\">--",COLORS[14]);
+cnotifs=cnotif;
+messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(from.c_str())+L"--</font></b><br><font color=\"";
+sprintf(cnotif,"#%06X\">",COLORS[15]);
+cnotifs=cnotif;
+messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font></body>";
+
+
+}else{ 
+std::wstring filePathavatar5=L"file://"+appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->jid.getBareJid());
+
+
+ messn1=L"<img height=40 width=40 alt=\" "+filePathavatar5+L".jpg\" src=\""+filePathavatar5+L".jpg\"  />"+L"<input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" > <body bgcolor=\"";
+	 sprintf(cnotif,"#%06X\"><br><b><font color=\"",COLORS[16]);
+cnotifs=cnotif;
+messn1+= utf8::utf8_wchar(cnotifs);
+sprintf(cnotif,"#%06X\">--",COLORS[17]);
+cnotifs=cnotif;
+messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(c->getFullName())+L"--</font></b><br><font color=\"";
+sprintf(cnotif,"#%06X\">",COLORS[18]);
+cnotifs=cnotif;
+messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font></body>";
+	
 
 	
 }
