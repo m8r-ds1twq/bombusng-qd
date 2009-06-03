@@ -51,7 +51,7 @@ DWORD rd;
 
     colorch[rd]=NULL;
 
-for ( int fff=0 ; fff<=12 ; fff++ ){
+for ( int fff=0 ; fff<=18 ; fff++ ){
 	iii=fff*7;
 COLORS[fff]=1048576*chartoint(colorch[iii])+65536*chartoint(colorch[iii+1])+4096*chartoint(colorch[iii+2])+256*chartoint(colorch[iii+3])+16*chartoint(colorch[iii+4])+chartoint(colorch[iii+5]);
 
