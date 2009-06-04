@@ -957,10 +957,41 @@ messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font>
 
 
 }else{ 
-std::wstring filePathavatar5=L"file://"+appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->jid.getBareJid());
+std::wstring filePathavatar5=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->jid.getBareJid())+L".jpg";
+HBITMAP bmp3=SHLoadImageFile(filePathavatar5.c_str());
+
+filePathavatar5=L"file://"+filePathavatar5;
+
+//std::wstring filePathavatar4=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->jid.getBareJid())+L".jpg";
 
 
- messn1=L"<img height=40 width=40 alt=\" "+filePathavatar5+L".jpg\" src=\""+filePathavatar5+L".jpg\"  />"+L"<input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" > <body bgcolor=\"";
+//int result=MessageBox(NULL, filePathavatar5.c_str(), TEXT("Îòêðûòü"), MB_YESNOCANCEL | MB_ICONWARNING );
+BITMAP bm3;
+GetObject(bmp3, sizeof(bm3), &bm3);
+LONG avataraWidth = Config::getInstance()->avatarWidth ;
+LONG avWidth;
+LONG avHeight;
+if (bmp3) {if(bm3.bmWidth==bm3.bmHeight){avWidth=avataraWidth;
+	avHeight=avWidth;}else{
+	if(bm3.bmWidth>bm3.bmHeight){
+	avWidth=avataraWidth;
+    avHeight=(avataraWidth*bm3.bmHeight*100)/(100*bm3.bmWidth);
+		}else{
+	avHeight=avataraWidth;
+	avWidth=(avataraWidth*bm3.bmWidth*100)/(100*bm3.bmHeight);
+	}}
+}
+if (bmp3) {sprintf(cnotif,"%d ",avWidth);}else{sprintf(cnotif,"%d ",0);}
+cnotifs=cnotif;
+ messn1=L"<img  width=";
+
+ messn1+= utf8::utf8_wchar(cnotifs);
+ messn1+=L" height=";
+if (bmp3) {sprintf(cnotif,"%d ",avHeight);}else{sprintf(cnotif,"%d ",0);}
+cnotifs=cnotif;
+messn1+= utf8::utf8_wchar(cnotifs);
+if (bmp3) DeleteObject(bmp3);
+	 messn1+=L" alt=\" "+filePathavatar5+L"\" src=\""+filePathavatar5+L"\"  />"+L"<input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" > <body bgcolor=\"";
 	 sprintf(cnotif,"#%06X\"><br><b><font color=\"",COLORS[16]);
 cnotifs=cnotif;
 messn1+= utf8::utf8_wchar(cnotifs);
@@ -971,6 +1002,7 @@ sprintf(cnotif,"#%06X\">",COLORS[18]);
 cnotifs=cnotif;
 messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font></body>";
 	
+//int result=MessageBox(NULL, messn1.c_str(), TEXT("Îòêðûòü"), MB_YESNOCANCEL | MB_ICONWARNING );
 
 	
 }
