@@ -24,7 +24,7 @@ Message::Message( std::string body, std::string fromName, bool appendFrom, int t
     //TODO: xml escaping
     
     std::string tmp=boost::regex_replace(body, e1, std::string("\x01\\1\x02"));
-    if (tmp.find("/me")==0) {
+	if (tmp.find("/me")==0) {
         if (tmp.length()==3 || tmp[3]==' ') {
             tmp.replace(0, 3, fromName);
             tmp.insert(0, "*");

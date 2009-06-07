@@ -94,6 +94,7 @@ public:
 
     void addContact(Contact::ref contact);
     void deleteContact(Contact::ref contact);
+	void Roster::setMUCStatus(int status );//(UFO)
     void setStatusByFilter(const std::string & bareJid, int status);
     void setAllOffline();
     Roster::ContactListRef getHotContacts();

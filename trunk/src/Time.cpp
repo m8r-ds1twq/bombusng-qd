@@ -23,6 +23,18 @@ std::string strtime::toLocalDate(const PackedTime &utcTime) {
     return fd.str();
 }
 
+std::string strtime::toDateLocal(const PackedTime &utcTime) {
+    PackedTime local;
+    SYSTEMTIME st;
+    FileTimeToLocalFileTime(&utcTime, &local);
+    FileTimeToSystemTime(&local, &st);
+
+    boost::format fd("%02d%02d%04d");
+    fd % st.wDay % st.wMonth % st.wYear;
+
+    return fd.str();
+}
+
 std::string strtime::toLocalTime(const PackedTime &utcTime) {
     PackedTime local;
     SYSTEMTIME st;
