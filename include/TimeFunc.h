@@ -7,6 +7,7 @@ typedef FILETIME PackedTime;
 
 namespace strtime {
     std::string toLocalDate(const PackedTime &utcTime);
+    std::string toDateLocal(const PackedTime &utcTime);
     std::string toLocalTime(const PackedTime &utcTime);
     std::string toLocalDateTime(const PackedTime &utcTime);
     std::string toIso8601(const PackedTime &utcTime);

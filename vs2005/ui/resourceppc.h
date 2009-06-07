@@ -108,6 +108,7 @@
 #define IDC_X_SIP                       1099
 #define IDC_SB                          1682
 #define IDC_RECONNECT_TRIES             5325
+#define IDS_WINDOWS23                   12987
 #define IDM_JABBER                      32775
 #define IDM_JABBER_STREAMINFO           32777
 #define IDM_WINDOWS_ROSTER              32782
@@ -165,7 +166,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        136
-#define _APS_NEXT_COMMAND_VALUE         32802
+#define _APS_NEXT_COMMAND_VALUE         32804
 #define _APS_NEXT_CONTROL_VALUE         1057
 #define _APS_NEXT_SYMED_VALUE           116
 #endif

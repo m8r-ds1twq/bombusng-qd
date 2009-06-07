@@ -13,13 +13,14 @@ void History::appendHistory( Contact::ref c, Message::ref msg, bool isMuc) {
     if (!Config::getInstance()->history) return;
     std::wstring filePath=historyPath;
 	std::wstring filePathavatar=appRootPath;
-    
+    std::string dd=strtime::toDateLocal(msg->time);
 	if(isMuc){
-	  filePath+=L"\\chatrooms\\";
+	  filePath+=L"\\chatrooms\\"+utf8::utf8_wchar(dd.c_str())+L"\\";
 	}else{
 		filePathavatar+=L"userdata\\avatars\\";
-	  filePath+='\\';
+	  filePath+=L"\\"+utf8::utf8_wchar(dd.c_str())+L"\\";
 	}
+CreateDirectory(filePath.c_str(), NULL);
     //todo: normalize filename
 	std::string  fulljid=c->jid.getBareJid();
     filePath+=utf8::utf8_wchar(c->jid.getBareJid());
@@ -34,6 +35,7 @@ if (attrs==0xFFFFFFFF) {flagfilehistori=1;}
 
 
     std::string t=strtime::toLocalDateTime(msg->time);
+
 //[18.02.2009,00:00:00]
 //(nick) message
 

@@ -406,21 +406,27 @@ SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 					{
 					case IDM_STATUS_ONLINE:
 						rc->status=presence::ONLINE;
+						if (rc->roster)rc->roster->setMUCStatus(presence::ONLINE);
 						break;
 					case IDM_STATUS_FFC:
 						rc->status=presence::CHAT;
+						if (rc->roster)rc->roster->setMUCStatus(presence::CHAT);
 						break;
 					case IDM_STATUS_AWAY:
 						rc->status=presence::AWAY;
+						if (rc->roster)rc->roster->setMUCStatus(presence::AWAY);
 						break;
 					case IDM_STATUS_EXTENDEDAWAY:
 						rc->status=presence::XA;
+						if (rc->roster)rc->roster->setMUCStatus(presence::XA);
 						break;
 					case IDM_STATUS_DND:
 						rc->status=presence::DND;
+						if (rc->roster)rc->roster->setMUCStatus(presence::DND);
 						break;
 					case IDM_STATUS_OFFLINE:
 						rc->status=presence::OFFLINE;
+						if (rc->roster)rc->roster->setMUCStatus(presence::OFFLINE);
 						break;
 					}
 					s.streamString(rc->presenceMessage, "");
