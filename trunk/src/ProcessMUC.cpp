@@ -378,7 +378,7 @@ MucContact::MucContact( const std::string &jid )
     enableServerHistory=Contact::DISABLED_STATE;
 }
 
-void MucContact::update() {clientIcon=0;
+void MucContact::update() {clientIcon=0;if(Config::getInstance()->confclient){
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){clientIcon=icons::ICON_BOMBUS_NG;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"tkabber")!=NULL){clientIcon=icons::ICON_TKAB;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){clientIcon=icons::ICON_BOMBUS_QD;}else{
@@ -396,7 +396,7 @@ void MucContact::update() {clientIcon=0;
 	}else{
 		clientIcon=0;
 
-	}}}}}}}}}}}}}
+	}}}}}}}}}}}}}}
     wjid=utf8::utf8_wchar( jid.getResource() );
     init();
 }

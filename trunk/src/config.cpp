@@ -72,9 +72,12 @@ void Config::serialize( Serialize &s ) {
 	//History
 	s.streamBool(saveHistoryMuc, false);
 	s.streamBool(saveHistoryHtml, false);
+	s.streamBool(confchat, true);
+	s.streamBool(confclient, true);
 
 	s.streamInt(avatarWidth,50);
 	s.streamInt(tabconf,12);
+	
 	s.streamInt(reconnectTries,3);
 	s.streamInt(tolshina,400);
 	s.streamInt(msg_font_height,14);

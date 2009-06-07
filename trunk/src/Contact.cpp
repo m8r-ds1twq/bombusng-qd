@@ -159,7 +159,7 @@ bool Contact::compareKT( Contact::ref left, Contact::ref right ) {
 void Contact::update() {
     std::string s=(nickname.empty())? jid.getBareJid():nickname;
     std::string resource=jid.getResource();
-	clientIcon=0;
+	clientIcon=0;	if(Config::getInstance()->confclient){
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){clientIcon=icons::ICON_BOMBUS_NG;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"tkabber")!=NULL){clientIcon=icons::ICON_TKAB;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){clientIcon=icons::ICON_BOMBUS_QD;}else{
@@ -177,7 +177,7 @@ void Contact::update() {
 	}else{
 		clientIcon=0;
 
-	}}}}}}}}}}}}}
+	}}}}}}}}}}}}}}
     if (resource.length()) { s+='/'; s+=resource; }
     wjid=utf8::utf8_wchar( s );
     init();

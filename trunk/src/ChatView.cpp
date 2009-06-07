@@ -307,6 +307,7 @@ if (bmp4) DeleteObject(bmp4);
 
 			if(!muc)
 			{//Если конфа,убираем инфо панель
+				if(Config::getInstance()->confclient){
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"gajim")!=NULL){skin->drawElement(hdc, icons::ICON_GAJIM, avWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_NG, avWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_QD, avWidth , iconwidth);}
@@ -320,7 +321,7 @@ if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.or
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"psi")!=NULL){skin->drawElement(hdc, icons::ICON_PSI, avWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod.net.ru")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUSMOD, avWidth , iconwidth);}
 if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusng-qd.googlecode.com")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_QD_NG, avWidth , iconwidth);}
-
+				}
 		ExtTextOut(hdc, avWidth + iconwidth + 4, iconwidth, NULL, NULL,
 					utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),
 					p->contact->getClientIdIcon().length(),

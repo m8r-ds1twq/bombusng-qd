@@ -25,7 +25,6 @@
 #define IDD_CONFIG_P1                   113
 #define IDD_ACCNT1                      113
 #define IDC_COMPLETE                    114
-#define IDC_SB                          1682
 #define IDD_ACCNT2                      114
 #define IDC_COMPOSING                   115
 #define IDD_OPTIONS1                    115
@@ -79,6 +78,7 @@
 #define IDC_X_OFFLINES                  1042
 #define IDC_X_PRESENCESORT              1043
 #define IDC_X_DELIVERY                  1044
+#define IDC_X_CLIENT                    1044
 #define IDC_X_COMPOSING                 1045
 #define IDC_X_SOUNDS                    1046
 #define IDC_X_VIBRA                     1047
@@ -99,11 +99,14 @@
 #define IDC_X_VSTRYMESS                 1054
 #define IDC_X_MSG_FONT_TOLSH            1055
 #define IDC_SOUND_STATUS                1055
+#define IDC_X_AWAT                      1056
 #define IDC_SOUND_STATUS2               1057
 #define IDC_VS_STATUS                   1057
+#define IDC_VS_CONFCHAT                 1058
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
+#define IDC_SB                          1682
 #define IDC_RECONNECT_TRIES             5325
 #define IDM_JABBER                      32775
 #define IDM_JABBER_STREAMINFO           32777
@@ -120,7 +123,6 @@
 #define ID_TOOLS_STREAMINFO             32794
 #define ID_TOOLS_MYVCARD                32795
 #define ID_Menu                         32796
-//#define ID_HELP                         32797
 #define ID_WINDOWS                      32798
 #define ID_JABBER_ACCOUNT2              32799
 #define IDM_JABBER_ACCOUNT2             32800
@@ -147,16 +149,15 @@
 #define IDM_SAVE_HISTORY_IN_HTML        32821
 #define CGETNICK                        32821
 #define CQUOTE                          32822
-#define SB_                             36585
 #define CCLRMSGS                        32823
 #define CCLPMSGS                        32824
 #define CSAVECHAT                       32825
 #define GLOBAL_STATUS                   32826
+#define SB_                             36585
 #define ID_TOOLS_COLORRE                37801
 #define IDM_EXIT                        40000
 #define IDM_HELP_ABOUT                  40002
 #define AKTIVW                          42350
-//#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
@@ -165,7 +166,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32802
-#define _APS_NEXT_CONTROL_VALUE         1055
+#define _APS_NEXT_CONTROL_VALUE         1057
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif

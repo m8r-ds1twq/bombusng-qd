@@ -929,7 +929,7 @@ ProcessResult MessageRecv::blockArrived(JabberDataBlockRef block, const Resource
 
 //ВСПЛЫВАЕМ ;)
 		
-if(Config::getInstance()->vsmess){
+		if(Config::getInstance()->vsmess ){
    
 
 		if ((hwnvs != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
@@ -942,7 +942,7 @@ char * cnotif=new char[55];
 std::string cnotifs;
 //messn2=utf8::utf8_wchar(msg->body.c_str());
 
-if (mucMessage) {
+if (mucMessage  ) {if((Config::getInstance()->confchat)){
 	//printf(cnotif,#%06X\"><br><b><font color=\"#%06X\">--%S--</font></b><br><font color=\"#%06X\">%S</font></body>",,COLORS[15],from.c_str(),COLORS[14],msg->body.c_str());
 	messn1=L"<input type=\"button\" value=\"открыть\" name=\"cmd:42350\" ><input type=\"button\" value=\"закрыть\" name=\"cmd:700\" > <body bgcolor=\"";
 	sprintf(cnotif,"#%06X\"><br><b><font color=\"",COLORS[13]);
@@ -955,7 +955,9 @@ sprintf(cnotif,"#%06X\">",COLORS[15]);
 cnotifs=cnotif;
 messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font></body>";
 
-
+bufc=c;
+SHNotificationRemove(&APP_GUID, NOTIFY_ID);
+AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
 }else{ 
 std::wstring filePathavatar5=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->jid.getBareJid())+L".jpg";
 HBITMAP bmp3=SHLoadImageFile(filePathavatar5.c_str());
@@ -1004,14 +1006,14 @@ messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font>
 	
 //int result=MessageBox(NULL, messn1.c_str(), TEXT("Открыть"), MB_YESNOCANCEL | MB_ICONWARNING );
 
-	
-}
-bufc=c;
+	bufc=c;
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
-AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
+AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);
+}
+		}
 
 }
-}
+	}
 
 
 
