@@ -99,6 +99,8 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                 SetDlgCheckBox(hDlg, IDC_X_OFFLINES, cfg->showOfflines);
                 SetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
                 SetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
+                SetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
+				SetDlgItemInt(hDlg, IDC_X_AWAT,cfg->avatarWidth, false);
             }
             if (npage==1) {
                 SetDlgCheckBox(hDlg, IDC_X_COMPOSING, cfg->composing);
@@ -122,6 +124,7 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 				SetDlgCheckBox(hDlg, IDC_X_BLINK2, cfg->blink2);
 				SetDlgCheckBox(hDlg, IDC_X_VSMESS, cfg->vsmess);
 				SetDlgCheckBox(hDlg, IDC_X_VSTRYMESS, cfg->vstrymess);
+				SetDlgCheckBox(hDlg, IDC_VS_CONFCHAT, cfg->confchat);
 			}
             if (npage==3) {
 
@@ -152,10 +155,13 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 
                 Config::ref cfg=Config::getInstance();
 
-                if (npage==0) {
+                if (npage==0) {BOOL awat1;
                     GetDlgCheckBox(hDlg, IDC_X_OFFLINES, cfg->showOfflines);
                     GetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
                     GetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
+                    GetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
+					cfg->avatarWidth = GetDlgItemInt(hDlg, IDC_X_AWAT, &awat1 , false);
+					if (!awat1) cfg->avatarWidth = 50;
                 }
                 if (npage==1) {
                     GetDlgCheckBox(hDlg, IDC_X_COMPOSING, cfg->composing);
@@ -179,6 +185,7 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 					GetDlgCheckBox(hDlg, IDC_X_BLINK2, cfg->blink2);
 					GetDlgCheckBox(hDlg, IDC_X_VSMESS, cfg->vsmess);
 					GetDlgCheckBox(hDlg, IDC_X_VSTRYMESS, cfg->vstrymess);
+					GetDlgCheckBox(hDlg, IDC_VS_CONFCHAT, cfg->confchat);
                 }
                 if (npage==3) {
                     GetDlgCheckBox(hDlg, IDC_X_AUTOCONNECT, cfg->connectOnStartup);

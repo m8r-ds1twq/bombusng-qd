@@ -15,7 +15,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// русский resources
+// Russian resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 #ifdef _WIN32
@@ -249,13 +249,16 @@ END
 IDD_OPTIONS1 DIALOG  0, 0, 156, 129
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 EXSTYLE 0x80000000L
-CAPTION "Ростер"
+CAPTION "Контакты"
 FONT 8, "MS Shell Dlg"
 BEGIN
     CONTROL         "Показ групп",IDC_X_GROUPS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_DISABLED | WS_TABSTOP,11,17,57,10
     CONTROL         "Показ offline контактов",IDC_X_OFFLINES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,7,96,10
     CONTROL         "Сортировать контакты по статусу",IDC_X_PRESENCESORT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,28,135,10
+    CONTROL         "Показ клиентов",IDC_X_CLIENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,42,70,10
+    LTEXT           "Размер аватарок",-1,11,55,69,10
+    EDITTEXT        IDC_X_AWAT,88,54,18,10,ES_LOWERCASE | ES_AUTOHSCROLL
 END
 
 IDD_OPTIONS2 DIALOG  0, 0, 156, 129
@@ -288,10 +291,11 @@ BEGIN
     CONTROL         "composing",IDC_SOUNDCOM,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,28,49,10
     CONTROL         "Блинк(мигание экрана)",IDC_X_BLINK1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,54,94,10
     CONTROL         "выключить в конце экран",IDC_X_BLINK2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,65,105,10
-    CONTROL         "Вспл.окошко",IDC_X_VSMESS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,12,79,59,10
-    CONTROL         "Показывать везде",IDC_X_VSTRYMESS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,19,90,82,10
-    CONTROL         "status",IDC_SOUND_STATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,19,40,36,10
-    CONTROL         "status",IDC_VS_STATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,19,102,36,10
+    CONTROL         "Показывать везде",IDC_X_VSTRYMESS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,90,82,12
+    CONTROL         "status",IDC_SOUND_STATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,40,35,10
+    CONTROL         "status",IDC_VS_STATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,103,36,12
+    CONTROL         "конференция",IDC_VS_CONFCHAT,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,20,115,62,11
+    CONTROL         "Вспл.окошко",IDC_X_VSMESS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,79,60,10
 END
 
 IDD_ACCNT3 DIALOG  0, 0, 156, 129
@@ -421,8 +425,10 @@ BEGIN
     BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 152
+        VERTGUIDE, 11
+        VERTGUIDE, 20
         TOPMARGIN, 7
-        BOTTOMMARGIN, 122
+        BOTTOMMARGIN, 126
     END
 
     IDD_ACCNT3, DIALOG
@@ -507,7 +513,7 @@ BEGIN
     IDS_SEND                "Send"
 END
 
-#endif    // русский resources
+#endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 

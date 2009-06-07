@@ -32,8 +32,11 @@ public:
     bool raiseSIP;
 	bool editx2;
     bool connectOnStartup;
+	bool confchat;
+	bool confclient;
 	int avatarWidth;
 	int tabconf;
+	
 	int reconnectTries;
 	int msg_font_width;
 	int msg_font_height;
