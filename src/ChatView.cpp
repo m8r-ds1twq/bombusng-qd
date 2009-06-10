@@ -253,8 +253,16 @@ if (!sysinfo::screenIsVGA()) {
 LONG avWidth=0;
 LONG avHeight=0;
 			int iconIdx=p->contact->getIconIndex();
-			if(!muc){
-std::wstring filePathavatar6=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(p->contact->jid.getBareJid())+L".jpg";
+			if(!muc){std::string avatarsjid=p->contact->rosterJid;
+size_t i2=0;
+                while (i2<avatarsjid.length()) {
+                    if (avatarsjid[i2]=='/') {
+                       avatarsjid[i2]='.';
+                        continue;
+                    }
+                    i2++;
+				}
+std::wstring filePathavatar6=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(avatarsjid)+L".jpg";
 HBITMAP bmp4=SHLoadImageFile(filePathavatar6.c_str());
 //int result2=MessageBox(NULL, filePathavatar6.c_str(), TEXT("Открыть"), MB_YESNOCANCEL | MB_ICONWARNING );
 BITMAP bm4;

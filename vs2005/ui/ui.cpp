@@ -965,13 +965,22 @@ bufc=c;
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
 }else{ 
-std::wstring filePathavatar5=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->jid.getBareJid())+L".jpg";
+
+std::string avatarsjid=c->rosterJid;
+size_t i3=0;
+                while (i3<avatarsjid.length()) {
+                    if (avatarsjid[i3]=='/') {
+                       avatarsjid[i3]='.';
+                        continue;
+                    }
+                    i3++;
+				}
+std::wstring filePathavatar5=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(avatarsjid)+L".jpg";
 HBITMAP bmp3=SHLoadImageFile(filePathavatar5.c_str());
 
 filePathavatar5=L"file://"+filePathavatar5;
 
 //std::wstring filePathavatar4=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->jid.getBareJid())+L".jpg";
-
 
 //int result=MessageBox(NULL, filePathavatar5.c_str(), TEXT("Открыть"), MB_YESNOCANCEL | MB_ICONWARNING );
 BITMAP bm3;

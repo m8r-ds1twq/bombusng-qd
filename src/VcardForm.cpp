@@ -272,9 +272,18 @@ BOOL VcardForm::savePhoto( LPCTSTR path )
     }
 
 	std::string vcard_to = vcard->getAttribute("from");
+size_t i=0;
+                while (i<vcard_to.length()) {
+                    if (vcard_to[i]=='/') {
+                       vcard_to[i]='.';
+                        continue;
+                    }
+                    i++;
+				}
 	//Log::getInstance()->msg("[***]CASHED Image OK("+vcard_from.substr(0,vcard_from.find("/",0))+")");
-	std::wstring new_path = appRootPath + L"userdata\\avatars\\" + toWString2(vcard_to.substr(0,vcard_to.find("/",0))) + L".jpg";
-    std::wstring imageFile=appRootPath + L"userdata\\avatars\\" + toWString2(vcard_to.substr(0,vcard_to.find("/",0))) + L".jpg";
+	std::wstring new_path = appRootPath + L"userdata\\avatars\\" + utf8::utf8_wchar(vcard_to) + L".jpg";
+    std::wstring imageFile=appRootPath + L"userdata\\avatars\\" + utf8::utf8_wchar(vcard_to) + L".jpg";
+	//int result=MessageBox(NULL, new_path.c_str(), TEXT("123"), MB_YESNO | MB_ICONWARNING );
 	LPCTSTR path_save=imageFile.c_str();
 	Log::getInstance()->msg("[***Get.]("+vcard_to+")");
 
