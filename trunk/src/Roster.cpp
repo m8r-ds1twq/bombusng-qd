@@ -35,7 +35,7 @@
 #include "config.h"
 
 extern TabsCtrlRef tabs;
-
+extern int socketError;
 char *NIL="Not-In-List";
 
 Roster::Roster(ResourceContextRef rc){
@@ -351,14 +351,15 @@ void Roster::addContact( Contact::ref contact ) {
 void Roster::setMUCStatus(int status ) {    
     for (GroupList::const_iterator i=groups.begin(); i!=groups.end(); i++) {
         MucGroup::ref r= boost::dynamic_pointer_cast<MucGroup>(*i);
-        if (r) {
+        if (r && !socketError) {
 			JabberDataBlockRef SendStatus=constructPresence(
 				r->selfContact->jid.getJid().c_str(), 
 				rc->status, 
 				rc->presenceMessage, 
 				rc->priority); 
+ JabberDataBlockRef xMuc=SendStatus->addnod("c", "http://bombusng-qd.googlecode.com");
 			rc->jabberStream->sendStanza(SendStatus);
-        }
+		}
     }
 }
 
