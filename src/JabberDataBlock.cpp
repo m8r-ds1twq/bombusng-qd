@@ -6,6 +6,8 @@
 #include "XMLParser.h"
 
 using namespace std;
+extern BOOL timealivid;
+extern LONG timaliv;
 
 JabberDataBlock::JabberDataBlock(void){}
 JabberDataBlock::JabberDataBlock(const char * _tagName){
@@ -27,7 +29,8 @@ JabberDataBlock::~JabberDataBlock(void)
 {}
 
 std::string JabberDataBlock::getAttribute( const std::string & byName ) 
-{
+{timealivid=0;
+timaliv=0;
 	StringMap::const_iterator i=attr.find(byName);
     if (i==attr.end()) return std::string();
 	return XMLStringExpand(i->second);
@@ -69,6 +72,8 @@ JabberDataBlockRef JabberDataBlock::addChildNS(const char *_tagName, const char 
 }
 
 JabberDataBlockRef JabberDataBlock::getChildByName(const char * tagName) const{
+timealivid=0;
+timaliv=0;
     for (JabberDataBlockRefList::const_iterator c=childs.begin(); c!=childs.end(); c++) {
 		if ( (*c)->tagName==tagName) return *c;
 	}
@@ -84,12 +89,16 @@ void JabberDataBlock::removeChild( const char * tagName ) {
     }
 }
 const std::string JabberDataBlock::getChildText( const char * tagName ) const{
+timealivid=0;
+timaliv=0;
     JabberDataBlockRef child=getChildByName(tagName);
     if (child) return child->getText();
     return "";
 }
 
 bool JabberDataBlock::hasChildByValue(const char * text){
+timealivid=0;
+timaliv=0;
 	for (JabberDataBlockRefList::const_iterator c=childs.begin(); c!=childs.end(); c++) {
 		if ( (*c)->text==text) return true;
 	}

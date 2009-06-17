@@ -62,9 +62,23 @@
 
 #define MAX_LOADSTRING 100
 
+#define TIMER_TIME 2000 //ВРЕМЯ ОПРОСА ТАЙМЕРА
+//#define TIMER_STATUS 60 //ВРЕМЯ АВТОСТАТУСА
+void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
+#define MAIN_TIMER_ID 7852
+int timerid=0;
+HINSTANCE hInstance235;
+LONG timstatus=0;
+LONG timaliv=0;
 
+std::string pamessage;//сохраняем
+presence::PresenceIndex astatus;
+int idautostatus=0;//0-выкл 1-включён 2-выключить
 
+#define TIMER_ALIV Config::getInstance()->ping_aliv//ВРЕМЯ ПОСЛАНИЯ
+#define TIMER_ALIVP Config::getInstance()->pong_aliv //ВРЕМЯ ОЖИДАНИЯ
 
+BOOL timealivid=0;//0-счет 1-послали 
 // Global Variables:
 HINSTANCE			g_hInst;			// current instance
 HWND				g_hWndMenuBar;		// menu bar handle
@@ -157,7 +171,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
                    int       nCmdShow)
 {
 	MSG msg;
-
+hInstance235=hInstance;
 	// Perform application initialization:
 	if (!InitInstance(hInstance, nCmdShow)) 
 	{
@@ -280,6 +294,7 @@ if(hInst2){
     appVersion=utf8::wchar_utf8(wbuf);
     appName="BombusQD";//
      colorsload();//load color
+timerid=SetTimer(0,MAIN_TIMER_ID,TIMER_TIME,TimerProc);
     if (!MyRegisterClass(hInstance, szWindowClass)) 	return FALSE;
 
     mainWnd=hWnd = CreateWindow(szWindowClass, szTitle, WS_VISIBLE,
@@ -383,7 +398,8 @@ SHNotificationRemove(&APP_GUID, NOTIFY_ID);
                     DialogAccountMP(g_hInst, hWnd, rc->account);
                     break;
                 case IDM_EXIT:
-                    SendMessage (hWnd, WM_CLOSE, 0, 0);				
+                    SendMessage (hWnd, WM_CLOSE, 0, 0);	
+					KillTimer(0,timerid);
                     break;
 
                 case IDM_JABBER_STATUS:
@@ -429,6 +445,8 @@ SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 						if (rc->roster)rc->roster->setMUCStatus(presence::OFFLINE);
 						break;
 					}
+					idautostatus=0;
+					timstatus=0;
 					s.streamString(rc->presenceMessage, "");
 					s.streamInt(rc->priority, 0);
 					rosterWnd->setIcon(rc->status);
@@ -610,7 +628,7 @@ SHNotificationRemove(&APP_GUID, NOTIFY_ID);
             {
                 JabberDataBlockRef *rf=(JabberDataBlockRef *)lParam; //АХТУНГ
                 if (rf==NULL) break; 
-                if (rc->jabberStanzaDispatcher2) rc->jabberStanzaDispatcher2->dispatchDataBlock(*rf);
+				if (rc->jabberStanzaDispatcher2){;rc->jabberStanzaDispatcher2->dispatchDataBlock(*rf);}
                 delete rf;
             }
         default:
@@ -677,6 +695,7 @@ ProcessResult GetRoster::blockArrived(JabberDataBlockRef block, const ResourceCo
 		DlgMucJoin::createDialog(rosterWnd->getHWnd(), rc, "qd-ng@conference.jabber.ru");
 	}
 */
+ 
 	return LAST_BLOCK_PROCESSED;
 }
 //////////////////////////////////////////////////////////////
@@ -699,6 +718,7 @@ ProcessResult Version::blockArrived(JabberDataBlockRef block, const ResourceCont
 
     std::string version=sysinfo::getOsVersion();
 
+ 
 
     JabberDataBlock result("iq");
     result.setAttribute("to", block->getAttribute("from"));
@@ -735,6 +755,7 @@ ProcessResult Ping::blockArrived(JabberDataBlockRef block, const ResourceContext
     pong.setAttribute("type", "result");
     pong.setAttribute("id", block->getAttribute("id"));
 
+ 
     rc->jabberStream->sendStanza(pong);
     return BLOCK_PROCESSED;
 }
@@ -753,6 +774,7 @@ ProcessResult EntityTime::blockArrived(JabberDataBlockRef block, const ResourceC
     int rslt=BLOCK_REJECTED;
     JabberDataBlockRef time=block->findChildNamespace("time","urn:xmpp:time"); 
     if (time) {
+ 
         //Log::getInstance()->msg("Time query: ", block->getAttribute("from").c_str());
 
         PackedTime ct=strtime::getCurrentUtc();
@@ -801,6 +823,7 @@ ProcessResult MessageRecv::blockArrived(JabberDataBlockRef block, const Resource
     const std::string & body=block->getChildText("body");
     const std::string & subj=block->getChildText("subject");
 
+ 
     //JabberDataBlockRef xfwd=block->findChildNamespace("x","jabber:x:forward");
     //if (xfwd) {
 	//  //old method
@@ -1028,6 +1051,8 @@ AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);
 		}
 
 }
+if (mucMessage) {Notify::PlayNotify(1);}else{
+			Notify::PlayNotify(0);}
 	}
 
 
@@ -1083,6 +1108,7 @@ public:
 };
 ProcessResult PresenceRecv::blockArrived(JabberDataBlockRef block, const ResourceContextRef rc){
     std::string from=block->getAttribute("from");
+
 
     Contact::ref contact=rc->roster->getContactEntry(from);
     ChatView *cv = dynamic_cast<ChatView *>(tabs->getWindowByODR(contact).get());
@@ -1289,7 +1315,7 @@ int prepareAccount(){
 // TODO: refactoring: move into ResourceContext
 //////////////////////////////////////////////////////////////
 int initJabber(ResourceContextRef rc) {
-    if (rc->jabberStream) return 1;
+    if (rc->jabberStream ) return 1;
     rc->jabberStanzaDispatcherRT=JabberStanzaDispatcherRef(new JabberStanzaDispatcher(rc));
     rc->jabberStanzaDispatcher2=JabberStanzaDispatcherRef(new JabberStanzaDispatcher(rc));
 
@@ -1314,6 +1340,7 @@ void reconnect()//вставка балакина
 			reconnectTry--;
 			socketError = 0;
 			Notify::PlayNotify(5);
+
 			initJabber(rc);
 		}
 }
@@ -1355,4 +1382,121 @@ void Shell_NotifyIcon(bool show, HWND hwnd){
 
 
     return;
+}
+
+
+void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+presence::PresenceIndex avnstatusconf;
+
+
+timaliv=timaliv+2;
+if(Config::getInstance()->avtostatus){
+timstatus=timstatus+2;
+if(Config::getInstance()->id_avtostatus==1){avnstatusconf=presence::ONLINE;}else{
+	if(Config::getInstance()->id_avtostatus==2){avnstatusconf=presence::CHAT;}else{
+		if(Config::getInstance()->id_avtostatus==3){avnstatusconf=presence::AWAY;}else{
+			if(Config::getInstance()->id_avtostatus==4){avnstatusconf=presence::XA;}else{
+			if(Config::getInstance()->id_avtostatus==5){avnstatusconf=presence::DND;}}}}
+}
+if(timstatus>=(Config::getInstance()->time_avtostatus)){
+	timstatus=0;
+
+if(idautostatus==0 &&(rosterStatus)){
+	idautostatus=1;
+
+	//rc->status=presence::AWAY;
+  Log::getInstance()->msg("Autostatus ");
+//s.streamString(rc->presenceMessage, "");
+  pamessage=(rc->presenceMessage);
+  astatus=(rc->status);
+					rc->status=avnstatusconf;
+					
+					rosterWnd->setIcon(rc->status);
+					//std::string t=strtime::getLocalZoneOffset();
+					rc->presenceMessage=Config::getInstance()->avtomessage+strtime::toLocalTime(strtime::getCurrentUtc());
+               
+					rc->sendPresence();
+				rc->roster->setMUCStatus(avnstatusconf);
+		}
+			}
+
+if(idautostatus==2){
+	idautostatus=0;
+	
+  
+					rc->status=astatus;//востанавлмваем
+					rosterWnd->setIcon(rc->status);
+					rc->presenceMessage=pamessage;
+               
+					rc->sendPresence();
+				rc->roster->setMUCStatus(astatus);
+}}
+std::string idVer;
+
+
+///хз -всё пашет-кроме реконекта
+if(timealivid  ){if(timaliv>=(TIMER_ALIV+TIMER_ALIVP)){
+timealivid=0;//непришло
+timaliv=0;
+Log::getInstance()->msg("ERROR ",rc->account->getServer().c_str());
+//тут както надо реконект что ниже не пашет
+//MessageBox(mainWnd,  TEXT("Потеря связи перезапустите программу"),TEXT("Ошибка "), 0);
+Notify::PlayNotify(5);Notify::PlayNotify(5);Notify::PlayNotify(5);
+if (reconnectTry > 0)
+		{
+			reconnectTry--;
+	
+			Notify::PlayNotify(5);
+			rc->status=presence::OFFLINE;
+rosterWnd->setIcon(rc->status);
+
+if (rc->roster)rc->roster->setMUCStatus(presence::OFFLINE);
+rosterStatus=0;
+std::exception ex;
+//
+
+rc->roster->setAllOffline();
+
+    rc->roster->makeViewList();
+   
+rc->sendPresence();
+   socketError = 1;
+rc->jabberStream->sendXmppEndHeader();
+streamShutdown(rc); rc->jabberStream->connection->close();
+
+initJabber(rc);
+rc->status=presence::ONLINE;
+rc->sendPresence();
+        initJabber(rc);
+//JabberStream * _stream;
+rc->jabberStream->jabberListener->endConversation(&ex);
+rc->jabberStream->isRunning=false;
+
+JabberStream::run((JabberStream *)&(rc->jabberStream));
+JabberStream::run(NULL); 
+
+rc->status=presence::ONLINE;
+rc->sendPresence();
+        initJabber(rc);
+
+}
+
+}}
+
+if(!timealivid &&(rosterStatus)){if(timaliv>=TIMER_ALIV){timealivid=1;//послали пинг
+JabberDataBlockRef qry;
+Log::getInstance()->msg("ping ",rc->account->getServer().c_str());
+JabberDataBlock req("iq");
+    req.setAttribute("to", rc->account->getServer().c_str());
+    req.setAttribute("type", "get");
+
+    req.setAttribute("id", idVer=strtime::getRandom() );
+    qry=req.addChildNS("ping", "jabber:iq:version");
+	rc->jabberStream->sendStanza(req);}
+}
+
+
+//int result=MessageBox(NULL, TEXT("проба тайм"), TEXT("Открыть URL?2"), MB_YESNO | MB_ICONWARNING );
+
 }

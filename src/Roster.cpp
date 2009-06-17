@@ -347,11 +347,13 @@ void Roster::addGroup( RosterGroup::ref group ) {
 void Roster::addContact( Contact::ref contact ) {
     contacts.push_back(contact);
 }
- //отправляет всем конференциям текущий статус, приоритет, текст статуса :)(UFO)
+ //отправляет всем конференциям текущий статус, приоритет, текст статуса :)(UFO много чего уже поменял)
 void Roster::setMUCStatus(int status ) {    
     for (GroupList::const_iterator i=groups.begin(); i!=groups.end(); i++) {
         MucGroup::ref r= boost::dynamic_pointer_cast<MucGroup>(*i);
+	
         if (r && !socketError) {
+if((r->selfContact->status)==presence::ONLINE ||(r->selfContact->status)==presence::CHAT || (r->selfContact->status)==presence::AWAY ||(r->selfContact->status)==presence::XA ||(r->selfContact->status)==presence::DND){
 			JabberDataBlockRef SendStatus=constructPresence(
 				r->selfContact->jid.getJid().c_str(), 
 				rc->status, 
@@ -359,8 +361,8 @@ void Roster::setMUCStatus(int status ) {
 				rc->priority); 
  JabberDataBlockRef xMuc=SendStatus->addnod("c", "http://bombusng-qd.googlecode.com");
 			rc->jabberStream->sendStanza(SendStatus);
-		}
-    }
+}
+		}}
 }
 
 void Roster::setStatusByFilter( const std::string & bareJid, int status ) {

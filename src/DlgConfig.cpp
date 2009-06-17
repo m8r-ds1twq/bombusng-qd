@@ -17,6 +17,10 @@
 #include "stringutils.h"
 
 //////////////////////////////////////////////////////////////////////////////////
+wchar_t *statusNames2 []= { TEXT(" "),
+    TEXT("Online"),         TEXT("Free for chat"),  TEXT("Away"), 
+    TEXT("Extended Away"),  TEXT("DND"),            TEXT("Offline") 
+};
 
 INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam, int npage);
 INT_PTR CALLBACK DlgProcConfigP1(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -100,7 +104,14 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                 SetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
                 SetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
                 SetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
+				SetDlgCheckBox(hDlg, IDC_AVTOSTATUS, cfg->avtostatus);
 				SetDlgItemInt(hDlg, IDC_X_AWAT,cfg->avatarWidth, false);
+				
+				SetDlgItemInt(hDlg, IDC_TIME_AVTOSTATUS,cfg->time_avtostatus, false);
+ for (int i=0; i<6; i++)
+                SendDlgItemMessage(hDlg,IDC_ID_AVTOSTATUS, CB_ADDSTRING, 0, (LPARAM) statusNames2[i]);
+            SendDlgItemMessage(hDlg, IDC_ID_AVTOSTATUS, CB_SETCURSEL, cfg->id_avtostatus, 0);
+            SetDlgItemText(hDlg, IDC_AVTOSTATUS_MESS, cfg->avtomessage);
             }
             if (npage==1) {
                 SetDlgCheckBox(hDlg, IDC_X_COMPOSING, cfg->composing);
@@ -127,7 +138,8 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 				SetDlgCheckBox(hDlg, IDC_VS_CONFCHAT, cfg->confchat);
 			}
             if (npage==3) {
-
+				SetDlgItemInt(hDlg, IDC_PINGAKIV ,cfg->ping_aliv, false);
+				SetDlgItemInt(hDlg, IDC_PONGALIV ,cfg->pong_aliv, false);
                 SetDlgCheckBox(hDlg, IDC_X_AUTOCONNECT, cfg->connectOnStartup);
 				SetDlgItemInt(hDlg, IDC_TAB_CONF, cfg->tabconf , false);
 				SetDlgItemInt(hDlg, IDC_RECONNECT_TRIES, cfg->reconnectTries , false);
@@ -155,13 +167,24 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 
                 Config::ref cfg=Config::getInstance();
 
-                if (npage==0) {BOOL awat1;
+                if (npage==0) {BOOL awat1,stat2;
                     GetDlgCheckBox(hDlg, IDC_X_OFFLINES, cfg->showOfflines);
                     GetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
                     GetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
                     GetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
+					GetDlgCheckBox(hDlg, IDC_AVTOSTATUS, cfg->avtostatus);
 					cfg->avatarWidth = GetDlgItemInt(hDlg, IDC_X_AWAT, &awat1 , false);
 					if (!awat1) cfg->avatarWidth = 50;
+
+					
+					cfg->time_avtostatus = GetDlgItemInt(hDlg, IDC_TIME_AVTOSTATUS, &stat2 , false);
+					if (!stat2) cfg->time_avtostatus = 300;
+
+					cfg->id_avtostatus =(int) SendDlgItemMessage(hDlg, IDC_ID_AVTOSTATUS, CB_GETCURSEL, 0,0);
+						
+					if (!(cfg->id_avtostatus)) cfg->id_avtostatus = 3;
+					GetDlgItemText(hDlg, IDC_AVTOSTATUS_MESS, cfg->avtomessage);
+					if(!(cfg->avtomessage.c_str())){cfg->avtomessage="Autostatus: ";}
                 }
                 if (npage==1) {
                     GetDlgCheckBox(hDlg, IDC_X_COMPOSING, cfg->composing);
@@ -190,9 +213,12 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                 if (npage==3) {
                     GetDlgCheckBox(hDlg, IDC_X_AUTOCONNECT, cfg->connectOnStartup);
 
-					BOOL f1Int,f2Int,f3Int,f4Int,reconint,tabc2,tol2;
+					BOOL f1Int,f2Int,f3Int,f4Int,reconint,tabc2,tol2,idav,pingal1,pongal2;
 					extern int tabHeight;
+
 					tabHeight-=cfg->tabconf;
+
+
 					cfg->tabconf = GetDlgItemInt(hDlg,  IDC_TAB_CONF, &tabc2 , false);
 					    if (!tabc2) cfg->tabconf = 12;
 						tabHeight+=cfg->tabconf;
@@ -211,6 +237,13 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 					    if (!f3Int) cfg->roster_font_height = 13;
 					cfg->roster_font_width = GetDlgItemInt(hDlg, IDC_X_ROSTER_FONT_WIDTH, &f4Int , false);
 					    if (!f4Int) cfg->roster_font_width = 5;
+
+						cfg->ping_aliv = GetDlgItemInt(hDlg, IDC_PINGAKIV, &pingal1 , false);
+					if (!pingal1) cfg->ping_aliv = 150;
+
+					cfg->pong_aliv = GetDlgItemInt(hDlg, IDC_PONGALIV, &pongal2 , false);
+					if (!pongal2) cfg->pong_aliv = 90;
+
                 }
                 return TRUE;
             }

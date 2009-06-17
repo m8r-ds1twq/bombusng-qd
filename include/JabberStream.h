@@ -41,11 +41,12 @@ public:
 private:
 	ResourceContextRef rc;
 
-	bool isRunning;
+	
 
 	std::stack<JabberDataBlockRef> xmlStack;
 
 public:
+	bool isRunning;
 	static void run(JabberStream * _stream); 
 	// todo: static void run(JabberStreamRef _stream);
 };

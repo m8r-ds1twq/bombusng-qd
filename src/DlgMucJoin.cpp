@@ -22,7 +22,8 @@
 
 extern HINSTANCE	g_hInst;			// current instance
 extern RosterListView::ref rosterWnd;
-
+extern LONG timstatus;
+extern int idautostatus;
 #define MRU_MUC_NICK L"MucJoinNick"
 
 INT_PTR CALLBACK DlgMucJoin::dialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -124,6 +125,8 @@ INT_PTR CALLBACK DlgMucJoin::dialogProc(HWND hDlg, UINT message, WPARAM wParam, 
             if (p->rc->isLoggedIn())
                 p->rc->jabberStream->sendStanza(joinPresence);
 
+timstatus=0;
+if(idautostatus==1)idautostatus=2;
             /*
             dlgAccountParam->setBareJid(GetDlgItemText(hDlg, IDC_E_JID));
             GetDlgItemText(hDlg, IDC_E_PASSWORD, dlgAccountParam->password);
