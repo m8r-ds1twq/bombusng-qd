@@ -36,13 +36,20 @@ public:
 	bool confclient;
 	int avatarWidth;
 	int tabconf;
-	
+	std::string  avtomessage;
 	int reconnectTries;
 	int msg_font_width;
 	int msg_font_height;
 	int roster_font_width;
 	int roster_font_height;
 	int tolshina;
+	int ping_aliv;
+	int pong_aliv;
+	bool avtostatus;
+	int  time_avtostatus;
+	//int id_avtostatus;
+
+
 /*
 "*"-в разработке
 "+"-реализовано
@@ -113,7 +120,7 @@ pathes from extraterrestrial:
 	bool showStatusInSimpleChat;
 	bool saveHistoryMuc;
 	bool saveHistoryHtml;
-
+	int id_avtostatus;
     void save();
 private:
     void serialize(Serialize &s);

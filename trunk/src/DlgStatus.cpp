@@ -21,8 +21,8 @@
 
 extern HINSTANCE	g_hInst;			// current instance
 extern RosterListView::ref rosterWnd;
-
-
+extern LONG timstatus;
+extern int idautostatus;
 void streamShutdown(ResourceContextRef rc);
 int initJabber(ResourceContextRef rc);
 
@@ -88,7 +88,10 @@ INT_PTR CALLBACK DlgStatus::dialogProc(HWND hDlg, UINT message, WPARAM wParam, L
                 std::string to;
                 GetDlgItemText(hDlg, IDC_E_JID, to); std::trim(to);
                 p->rc->sendPresence(to.c_str(), status, pmessage, priority);
+
             } else {
+				idautostatus=0;
+				timstatus=0;
                 //store selected presence
                 p->rc->status=status;
                 p->rc->presenceMessage=pmessage;

@@ -37,7 +37,8 @@ extern SmileParser *smileParser;
 extern HWND		mainWnd;
 extern TabsCtrlRef tabs;			/* to vCard ICO */
 HMENU g_hnicknames;
-
+extern LONG timstatus;
+extern int idautostatus;
 //LONG tolshina=400;
 //////////////////////////////////////////////////////////////////////////
 // WARNING!!! ONLY FOR WM2003 and higher
@@ -602,7 +603,8 @@ void ChatView::sendJabberMessage() {
 
     std::trimTail(body);
     if (body.length()==0) return;
-
+timstatus=0;
+if(idautostatus==1)idautostatus=2;
     Message::ref msg=Message::ref(new Message(body, rc->account->getNickname(), false, Message::SENT, strtime::getCurrentUtc() ));
     bool muc=boost::dynamic_pointer_cast<MucRoom>(contact);
 if (Config::getInstance()->history)
@@ -644,6 +646,7 @@ if (Config::getInstance()->history)
             out->addChildNS("request","urn:xmpp:receipts");
     }
     composing=false;
+
     //Reset form
     rc->jabberStream->sendStanza(*out);
 
@@ -661,7 +664,7 @@ void ChatView::sendJabberMessagesb() {
 
     wchar_t *buf=new wchar_t[len+1];
     wchar_t *buf2=new wchar_t[len+12];
-	
+
     int actualLen=SendMessage(editWnd, WM_GETTEXT, len, (LPARAM) buf);
 	wcscpy(buf2,L"Тема:");
 	wcscat(buf2,(const wchar_t*)buf);
@@ -681,8 +684,8 @@ void ChatView::sendJabberMessagesb() {
     msgList->moveCursorEnd();
     redraw();
 
-    
-
+    	timstatus=0;
+if(idautostatus==1)idautostatus=2;
     std::string to=contact->jid.getBareJid();
     JabberDataBlockRef out=msg->constructStanzasb(to);
     

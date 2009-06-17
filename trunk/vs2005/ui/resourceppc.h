@@ -80,6 +80,7 @@
 #define IDC_X_DELIVERY                  1044
 #define IDC_X_CLIENT                    1044
 #define IDC_X_COMPOSING                 1045
+#define IDC_AVTOSTATUS                  1045
 #define IDC_X_SOUNDS                    1046
 #define IDC_X_VIBRA                     1047
 #define IDC_X_DIALUP                    1048
@@ -102,12 +103,17 @@
 #define IDC_X_AWAT                      1056
 #define IDC_SOUND_STATUS2               1057
 #define IDC_VS_STATUS                   1057
+#define IDC_TIME_AVTOSTATUS             1057
 #define IDC_VS_CONFCHAT                 1058
+#define IDC_AVTOSTATUS_MESS             1058
+#define IDC_ID_AVTOSTATUS               1059
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
 #define IDC_SB                          1682
 #define IDC_RECONNECT_TRIES             5325
+#define IDC_PINGAKIV                    5326
+#define IDC_PONGALIV                    5327
 #define IDS_WINDOWS23                   12987
 #define IDM_JABBER                      32775
 #define IDM_JABBER_STREAMINFO           32777
@@ -167,7 +173,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1057
+#define _APS_NEXT_CONTROL_VALUE         1060
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif

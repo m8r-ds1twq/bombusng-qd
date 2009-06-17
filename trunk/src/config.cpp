@@ -58,7 +58,8 @@ void Config::serialize( Serialize &s ) {
 	s.streamBool(vstrymess, false);
     //SIP control
     s.streamBool(raiseSIP, false);
-
+	std::string tempav="Autostatus: ";
+	s.streamString(avtomessage,tempav.c_str());
     
 
     //Automatic connection
@@ -85,5 +86,12 @@ void Config::serialize( Serialize &s ) {
 
 	s.streamInt(roster_font_height,16);
 	s.streamInt(roster_font_width,6);
+
+	s.streamInt(time_avtostatus,300);
+	s.streamInt(ping_aliv,150);
+	s.streamInt(pong_aliv,90);
+	s.streamInt(id_avtostatus,3);
+	s.streamBool(avtostatus, true);
+
 }
 
