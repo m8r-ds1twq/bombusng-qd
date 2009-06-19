@@ -46,6 +46,7 @@ public:
 	int ping_aliv;
 	int pong_aliv;
 	bool avtostatus;
+	bool tune_status;
 	int  time_avtostatus;
 	//int id_avtostatus;
 

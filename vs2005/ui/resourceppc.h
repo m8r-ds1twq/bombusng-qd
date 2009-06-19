@@ -96,6 +96,8 @@
 #define IDC_EDITX2                      1052
 #define IDC_X_ROSTER_FONT_HEIGHT        1053
 #define IDC_X_VSMESS                    1053
+#define IDC_EDITX3                      1053
+#define IDC_TUN_STATUS                  1053
 #define IDC_X_ROSTER_FONT_WIDTH         1054
 #define IDC_X_VSTRYMESS                 1054
 #define IDC_X_MSG_FONT_TOLSH            1055
