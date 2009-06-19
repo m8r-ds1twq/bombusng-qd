@@ -124,6 +124,7 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                 SetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_MUC, cfg->saveHistoryMuc);
                 SetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_IN_HTML, cfg->saveHistoryHtml);
 				SetDlgCheckBox(hDlg, IDC_EDITX2, cfg->editx2);
+				SetDlgCheckBox(hDlg, IDC_TUN_STATUS, cfg->tune_status);
             }
             if (npage==2) {
                 SetDlgCheckBox(hDlg, IDC_X_VIBRA, cfg->vibra);
@@ -197,6 +198,7 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                     GetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_MUC, cfg->saveHistoryMuc);
 					GetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_IN_HTML, cfg->saveHistoryHtml);
 					GetDlgCheckBox(hDlg, IDC_EDITX2, cfg->editx2);
+					GetDlgCheckBox(hDlg, IDC_TUN_STATUS, cfg->tune_status);
                 }
                 if (npage==2) {
                     GetDlgCheckBox(hDlg, IDC_X_VIBRA, cfg->vibra);

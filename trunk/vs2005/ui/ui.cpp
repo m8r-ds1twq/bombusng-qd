@@ -77,6 +77,37 @@ int idautostatus=0;//0-выкл 1-включЄн 2-выключить
 
 #define TIMER_ALIV Config::getInstance()->ping_aliv//¬–≈ћя ѕќ—ЋјЌ»я
 #define TIMER_ALIVP Config::getInstance()->pong_aliv //¬–≈ћя ќ∆»ƒјЌ»я
+std::wstring out_title;//чЄ играет
+std::wstring out_OriginalArtist;
+std::wstring out_title_st;
+std::wstring out_OriginalArtist_st;
+
+BOOL regmuz_mp(void){
+HKEY rKey;
+TCHAR title[515];
+*title=0;
+TCHAR OriginalArtist[515];
+*OriginalArtist=0;
+DWORD dwType = REG_BINARY;
+
+DWORD RegetPath = sizeof(title);
+DWORD RegetPath2 = sizeof(OriginalArtist);
+RegOpenKeyEx(HKEY_CURRENT_USER, L"System\\State\\MediaPlayer", 0, 0, &rKey);
+RegQueryValueEx(rKey, L"Title", NULL,  &dwType, (LPBYTE)title, &RegetPath);
+RegQueryValueEx(rKey, L"WM/OriginalArtist", NULL,  &dwType, (LPBYTE)OriginalArtist, &RegetPath2);
+RegCloseKey(rKey);
+out_title.assign(title);
+out_OriginalArtist.assign(OriginalArtist);
+if(rKey==ERROR_SUCCESS ){return 1;
+	}else{return 0;}
+}
+
+
+
+//utf8::wchar_utf8(out);
+
+
+
 
 BOOL timealivid=0;//0-счет 1-послали 
 // Global Variables:
@@ -365,11 +396,15 @@ WndRef chat2;
             // Parse the menu selections:
             switch (wmId) {
                 case IDM_HELP_ABOUT: {
+
                     DlgAbout(g_hInst, hWnd);
+
 				    break;
                 }
 				case ID_TOOLS_COLORRE:
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
+
+//MessageBox(hWnd, ,regmuz_mp(), 0);
 					 //colorsload();
 					break;
 				case AKTIVW:
@@ -1386,7 +1421,26 @@ void Shell_NotifyIcon(bool show, HWND hwnd){
 
 
 void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
-{
+{//музыка
+	if(Config::getInstance()->tune_status){
+	std::string muz="[";
+	if(rosterStatus){
+	if(!regmuz_mp()){
+		if(out_OriginalArtist_st!=out_OriginalArtist || out_title_st!=out_title){
+muz+=utf8::wchar_utf8(out_title)+"]-["+utf8::wchar_utf8(out_OriginalArtist)+"]";
+if(idautostatus==1){rc->presenceMessage=muz+"("+Config::getInstance()->avtomessage+strtime::toLocalTime(strtime::getCurrentUtc())+")";}else{rc->presenceMessage=muz;}
+		out_OriginalArtist_st=out_OriginalArtist;
+		out_title_st=out_title;
+rc->sendPresence();
+				rc->roster->setMUCStatus(rc->status);
+				Log::getInstance()->msg("set status",muz.c_str());
+		}
+	}}
+	}
+
+
+
+	//автостатус
 presence::PresenceIndex avnstatusconf;
 
 
@@ -1435,6 +1489,7 @@ if(idautostatus==2){
 std::string idVer;
 
 
+//кипалив
 ///хз -всЄ пашет-кроме реконекта
 if(timealivid  ){if(timaliv>=(TIMER_ALIV+TIMER_ALIVP)){
 timealivid=0;//непришло

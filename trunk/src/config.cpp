@@ -92,6 +92,7 @@ void Config::serialize( Serialize &s ) {
 	s.streamInt(pong_aliv,90);
 	s.streamInt(id_avtostatus,3);
 	s.streamBool(avtostatus, true);
+	s.streamBool(tune_status, true);
 
 }
 
