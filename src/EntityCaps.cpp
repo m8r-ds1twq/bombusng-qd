@@ -135,4 +135,7 @@ MyCaps::MyCaps() {
 
     addFeature("urn:xmpp:ping");    // xep-0199
     addFeature("urn:xmpp:time");
+	addFeature("http://jabber.org/protocol/pubsub");//XEP-0118 
+	addFeature("http://jabber.org/protocol/pubsub#publish");
+
 }

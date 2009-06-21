@@ -100,6 +100,7 @@
 #define IDC_TUN_STATUS                  1053
 #define IDC_X_ROSTER_FONT_WIDTH         1054
 #define IDC_X_VSTRYMESS                 1054
+#define IDC_TUN_PEP                     1054
 #define IDC_X_MSG_FONT_TOLSH            1055
 #define IDC_SOUND_STATUS                1055
 #define IDC_X_AWAT                      1056
@@ -109,9 +110,12 @@
 #define IDC_VS_CONFCHAT                 1058
 #define IDC_AVTOSTATUS_MESS             1058
 #define IDC_ID_AVTOSTATUS               1059
+#define IDC_LIST1                       1060
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
+#define IDC_X_HIS_CH_D                  1101
+#define IDC_X_HISTORY3                  1102
 #define IDC_SB                          1682
 #define IDC_RECONNECT_TRIES             5325
 #define IDC_PINGAKIV                    5326
@@ -155,6 +159,7 @@
 #define IDM_SHOW_STATUS_IN_MUC          32818
 #define IDM_SHOW_STATUS_IN_SIMPLE_CHAT  32819
 #define IDM_SAVE_HISTORY_MUC            32820
+#define IDC_X_HIS_MUC_D                 32820
 #define IDM_SAVE_HISTORY_IN_HTML        32821
 #define CGETNICK                        32821
 #define CQUOTE                          32822
@@ -175,7 +180,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1060
+#define _APS_NEXT_CONTROL_VALUE         1061
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif

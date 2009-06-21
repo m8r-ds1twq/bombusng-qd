@@ -93,6 +93,9 @@ void Config::serialize( Serialize &s ) {
 	s.streamInt(id_avtostatus,3);
 	s.streamBool(avtostatus, true);
 	s.streamBool(tune_status, true);
+	s.streamBool(his_muc_d, true);
+	s.streamBool(his_ch_d, true);
+	s.streamBool(tune_status_pep, true);
 
 }
 

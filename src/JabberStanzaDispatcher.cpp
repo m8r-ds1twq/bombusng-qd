@@ -10,8 +10,7 @@ JabberStanzaDispatcher::~JabberStanzaDispatcher(){};
 
 BOOL JabberStanzaDispatcher::dispatchDataBlock(JabberDataBlockRef block){
 
-    //StringRef sdebug=block->toXML();
-
+  
 	const std::string & blockId=block->getAttribute("id");
 	const std::string & blockType=block->getAttribute("type");
 	const std::string & blockTagName=block->getTagName();

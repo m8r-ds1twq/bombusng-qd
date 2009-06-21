@@ -213,6 +213,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
+				AdditionalOptions="&#x0D;&#x0A;"
 				Optimization="2"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="\libs\boost;..\..\zlib\include;..\..\include"
