@@ -15,10 +15,15 @@ void History::appendHistory( Contact::ref c, Message::ref msg, bool isMuc) {
 	std::wstring filePathavatar=appRootPath;
     std::string dd=strtime::toDateLocal(msg->time);
 	if(isMuc){
-	  filePath+=L"\\chatrooms\\"+utf8::utf8_wchar(dd.c_str())+L"\\";
+	  filePath+=L"\\chatrooms\\";
+		   if(Config::getInstance()->his_muc_d){filePath+=utf8::utf8_wchar(dd.c_str());
+		   filePath+=L"\\";}
 	}else{
 		filePathavatar+=L"userdata\\avatars\\";
-	  filePath+=L"\\"+utf8::utf8_wchar(dd.c_str())+L"\\";
+
+	  filePath+=L"\\";
+	  if(Config::getInstance()->his_ch_d){filePath+=utf8::utf8_wchar(dd.c_str());
+	  filePath+=L"\\";}
 	}
 CreateDirectory(filePath.c_str(), NULL);
     //todo: normalize filename

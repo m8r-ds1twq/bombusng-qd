@@ -152,6 +152,23 @@ HWND hwnvs;
 #define NOTIFY_ID 997
 static const GUID APP_GUID = { 0xbaeef0cf, 0xd06e, 0x490c, { 0x92, 0x6, 0x3b, 0x25, 0x25, 0xc2, 0x84, 0x9c } };
 
+std::wstring encloseHTML(std::wstring ostr) {
+  std::wstring::iterator s=ostr.begin(),smax=ostr.end();
+  std::wstring str;
+  str.reserve(smax-s);
+  while(s!=smax) {
+    switch(*s) { 
+      case '&': str+=L"&amp;"; break;
+      case '<': str+=L"&lt;"; break;
+      case '>': str+=L"&gt;"; break;
+      default: str+=*s;
+    }
+    s++;
+  }
+  return str;
+}
+
+
 HRESULT AddNotification(HWND hWnd,LPCTSTR notmess,int flagvs)
 {    //îêîøêè òóò
 	//flagvs:
@@ -1017,10 +1034,11 @@ cnotifs=cnotif;
 messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(from.c_str())+L"--</font></b><br><font color=\"";
 sprintf(cnotif,"#%06X\">",COLORS[15]);
 cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font></body>";
+messn1+= utf8::utf8_wchar(cnotifs)+encloseHTML(utf8::utf8_wchar(msg->body.c_str()))+L"</font></body>";
 
 bufc=c;
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
+
 AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
 }else{ 
 
@@ -1075,7 +1093,7 @@ cnotifs=cnotif;
 messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(c->getFullName())+L"--</font></b><br><font color=\"";
 sprintf(cnotif,"#%06X\">",COLORS[18]);
 cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(msg->body.c_str())+L"</font></body>";
+messn1+= utf8::utf8_wchar(cnotifs)+encloseHTML(utf8::utf8_wchar(msg->body.c_str()))+L"</font></body>";
 	
 //int result=MessageBox(NULL, messn1.c_str(), TEXT("Îòêğûòü"), MB_YESNOCANCEL | MB_ICONWARNING );
 
@@ -1160,12 +1178,12 @@ std::wstring statvs;
 	if(typevs=="chat" || typevs=="away" || typevs=="xa" || typevs=="dnd" || typevs=="online" || typevs=="offline"){
     statvs=L"<br>óñòàíîâèë ñòàòóñ:<br>"+utf8::utf8_wchar(typevs);
 
-		if(typevs=="chat")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#53ff53\"><br><b><br><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
-		if(typevs=="away")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#00cccc\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
-		if(typevs=="xa")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#7975cb\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
-		if(typevs=="dnd")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#cc0000\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
-		if(typevs=="online")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#ffffff\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
-		if(typevs=="offline")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#777777\"><br><b><font color=\"#ffffff\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="chat")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#53ff53\"><br><b><br><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
+		if(typevs=="away")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#00cccc\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
+		if(typevs=="xa")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#7975cb\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
+		if(typevs=="dnd")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#cc0000\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
+		if(typevs=="online")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#ffffff\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
+		if(typevs=="offline")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊĞÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊĞÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#777777\"><br><b><font color=\"#ffffff\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
 
 
 if (Config::getInstance()->vs_status && Config::getInstance()->vsmess){
@@ -1422,18 +1440,53 @@ void Shell_NotifyIcon(bool show, HWND hwnd){
 
 void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {//ìóçûêà
-	if(Config::getInstance()->tune_status){
-	std::string muz="[";
+	if(Config::getInstance()->tune_status || Config::getInstance()->tune_status_pep){
+	std::string muz;
 	if(rosterStatus){
 	if(!regmuz_mp()){
+		
 		if(out_OriginalArtist_st!=out_OriginalArtist || out_title_st!=out_title){
-muz+=utf8::wchar_utf8(out_title)+"]-["+utf8::wchar_utf8(out_OriginalArtist)+"]";
+muz+=utf8::wchar_utf8(out_title)+" "+utf8::wchar_utf8(out_OriginalArtist);
 if(idautostatus==1){rc->presenceMessage=muz+"("+Config::getInstance()->avtomessage+strtime::toLocalTime(strtime::getCurrentUtc())+")";}else{rc->presenceMessage=muz;}
 		out_OriginalArtist_st=out_OriginalArtist;
 		out_title_st=out_title;
-rc->sendPresence();
-				rc->roster->setMUCStatus(rc->status);
+if(Config::getInstance()->tune_status){
 				Log::getInstance()->msg("set status",muz.c_str());
+				rc->sendPresence();
+			rc->roster->setMUCStatus(rc->status);
+		}
+if(Config::getInstance()->tune_status_pep){
+JabberDataBlock iq=("iq");
+
+iq.setAttribute("type","set");
+iq.setAttribute("id",strtime::getRandom());
+JabberDataBlockRef pubsub=iq.addChildNS("pubsub","http://jabber.org/protocol/pubsub");
+JabberDataBlockRef publish=pubsub->addChild("publish");
+publish->setAttribute("node", "http://jabber.org/protocol/tune");
+JabberDataBlockRef item=publish->addChild("item");
+JabberDataBlockRef tune=item->addChildNS("tune","http://jabber.org/protocol/tune");
+JabberDataBlockRef artist=tune->addChild("artist",utf8::wchar_utf8(out_OriginalArtist).c_str());
+JabberDataBlockRef title=tune->addChild("title",utf8::wchar_utf8(out_title).c_str());
+rc->jabberStream->sendStanza(iq);
+Log::getInstance()->msg("set PEP",muz.c_str());
+}
+/*
+				<iq type="set" id="mni">
+	<pubsub xmlns='http://jabber.org/protocol/pubsub'>
+		<publish node='http://jabber.org/protocol/tune'>
+			<item>
+				<tune xmlns='http://jabber.org/protocol/tune'>
+					<artist>ıòî íå ìóçûêà</artist>
+					<title>áàëóşñü â õòìë</title>
+				</tune>
+			</item>
+		</publish>
+	</pubsub>
+</iq>
+
+				*/
+
+
 		}
 	}}
 	}

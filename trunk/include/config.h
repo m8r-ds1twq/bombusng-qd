@@ -48,6 +48,9 @@ public:
 	bool avtostatus;
 	bool tune_status;
 	int  time_avtostatus;
+	bool tune_status_pep;
+		bool his_ch_d;
+		bool his_muc_d;
 	//int id_avtostatus;
 
 
