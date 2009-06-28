@@ -1592,7 +1592,7 @@ void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 				if( aktiv_wp_sc>=AKTIV_PLAY){ vyvod_title();aktiv_wp_sc_flag=0;aktiv_wp_s=2;}}else{
 				if(aktiv_wp_s==2){
 					if(aktiv_wp_sc_not>=AKTIV_PLAY || out_OriginalArtist_st!=out_OriginalArtist || out_title_st!=out_title){if(aktiv_wp_sc_not>=AKTIV_PLAY)sbros_title();
-					aktiv_wp_sc_flag=1;aktiv_wp_s=1;
+					aktiv_wp_sc_flag=1;aktiv_wp_s=1;aktiv_wp_sc=0;
 					}
 			
 				}}
