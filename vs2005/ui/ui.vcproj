@@ -439,6 +439,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DlglocContact.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DlgMucJoin.cpp"
 				>
 			</File>
@@ -722,6 +726,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\DlgConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\DlglocContact.h"
 				>
 			</File>
 			<File

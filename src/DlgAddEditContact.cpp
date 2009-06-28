@@ -144,7 +144,7 @@ INT_PTR CALLBACK DlgAddEditContact::dialogProc(HWND hDlg, UINT message, WPARAM w
             delete p;
 			return TRUE;
 		}
-		if (LOWORD(wParam) == IDCANCEL)
+		if (LOWORD(wParam) == IDOK3)
 		{
 			EndDialog(hDlg, LOWORD(wParam));
             delete p;
