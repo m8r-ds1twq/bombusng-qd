@@ -25,6 +25,7 @@
 
 #include "DlgStatus.h"
 #include "DlgAddEditContact.h"
+#include "DlglocContact.h"
 #include "VcardForm.h"
 #include "ClientInfoForm.h"
 #include "ServiceDiscovery.h"
@@ -513,13 +514,14 @@ HMENU RosterListView::getContextMenu() {
             AppendMenu(hmenu, MF_STRING, RosterListView::VCARD,                    TEXT("VCard"));
             AppendMenu(hmenu, MF_STRING, RosterListView::CLIENTINFO,               TEXT("Инфо о клиенте"));
             AppendMenu(hmenu, MF_STRING, RosterListView::COMMANDS,                 TEXT("Команды"));
-
+			AppendMenu(hmenu, MF_STRING, RosterListView::LOCMES,          TEXT("Послать локацию"));
             AppendMenu(hmenu, MF_SEPARATOR , 0, NULL);
 
             if (type==RosterGroup::ROSTER) {
                 AppendMenu(hmenu, MF_STRING, RosterListView::EDITCONTACT,          TEXT("Изменить контакт"));
-
+                
                 HMENU subscrMenu=CreatePopupMenu();
+
                 AppendMenu(subscrMenu, MF_STRING, RosterListView::SUBSCRIBE, TEXT("Запросить подписку"));
                 AppendMenu(subscrMenu, MF_STRING, RosterListView::SUBSCRIBED, TEXT("Предоставить подписку"));
                 AppendMenu(subscrMenu, MF_STRING, RosterListView::UNSUBSCRIBED, TEXT("Отозвать подписку"));
@@ -717,6 +719,8 @@ void RosterListView::OnCommand( int cmdId, LONG lParam ) {
         case RosterListView::EDITCONTACT:
         case RosterListView::ADDCONTACT:
             DlgAddEditContact::createDialog(getHWnd(), rc, focusedContact); break;
+		case RosterListView::LOCMES:
+			DlglocContact::createDialog(getHWnd(), rc, focusedContact); break;
 
         case RosterListView::DELETECONTACT:
             {

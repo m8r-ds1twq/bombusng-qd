@@ -5,6 +5,7 @@
 #define IDS_APP_TITLE                   1
 #define IDC_UI                          2
 #define ID_VCARD                        3
+#define IDOK2                           3
 #define ID_VCARD_NICK                   4
 #define IDS_JABBER                      101
 #define IDR_MENU                        102
@@ -36,6 +37,7 @@
 #define IDI_BOMBUS                      130
 #define IDI_MESS                        135
 #define IDI_MESS_IC                     135
+#define IDD_LOC_CONTACT                 136
 #define IDC_STATIC_2                    202
 #define IDC_STATIC_3                    203
 #define IDC_STATIC_4                    204
@@ -64,7 +66,9 @@
 #define IDC_E_NICK                      1023
 #define IDC_C_SERVICE                   1024
 #define IDC_C_GROUP                     1025
+#define IDC_E_DOL                       1025
 #define IDC_X_SUBSCR                    1026
+#define IDC_E_LOCMES                    1026
 #define IDC_SAVE                        1028
 #define IDC_DELETE                      1029
 #define IDC_E_ROOM                      1030
@@ -112,6 +116,9 @@
 #define IDC_ID_AVTOSTATUS               1059
 #define IDC_LIST1                       1060
 #define IDC_X_HIS_MUCD                  1061
+#define IDC_E_JID2                      1062
+#define IDC_E_SHIR                      1063
+#define IDOK3                           1064
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
@@ -179,9 +186,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        136
+#define _APS_NEXT_RESOURCE_VALUE        137
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1062
+#define _APS_NEXT_CONTROL_VALUE         1065
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif
