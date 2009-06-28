@@ -111,6 +111,7 @@
 #define IDC_AVTOSTATUS_MESS             1058
 #define IDC_ID_AVTOSTATUS               1059
 #define IDC_LIST1                       1060
+#define IDC_X_HIS_MUCD                  1061
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
@@ -180,7 +181,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1061
+#define _APS_NEXT_CONTROL_VALUE         1062
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif

@@ -81,25 +81,46 @@ std::wstring out_title;//чЄ играет
 std::wstring out_OriginalArtist;
 std::wstring out_title_st;
 std::wstring out_OriginalArtist_st;
+#define AKTIV_PLAY 15  //¬–≈ћя Ќј –≈ј√»–ќ¬јЌ»≈
+int  aktiv_wp=0;
+long aktiv_wp_sc=0;//плеер играет-значение растЄт 1-2 сек 2-4 сек 3-6сек 4-8сек
+long aktiv_wp_sc_not=0;//плеер не играет-значение растЄт 1-2 сек 2-4 сек 3-6сек 4-8сек
+bool aktiv_wp_sc_flag=1;//0-не играет 1-играет
+int aktiv_wp_s=1;//
+
 
 BOOL regmuz_mp(void){
 HKEY rKey;
 TCHAR title[515];
+out_OriginalArtist_st=out_OriginalArtist;
+out_title_st=out_title;
 *title=0;
 TCHAR OriginalArtist[515];
 *OriginalArtist=0;
 DWORD dwType = REG_BINARY;
-
+DWORD dwType2 = REG_DWORD;
+ int aktiv_wp2=aktiv_wp;//старое
 DWORD RegetPath = sizeof(title);
 DWORD RegetPath2 = sizeof(OriginalArtist);
+DWORD RegetPath3 = sizeof(aktiv_wp);
 RegOpenKeyEx(HKEY_CURRENT_USER, L"System\\State\\MediaPlayer", 0, 0, &rKey);
 RegQueryValueEx(rKey, L"Title", NULL,  &dwType, (LPBYTE)title, &RegetPath);
 RegQueryValueEx(rKey, L"WM/OriginalArtist", NULL,  &dwType, (LPBYTE)OriginalArtist, &RegetPath2);
+RegQueryValueEx(rKey, L"Elapsed", NULL,  &dwType2, (LPBYTE)&aktiv_wp, &RegetPath3);
+
 RegCloseKey(rKey);
 out_title.assign(title);
 out_OriginalArtist.assign(OriginalArtist);
-if(rKey==ERROR_SUCCESS ){return 1;
-	}else{return 0;}
+if(aktiv_wp_sc>500)aktiv_wp_sc=0;
+if(aktiv_wp_sc_not>500)aktiv_wp_sc_not=0;
+if(aktiv_wp2 ==aktiv_wp && !aktiv_wp_sc_flag){++aktiv_wp_sc_not;aktiv_wp_sc=0;}
+if(aktiv_wp2 !=aktiv_wp && aktiv_wp_sc_flag){++aktiv_wp_sc;aktiv_wp_sc_not=0;}
+/*if(out_OriginalArtist_st!=out_OriginalArtist || out_title_st!=out_title){aktiv_wp_s=2;}else{
+	if(aktiv_wp_s!=1 && aktiv_wp2 !=aktiv_wp){aktiv_wp_s=2;}}
+if(aktiv_wp2 ==aktiv_wp){++aktiv_wp_sc_not;aktiv_wp_sc=0;}else{++aktiv_wp_sc;aktiv_wp_sc_not=0;}
+*/
+return 1;
+	
 }
 
 
@@ -167,7 +188,94 @@ std::wstring encloseHTML(std::wstring ostr) {
   }
   return str;
 }
+void sbros_title(void){std::string muz;
 
+muz+=utf8::wchar_utf8(out_title)+" "+utf8::wchar_utf8(out_OriginalArtist);
+rc->presenceMessage=" ";
+		out_OriginalArtist_st=out_OriginalArtist;
+		out_title_st=out_title;
+if(Config::getInstance()->tune_status){
+				Log::getInstance()->msg("set notstatus",muz.c_str());
+				rc->sendPresence();
+			rc->roster->setMUCStatus(rc->status);
+		}
+if(Config::getInstance()->tune_status_pep){
+JabberDataBlock iq=("iq");
+
+iq.setAttribute("type","set");
+iq.setAttribute("id",strtime::getRandom());
+JabberDataBlockRef pubsub=iq.addChildNS("pubsub","http://jabber.org/protocol/pubsub");
+JabberDataBlockRef publish=pubsub->addChild("publish");
+publish->setAttribute("node", "http://jabber.org/protocol/tune");
+JabberDataBlockRef item=publish->addChild("item");
+JabberDataBlockRef tune=item->addChildNS("tune","http://jabber.org/protocol/tune");
+//JabberDataBlockRef artist=tune->addChild("artist",utf8::wchar_utf8(out_OriginalArtist).c_str());
+//JabberDataBlockRef title=tune->addChild("title",utf8::wchar_utf8(out_title).c_str());
+rc->jabberStream->sendStanza(iq);
+Log::getInstance()->msg("set notPEP",muz.c_str());
+}
+/*
+				<iq type="set" id="mni">
+	<pubsub xmlns='http://jabber.org/protocol/pubsub'>
+		<publish node='http://jabber.org/protocol/tune'>
+			<item>
+				<tune xmlns='http://jabber.org/protocol/tune'>
+					<artist>это не музыка</artist>
+					<title>балуюсь в хтмл</title>
+				</tune>
+			</item>
+		</publish>
+	</pubsub>
+</iq>
+
+				*/
+
+}
+void vyvod_title(void){
+std::string muz;
+
+muz+=utf8::wchar_utf8(out_title)+" "+utf8::wchar_utf8(out_OriginalArtist);
+if(idautostatus==1){rc->presenceMessage=muz+"("+Config::getInstance()->avtomessage+strtime::toLocalTime(strtime::getCurrentUtc())+")";}else{rc->presenceMessage=muz;}
+		
+if(Config::getInstance()->tune_status){
+				Log::getInstance()->msg("set status",muz.c_str());
+				rc->sendPresence();
+			rc->roster->setMUCStatus(rc->status);
+		}
+if(Config::getInstance()->tune_status_pep){
+JabberDataBlock iq=("iq");
+
+iq.setAttribute("type","set");
+iq.setAttribute("id",strtime::getRandom());
+JabberDataBlockRef pubsub=iq.addChildNS("pubsub","http://jabber.org/protocol/pubsub");
+JabberDataBlockRef publish=pubsub->addChild("publish");
+publish->setAttribute("node", "http://jabber.org/protocol/tune");
+JabberDataBlockRef item=publish->addChild("item");
+JabberDataBlockRef tune=item->addChildNS("tune","http://jabber.org/protocol/tune");
+JabberDataBlockRef artist=tune->addChild("artist",utf8::wchar_utf8(out_OriginalArtist).c_str());
+JabberDataBlockRef title=tune->addChild("title",utf8::wchar_utf8(out_title).c_str());
+rc->jabberStream->sendStanza(iq);
+Log::getInstance()->msg("set PEP",muz.c_str());
+}
+/*
+				<iq type="set" id="mni">
+	<pubsub xmlns='http://jabber.org/protocol/pubsub'>
+		<publish node='http://jabber.org/protocol/tune'>
+			<item>
+				<tune xmlns='http://jabber.org/protocol/tune'>
+					<artist>это не музыка</artist>
+					<title>балуюсь в хтмл</title>
+				</tune>
+			</item>
+		</publish>
+	</pubsub>
+</iq>
+
+				*/
+
+
+		
+}
 
 HRESULT AddNotification(HWND hWnd,LPCTSTR notmess,int flagvs)
 {    //окошки тут
@@ -398,7 +506,7 @@ hwnvs=mainWnd;
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
+{std::wstring bufff=L"";
     int wmId, wmEvent;
     PAINTSTRUCT ps;
     HDC hdc;
@@ -419,9 +527,42 @@ WndRef chat2;
 				    break;
                 }
 				case ID_TOOLS_COLORRE:
-SHNotificationRemove(&APP_GUID, NOTIFY_ID);
+					if(aktiv_wp_s<0)bufff+=L" aktiv_wp_s<0 ";
+					if(aktiv_wp_s==0)bufff+=L" aktiv_wp_s==0 ";
+					if(aktiv_wp_s==1)bufff+=L" aktiv_wp_s==1 ";
+					if(aktiv_wp_s==2)bufff+=L" aktiv_wp_s==2 ";
+					if(aktiv_wp_s==3)bufff+=L" aktiv_wp_s==3 ";
+					if(aktiv_wp_s==4)bufff+=L" aktiv_wp_s==4 ";
+					if(aktiv_wp_s>4)bufff+=L" aktiv_wp_s>4 ";
+					if(aktiv_wp_sc==0)bufff+=L" aktiv_wp_sc==0 ";
+					if(aktiv_wp_sc==1)bufff+=L" aktiv_wp_sc==1 ";
+					if(aktiv_wp_sc==2)bufff+=L" aktiv_wp_sc==2 ";
+					if(aktiv_wp_sc==3)bufff+=L" aktiv_wp_sc==3 ";
+					if(aktiv_wp_sc==4)bufff+=L" aktiv_wp_sc==4 ";
+					if(aktiv_wp_sc==5)bufff+=L" aktiv_wp_sc==5 ";
+					if(aktiv_wp_sc==6)bufff+=L" aktiv_wp_sc==6 ";
+					if(aktiv_wp_sc==7)bufff+=L" aktiv_wp_sc==7 ";
+					if(aktiv_wp_sc==8)bufff+=L" aktiv_wp_sc==8 ";
+					if(aktiv_wp_sc==9)bufff+=L" aktiv_wp_sc==9 ";
+					if(aktiv_wp_sc>9)bufff=+L" aktiv_wp_sc>9 ";
+					if(aktiv_wp_sc<0)bufff=+L" aktiv_wp_sc<0 ";
+					if(aktiv_wp_sc_not==0)bufff+=L" aktiv_wp_sc_not==0 ";
+					if(aktiv_wp_sc_not==1)bufff+=L" aktiv_wp_sc_not==1 ";
+					if(aktiv_wp_sc_not==2)bufff+=L" aktiv_wp_sc_not==2 ";
+					if(aktiv_wp_sc_not==3)bufff+=L" aktiv_wp_sc_not==3 ";
+					if(aktiv_wp_sc_not==4)bufff+=L" aktiv_wp_sc_not==4 ";
+					if(aktiv_wp_sc_not==5)bufff+=L" aktiv_wp_sc_not==5 ";
+					if(aktiv_wp_sc_not==6)bufff+=L" aktiv_wp_sc_not==6 ";
+					if(aktiv_wp_sc_not==7)bufff+=L" aktiv_wp_sc_not==7 ";
+					if(aktiv_wp_sc_not==8)bufff+=L" aktiv_wp_sc_not==8 ";
+					if(aktiv_wp_sc_not==9)bufff+=L" aktiv_wp_sc_not==9 ";
+					if(aktiv_wp_sc_not>9)bufff=+L" aktiv_wp_sc_not>9 ";
+					if(aktiv_wp_sc_not<0)bufff=+L" aktiv_wp_sc_not<0 ";
 
-//MessageBox(hWnd, ,regmuz_mp(), 0);
+
+SHNotificationRemove(&APP_GUID, NOTIFY_ID);
+MessageBox(hWnd,bufff.c_str(),bufff.c_str(), 0);
+//
 					 //colorsload();
 					break;
 				case AKTIVW:
@@ -1441,56 +1582,22 @@ void Shell_NotifyIcon(bool show, HWND hwnd){
 void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {//музыка
 	if(Config::getInstance()->tune_status || Config::getInstance()->tune_status_pep){
-	std::string muz;
+	
 	if(rosterStatus){
-	if(!regmuz_mp()){
-		
-		if(out_OriginalArtist_st!=out_OriginalArtist || out_title_st!=out_title){
-muz+=utf8::wchar_utf8(out_title)+" "+utf8::wchar_utf8(out_OriginalArtist);
-if(idautostatus==1){rc->presenceMessage=muz+"("+Config::getInstance()->avtomessage+strtime::toLocalTime(strtime::getCurrentUtc())+")";}else{rc->presenceMessage=muz;}
-		out_OriginalArtist_st=out_OriginalArtist;
-		out_title_st=out_title;
-if(Config::getInstance()->tune_status){
-				Log::getInstance()->msg("set status",muz.c_str());
-				rc->sendPresence();
-			rc->roster->setMUCStatus(rc->status);
-		}
-if(Config::getInstance()->tune_status_pep){
-JabberDataBlock iq=("iq");
 
-iq.setAttribute("type","set");
-iq.setAttribute("id",strtime::getRandom());
-JabberDataBlockRef pubsub=iq.addChildNS("pubsub","http://jabber.org/protocol/pubsub");
-JabberDataBlockRef publish=pubsub->addChild("publish");
-publish->setAttribute("node", "http://jabber.org/protocol/tune");
-JabberDataBlockRef item=publish->addChild("item");
-JabberDataBlockRef tune=item->addChildNS("tune","http://jabber.org/protocol/tune");
-JabberDataBlockRef artist=tune->addChild("artist",utf8::wchar_utf8(out_OriginalArtist).c_str());
-JabberDataBlockRef title=tune->addChild("title",utf8::wchar_utf8(out_title).c_str());
-rc->jabberStream->sendStanza(iq);
-Log::getInstance()->msg("set PEP",muz.c_str());
-}
-/*
-				<iq type="set" id="mni">
-	<pubsub xmlns='http://jabber.org/protocol/pubsub'>
-		<publish node='http://jabber.org/protocol/tune'>
-			<item>
-				<tune xmlns='http://jabber.org/protocol/tune'>
-					<artist>это не музыка</artist>
-					<title>балуюсь в хтмл</title>
-				</tune>
-			</item>
-		</publish>
-	</pubsub>
-</iq>
-
-				*/
-
-
+		if(regmuz_mp()){
+			
+			
+			if(aktiv_wp_s==1){
+				if( aktiv_wp_sc>=AKTIV_PLAY){ vyvod_title();aktiv_wp_sc_flag=0;aktiv_wp_s=2;}}else{
+				if(aktiv_wp_s==2){
+					if(aktiv_wp_sc_not>=AKTIV_PLAY || out_OriginalArtist_st!=out_OriginalArtist || out_title_st!=out_title){if(aktiv_wp_sc_not>=AKTIV_PLAY)sbros_title();
+					aktiv_wp_sc_flag=1;aktiv_wp_s=1;
+					}
+			
+				}}
 		}
 	}}
-	}
-
 
 
 	//автостатус
