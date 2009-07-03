@@ -38,6 +38,7 @@
 #define IDI_MESS                        135
 #define IDI_MESS_IC                     135
 #define IDD_LOC_CONTACT                 136
+#define IDD_STATUSY                     137
 #define IDC_STATIC_2                    202
 #define IDC_STATIC_3                    203
 #define IDC_STATIC_4                    204
@@ -83,6 +84,8 @@
 #define IDC_X_PRESENCESORT              1043
 #define IDC_X_DELIVERY                  1044
 #define IDC_X_CLIENT                    1044
+#define IDC_X_PRESENCESORT2             1044
+#define IDC_AUTOJOINROOM                1044
 #define IDC_X_COMPOSING                 1045
 #define IDC_AVTOSTATUS                  1045
 #define IDC_X_SOUNDS                    1046
@@ -186,7 +189,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        137
+#define _APS_NEXT_RESOURCE_VALUE        138
 #define _APS_NEXT_COMMAND_VALUE         32804
 #define _APS_NEXT_CONTROL_VALUE         1065
 #define _APS_NEXT_SYMED_VALUE           116

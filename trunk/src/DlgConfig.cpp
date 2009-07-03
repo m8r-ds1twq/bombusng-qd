@@ -36,38 +36,46 @@ INT_PTR CALLBACK DlgProcConfigP4(HWND hDlg, UINT message, WPARAM wParam, LPARAM 
     return DlgProcConfig(hDlg, message, wParam, lParam, 3);
 }
 
+INT_PTR CALLBACK DlgProcConfigP5(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+    return DlgProcConfig(hDlg, message, wParam, lParam, 4);
+}
 void DialogConfigMP(HINSTANCE g_hInst, HWND parent) {
 
-    PROPSHEETPAGE pages[4];
+    PROPSHEETPAGE pages[5];
     pages[0].dwSize=sizeof(PROPSHEETPAGE);
     pages[1].dwSize=sizeof(PROPSHEETPAGE);
     pages[2].dwSize=sizeof(PROPSHEETPAGE);
     pages[3].dwSize=sizeof(PROPSHEETPAGE);
-
+	pages[4].dwSize=sizeof(PROPSHEETPAGE);
     pages[0].hInstance=g_hInst;
     pages[1].hInstance=g_hInst;
     pages[2].hInstance=g_hInst;
     pages[3].hInstance=g_hInst;
+    pages[4].hInstance=g_hInst;
 
     pages[0].dwFlags=PSP_DEFAULT;
     pages[1].dwFlags=PSP_DEFAULT;
     pages[2].dwFlags=PSP_DEFAULT;
     pages[3].dwFlags=PSP_DEFAULT;
+    pages[4].dwFlags=PSP_DEFAULT;
 
     pages[0].pszTemplate=(LPCTSTR)IDD_OPTIONS1;
     pages[1].pszTemplate=(LPCTSTR)IDD_OPTIONS2;
     pages[2].pszTemplate=(LPCTSTR)IDD_OPTIONS3;
     pages[3].pszTemplate=(LPCTSTR)IDD_OPTIONS4;
+    pages[4].pszTemplate=(LPCTSTR)IDD_STATUSY;
 
     pages[0].pfnDlgProc=DlgProcConfigP1;
     pages[1].pfnDlgProc=DlgProcConfigP2;
     pages[2].pfnDlgProc=DlgProcConfigP3;
     pages[3].pfnDlgProc=DlgProcConfigP4;
+    pages[4].pfnDlgProc=DlgProcConfigP5;
 
     pages[0].lParam=0;
     pages[1].lParam=1;
     pages[2].lParam=2;
     pages[3].lParam=3;
+    pages[4].lParam=4;
 
     PROPSHEETHEADER psh;
     psh.dwSize=sizeof(PROPSHEETHEADER);
@@ -75,7 +83,7 @@ void DialogConfigMP(HINSTANCE g_hInst, HWND parent) {
     psh.hwndParent=parent;
     psh.hInstance=g_hInst;
     psh.pszCaption=L"Options";
-    psh.nPages=4;
+    psh.nPages=5;
     psh.nStartPage=0;
     psh.ppsp=pages;
 	psh.pfnCallback = PropSheetCallback;
@@ -102,16 +110,11 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
             if (npage==0) {
                 SetDlgCheckBox(hDlg, IDC_X_OFFLINES, cfg->showOfflines);
                 SetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
-                SetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
+                
                 SetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
-				SetDlgCheckBox(hDlg, IDC_AVTOSTATUS, cfg->avtostatus);
+				
 				SetDlgItemInt(hDlg, IDC_X_AWAT,cfg->avatarWidth, false);
 				
-				SetDlgItemInt(hDlg, IDC_TIME_AVTOSTATUS,cfg->time_avtostatus, false);
- for (int i=0; i<6; i++)
-                SendDlgItemMessage(hDlg,IDC_ID_AVTOSTATUS, CB_ADDSTRING, 0, (LPARAM) statusNames2[i]);
-            SendDlgItemMessage(hDlg, IDC_ID_AVTOSTATUS, CB_SETCURSEL, cfg->id_avtostatus, 0);
-            SetDlgItemText(hDlg, IDC_AVTOSTATUS_MESS, cfg->avtomessage);
             }
             if (npage==1) {
                 SetDlgCheckBox(hDlg, IDC_X_COMPOSING, cfg->composing);
@@ -119,13 +122,10 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                 SetDlgCheckBox(hDlg, IDC_X_HISTORY, cfg->history);
                 SetDlgCheckBox(hDlg, IDC_X_SIP, cfg->raiseSIP);
 
-                SetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_MUC, cfg->showMucPresences);
-                SetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_SIMPLE_CHAT, cfg->showStatusInSimpleChat);
                 SetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_MUC, cfg->saveHistoryMuc);
                 SetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_IN_HTML, cfg->saveHistoryHtml);
 				SetDlgCheckBox(hDlg, IDC_EDITX2, cfg->editx2);
-				SetDlgCheckBox(hDlg, IDC_TUN_STATUS, cfg->tune_status);
-				SetDlgCheckBox(hDlg, IDC_TUN_PEP, cfg->tune_status_pep);
+				
 				SetDlgCheckBox(hDlg, IDC_X_HIS_CH_D, cfg->his_ch_d);
 				SetDlgCheckBox(hDlg, IDC_X_HIS_MUCD, cfg->his_muc_d);
 
@@ -162,6 +162,21 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 				EDITTEXT        IDC_X_ROSTER_FONT_WIDTH,88,73,18,10,ES_AUTOHSCROLL | ES_NUMBER
 				*/
             }
+			if (npage==4) {
+				SetDlgCheckBox(hDlg, IDC_AUTOJOINROOM, cfg->autojoinroom);				
+				SetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
+				SetDlgCheckBox(hDlg, IDC_AVTOSTATUS, cfg->avtostatus);
+				SetDlgItemInt(hDlg, IDC_TIME_AVTOSTATUS,cfg->time_avtostatus, false);
+ for (int i=0; i<6; i++)
+                SendDlgItemMessage(hDlg,IDC_ID_AVTOSTATUS, CB_ADDSTRING, 0, (LPARAM) statusNames2[i]);
+            SendDlgItemMessage(hDlg, IDC_ID_AVTOSTATUS, CB_SETCURSEL, cfg->id_avtostatus, 0);
+            SetDlgItemText(hDlg, IDC_AVTOSTATUS_MESS, cfg->avtomessage);
+			SetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_MUC, cfg->showMucPresences);
+                SetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_SIMPLE_CHAT, cfg->showStatusInSimpleChat);
+				SetDlgCheckBox(hDlg, IDC_TUN_STATUS, cfg->tune_status);
+				SetDlgCheckBox(hDlg, IDC_TUN_PEP, cfg->tune_status_pep);
+			
+			}
             //finally
         }
         return (INT_PTR)TRUE;
@@ -173,40 +188,30 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 
                 Config::ref cfg=Config::getInstance();
 
-                if (npage==0) {BOOL awat1,stat2;
+                if (npage==0) {BOOL awat1;
                     GetDlgCheckBox(hDlg, IDC_X_OFFLINES, cfg->showOfflines);
                     GetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
-                    GetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
+
                     GetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
-					GetDlgCheckBox(hDlg, IDC_AVTOSTATUS, cfg->avtostatus);
+					
 					cfg->avatarWidth = GetDlgItemInt(hDlg, IDC_X_AWAT, &awat1 , false);
 					if (!awat1) cfg->avatarWidth = 50;
 
-					
-					cfg->time_avtostatus = GetDlgItemInt(hDlg, IDC_TIME_AVTOSTATUS, &stat2 , false);
-					if (!stat2) cfg->time_avtostatus = 300;
-
-					cfg->id_avtostatus =(int) SendDlgItemMessage(hDlg, IDC_ID_AVTOSTATUS, CB_GETCURSEL, 0,0);
-						
-					if (!(cfg->id_avtostatus)) cfg->id_avtostatus = 3;
-					GetDlgItemText(hDlg, IDC_AVTOSTATUS_MESS, cfg->avtomessage);
-					if(!(cfg->avtomessage.c_str())){cfg->avtomessage="Autostatus: ";}
+				
                 }
                 if (npage==1) {
                     GetDlgCheckBox(hDlg, IDC_X_COMPOSING, cfg->composing);
                     GetDlgCheckBox(hDlg, IDC_X_DELIVERY, cfg->delivered);
                     GetDlgCheckBox(hDlg, IDC_X_HISTORY, cfg->history);
                     GetDlgCheckBox(hDlg, IDC_X_SIP, cfg->raiseSIP);
-
-                    GetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_MUC, cfg->showMucPresences);
-                    GetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_SIMPLE_CHAT, cfg->showStatusInSimpleChat);
+					
                     GetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_MUC, cfg->saveHistoryMuc);
 					GetDlgCheckBox(hDlg, IDM_SAVE_HISTORY_IN_HTML, cfg->saveHistoryHtml);
 					GetDlgCheckBox(hDlg, IDC_EDITX2, cfg->editx2);
-					GetDlgCheckBox(hDlg, IDC_TUN_STATUS, cfg->tune_status);
+					
 					GetDlgCheckBox(hDlg, IDC_X_HIS_MUCD, cfg->his_muc_d);
 					GetDlgCheckBox(hDlg, IDC_X_HIS_CH_D, cfg->his_ch_d);
-					GetDlgCheckBox(hDlg, IDC_TUN_PEP, cfg->tune_status_pep);
+					
 
                 }
                 if (npage==2) {
@@ -224,7 +229,7 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                 if (npage==3) {
                     GetDlgCheckBox(hDlg, IDC_X_AUTOCONNECT, cfg->connectOnStartup);
 
-					BOOL f1Int,f2Int,f3Int,f4Int,reconint,tabc2,tol2,idav,pingal1,pongal2;
+					BOOL f1Int,f2Int,f3Int,f4Int,reconint,tabc2,tol2,pingal1,pongal2;
 					extern int tabHeight;
 
 					tabHeight-=cfg->tabconf;
@@ -255,7 +260,26 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 					cfg->pong_aliv = GetDlgItemInt(hDlg, IDC_PONGALIV, &pongal2 , false);
 					if (!pongal2) cfg->pong_aliv = 90;
 
-                }
+				}
+				if (npage==4) {BOOL stat2;
+				GetDlgCheckBox(hDlg, IDC_AUTOJOINROOM, cfg->autojoinroom);
+				GetDlgCheckBox(hDlg, IDC_X_PRESENCESORT, cfg->sortByStatus);
+				GetDlgCheckBox(hDlg, IDC_AVTOSTATUS, cfg->avtostatus);
+					cfg->time_avtostatus = GetDlgItemInt(hDlg, IDC_TIME_AVTOSTATUS, &stat2 , false);
+					if (!stat2) cfg->time_avtostatus = 300;
+
+					cfg->id_avtostatus =(int) SendDlgItemMessage(hDlg, IDC_ID_AVTOSTATUS, CB_GETCURSEL, 0,0);
+						
+					if (!(cfg->id_avtostatus)) cfg->id_avtostatus = 3;
+					GetDlgItemText(hDlg, IDC_AVTOSTATUS_MESS, cfg->avtomessage);
+					if(!(cfg->avtomessage.c_str())){cfg->avtomessage="Autostatus: ";}
+					GetDlgCheckBox(hDlg, IDC_TUN_PEP, cfg->tune_status_pep);
+					GetDlgCheckBox(hDlg, IDC_TUN_STATUS, cfg->tune_status);
+                    GetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_MUC, cfg->showMucPresences);
+                    GetDlgCheckBox(hDlg, IDM_SHOW_STATUS_IN_SIMPLE_CHAT, cfg->showStatusInSimpleChat);
+
+				
+				}
                 return TRUE;
             }
             return FALSE;

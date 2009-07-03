@@ -2,7 +2,8 @@
 #include "JabberStream.h"
 #include "TimeFunc.h"
 #include "Log.h"
-
+#include "ProcessMUC.h"
+#include "config.h"
 ProcessResult MucBookmarks::blockArrived( JabberDataBlockRef block, const ResourceContextRef rc ) {
     std::string &type=block->getAttribute("type");
     if (type=="error") {
@@ -33,6 +34,24 @@ ProcessResult MucBookmarks::blockArrived( JabberDataBlockRef block, const Resour
                 b->nick=item->getChildText("nick");
                 b->password=item->getChildText("password");
                 const std::string &autoJoin=item->getAttribute("autojoin");
+				if(Config::getInstance()->autojoinroom){
+				if(autoJoin=="1" || autoJoin=="true"){
+				 Jid roomNode;
+            
+            roomNode.setServer(item->getAttribute("jid"));
+            roomNode.setResource(item->getChildText("nick"));
+ProcessMuc::initMuc(roomNode.getJid(), item->getChildText("password"), rc);
+JabberDataBlockRef joinPresence=constructPresence(
+                roomNode.getJid().c_str(), 
+                rc->status, 
+               rc->presenceMessage, 
+               rc->priority); 
+            JabberDataBlockRef xMuc=joinPresence->addChildNS("x", "http://jabber.org/protocol/muc");
+            if (b->password.c_str()) xMuc->addChild("password",b->password.c_str());
+
+           
+                rc->jabberStream->sendStanza(joinPresence);
+				}}
                 b->autoJoin=(autoJoin=="1" || autoJoin=="true"); 
             }
         }

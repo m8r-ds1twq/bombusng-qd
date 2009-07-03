@@ -91,6 +91,7 @@ void Config::serialize( Serialize &s ) {
 	s.streamInt(ping_aliv,150);
 	s.streamInt(pong_aliv,90);
 	s.streamInt(id_avtostatus,3);
+	s.streamBool(autojoinroom,true);
 	s.streamBool(avtostatus, true);
 	s.streamBool(tune_status, true);
 	s.streamBool(his_muc_d, true);
