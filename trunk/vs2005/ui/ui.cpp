@@ -1654,15 +1654,15 @@ std::string idVer;
 if(timealivid  ){if(timaliv>=(TIMER_ALIV+TIMER_ALIVP)){
 timealivid=0;//непришло
 timaliv=0;
-Log::getInstance()->msg("ERROR ",rc->account->getServer().c_str());
+Log::getInstance()->msg("ERROR pong ",rc->account->getServer().c_str());
 //тут както надо реконект что ниже не пашет
 //MessageBox(mainWnd,  TEXT("Потеря связи перезапустите программу"),TEXT("Ошибка "), 0);
 Notify::PlayNotify(5);Notify::PlayNotify(5);Notify::PlayNotify(5);
 if (reconnectTry > 0)
-		{
-			reconnectTry--;
+		{Notify::PlayNotify(5);
+			/*reconnectTry--;
 	
-			Notify::PlayNotify(5);
+			
 			rc->status=presence::OFFLINE;
 rosterWnd->setIcon(rc->status);
 
@@ -1693,7 +1693,7 @@ JabberStream::run(NULL);
 
 rc->status=presence::ONLINE;
 rc->sendPresence();
-        initJabber(rc);
+        initJabber(rc);*/
 
 }
 
