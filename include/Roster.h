@@ -150,6 +150,7 @@ public:
     void setIcon(int iconIndex);
 
     void openChat(Contact::ref contact);
+	void openChess(Contact::ref contact);
 
     enum actions {
         OPENCHAT=50000,
@@ -163,7 +164,7 @@ public:
         MUCNONE, MUCMEMBER, MUCADMIN, MUCOWNER,
         MUCCONFIG, MLOUTCASTS, MLMEMBERS, MLADMINS, MLOWNERS,
         MUC_REENTER, MUC_LEAVE,
-        SSH_DEFAULT, SSH_ENABLED, SSH_DISABLED
+        SSH_DEFAULT, SSH_ENABLED, SSH_DISABLED, OPENCHESS
     };
 private:
 };

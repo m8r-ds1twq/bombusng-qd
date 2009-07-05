@@ -399,6 +399,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ChessView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ClientInfoForm.cpp"
 				>
 			</File>
@@ -686,6 +690,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\ChatView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ChessView.h"
 				>
 			</File>
 			<File
