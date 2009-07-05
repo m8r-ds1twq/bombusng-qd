@@ -78,7 +78,7 @@ p->rc->jabberStream->sendStanza(messageloc);
             delete p;
 			return TRUE;
 		}
-		if (LOWORD(wParam) == IDCANCEL)
+		if (LOWORD(wParam) == IDOK3)
 		{
 			EndDialog(hDlg, LOWORD(wParam));
             delete p;
