@@ -22,6 +22,7 @@
 #include "wmuser.h"
 #include "TabCtrl.h"
 #include "ChatView.h"
+#include "ChessView.h"
 
 #include "DlgStatus.h"
 #include "DlgAddEditContact.h"
@@ -639,6 +640,8 @@ HMENU RosterListView::getContextMenu() {
 
         }
 
+		AppendMenu(hmenu, MF_SEPARATOR, 0, NULL);
+		AppendMenu(hmenu, MF_STRING, RosterListView::OPENCHESS, L"Шахматы");
     }
 
     return hmenu;
@@ -818,8 +821,9 @@ void RosterListView::OnCommand( int cmdId, LONG lParam ) {
                 mc->changeAffiliation(rc, newAffiliation);
                 break;
             }
-
-            //case RosterView::RENAMEGRP:
+		case RosterListView::OPENCHESS:
+			openChess(focusedContact);
+			break;
         default:
             break;
         }
@@ -849,6 +853,15 @@ void RosterListView::openChat(Contact::ref contact) {
     tabs->switchByWndRef(chat);
 }
 
+void RosterListView::openChess(Contact::ref contact)
+{
+	WndRef chat=tabs->getWindowByODR(contact);
+	if (!chat) {
+		chat=WndRef(new ChessView(tabs->getHWnd(), contact));
+	    tabs->addWindow(chat);
+    }
+	tabs->switchByWndRef(chat);
+}
 
 #ifdef ENABLE_ROSTER_VIEW
 //////////////////////////////////////////////////////////////////////////
