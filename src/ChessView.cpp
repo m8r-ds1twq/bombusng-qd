@@ -79,6 +79,7 @@ bmpc=SHLoadImageFile(filePathCHESS.c_str());
 HDC hdcImage2=CreateCompatibleDC(NULL);
     SelectObject(hdcSKIN, bmpc);
 SelectObject(hdcImage2, bmpc);
+flagaktiv=0;
 transparentColorCH=GetPixel(hdcImage2, 0, 0);DeleteDC(hdcImage2);
 
 
@@ -98,9 +99,9 @@ int Chesspoleinit[9][9]={
 int cvtp=1;
 
 	for(int x=1;x<=8;x++){for(int y=1;y<=8;y++){
-		Chesspolecv[y][x]=cvtp;
+		
 		Chesspole[y][x]=Chesspoleinit[y][x];
-		if(cvtp==2){cvtp=1;}else{cvtp=2;}
+	
 	}}
     BOOST_ASSERT(parent);
 
@@ -122,19 +123,7 @@ LRESULT CALLBACK ChessView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPA
 {int cvtp=1;int figura;
 	PAINTSTRUCT ps;
     HDC hdc;
-int Chesspoleinit[9][9]={
-	0 , 0, 0, 0, 0, 0, 0, 0, 0,
-	0 ,12,13,14,15,16,14,13,12,
-	0 ,11,11,11,11,11,11,11,11,
-	0 , 0, 0, 0, 0, 0, 0, 0, 0,
-	0 , 0, 0, 0, 0, 0, 0, 0, 0,
-	0 , 0, 0, 0, 0, 0, 0, 0, 0,
-	0 , 0, 0, 0, 0, 0, 0, 0, 0,
-	0 , 1, 1, 1, 1, 1, 1, 1, 1,
-	0 , 2, 3, 4, 5, 6, 4, 3, 2
 
-
-};
 
 ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 	switch (message)
@@ -150,16 +139,96 @@ ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 
 		for(int x=1;x<=8;x++){
 			for(int y=1;y<=8;y++){
-				
-			if(/*p->Chesspolecv[y][x]*/cvtp==1){ TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 13*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}else{TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 14*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
+		
+			if(cvtp==1){ TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 13*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}else{TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 14*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
 			if(cvtp==2){cvtp=1;}else{cvtp=2;}//рисуем квадрат
 			//рисуем фигуру
-			if(/**/p->Chesspole[y][x]/**//*Chesspoleinit[y][x]*/>6){figura=/**/p->Chesspole[y][x]-4;}else{figura=/**/p->Chesspole[y][x];}
-TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, figura*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);
+			if(p->Chesspole[y][x]>6){figura=p->Chesspole[y][x]-4;}else{figura=p->Chesspole[y][x];}
+						 TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, figura*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);
+			if(p->flagaktiv==1 && p->fokus_x==x && p->fokus_y==y){TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 15*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
+			
 			}
 			if(cvtp==2){cvtp=1;}else{cvtp=2;}
 		}
 		EndPaint(hWnd, &ps);
+		break;
+
+	case  IDC_WM_VYBOR:{
+        
+				
+					p->fokus_x=(p->pt2.x)/RAZMER+1;
+					p->fokus_y=(p->pt2.y)/RAZMER+1;
+				p->fokus_f=p->Chesspole[p->fokus_y][p->fokus_x];
+				p->flagaktiv=1;//нажали
+
+				SendMessage (hWnd, WM_PAINT, 0, 0);
+RedrawWindow(hWnd,0,0,0);
+					  // UpdateWindow(hWnd);
+					   }
+			
+			
+					   break;
+
+	case IDC_WM_STAV://тут обрабатываем правильность хода в зависимости от фигуры
+					p->Chesspole[p->fokus_y][p->fokus_x]=0;
+				p->fokus_x=(p->pt2.x)/RAZMER+1;
+				p->fokus_y=(p->pt2.y)/RAZMER+1;
+				
+				p->Chesspole[p->fokus_y][p->fokus_x]=p->fokus_f;
+				p->flagaktiv=0;//поставили
+				//UpdateWindow(hWnd);//
+
+				SendMessage (hWnd, WM_PAINT,0 , 0);
+				RedrawWindow(hWnd,0,0,0);
+					 
+					 break;
+
+		case WM_LBUTTONDOWN:
+
+		
+
+			SetFocus(hWnd);
+            SHRGINFO    shrg;
+            shrg.cbSize = sizeof(shrg);
+            shrg.hwndClient = hWnd;
+            shrg.ptDown.x = LOWORD(lParam);
+            shrg.ptDown.y = HIWORD(lParam);
+            shrg.dwFlags = SHRG_RETURNCMD /*| SHRG_NOANIMATION*/;
+
+			if (SHRecognizeGesture(&shrg) == GN_CONTEXTMENU) {
+
+              
+ 
+                HMENU hmenu = CreatePopupMenu();
+                if (hmenu==NULL) break;
+
+				
+                
+                if(p->flagaktiv==0)AppendMenu(hmenu, MF_STRING, WM_VYBOR, TEXT("Выбрать") );
+				if(p->flagaktiv==1){AppendMenu(hmenu, MF_STRING, WM_STAV, TEXT("Поставить") );
+				AppendMenu(hmenu, MF_STRING, WM_OTMENA_VYBOR, TEXT("Отмена выбора") );}
+                AppendMenu(hmenu, MF_SEPARATOR, 0, NULL);
+                AppendMenu(hmenu, MF_STRING, EM_UNDO, TEXT("Отмена") );
+				AppendMenu(hmenu, MF_STRING, SB_, TEXT("Пригласить") );
+				AppendMenu(hmenu, MF_STRING, SB_, TEXT("Сдаться") );
+				AppendMenu(hmenu, MF_STRING, SB_, TEXT("Ничья") );
+POINT pt;		 p->pt2.x=GET_X_LPARAM(lParam);
+				p->pt2.y=GET_Y_LPARAM(lParam);
+               pt.x=GET_X_LPARAM(lParam);
+				pt.y=GET_Y_LPARAM(lParam);
+                ClientToScreen(hWnd, &pt);
+
+                int cmdId=TrackPopupMenuEx(hmenu,
+                    TPM_BOTTOMALIGN | TPM_RETURNCMD,
+                    pt.x, pt.y,
+                    hWnd,
+                    NULL);
+                if (cmdId==WM_VYBOR)PostMessage(hWnd, IDC_WM_VYBOR,0 , 0);
+                if (cmdId==WM_STAV)PostMessage(hWnd, IDC_WM_STAV,0 , 0);
+
+                return 0;
+			}
+
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -172,6 +241,4 @@ const ODR * ChessView::getODR() const
 	return contact.get();
 }
 
-void ChessView::initpole(void){
 
-}

@@ -18,8 +18,11 @@ class ChessView : public Wnd{
 public:
     ChessView(HWND parent, Contact::ref contact);
     //virtual ~ChessView();
-
-int Chesspolecv[9][9];//	// цвет квадрата 1-белая 2-чёрная
+int flagaktiv;
+int fokus_x;
+int fokus_y;
+int fokus_f;
+POINT pt2;
 int Chesspole[9][9];
 int Chesspolest[9][9];//старое поле
 //[y][x] 1-8
