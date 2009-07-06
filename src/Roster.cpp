@@ -858,6 +858,7 @@ void RosterListView::openChess(Contact::ref contact)
 	WndRef chat=tabs->getWindowByODR(contact);
 	if (!chat) {
 		chat=WndRef(new ChessView(tabs->getHWnd(), contact));
+
 	    tabs->addWindow(chat);
     }
 	tabs->switchByWndRef(chat);

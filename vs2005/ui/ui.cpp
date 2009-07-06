@@ -526,7 +526,7 @@ WndRef chat2;
 
 				    break;
                 }
-				case ID_TOOLS_COLORRE:
+				case ID_TOOLS_COLORRE:/*
 					if(aktiv_wp_s<0)bufff+=L" aktiv_wp_s<0 ";
 					if(aktiv_wp_s==0)bufff+=L" aktiv_wp_s==0 ";
 					if(aktiv_wp_s==1)bufff+=L" aktiv_wp_s==1 ";
@@ -558,7 +558,7 @@ WndRef chat2;
 					if(aktiv_wp_sc_not==9)bufff+=L" aktiv_wp_sc_not==9 ";
 					if(aktiv_wp_sc_not>9)bufff=+L" aktiv_wp_sc_not>9 ";
 					if(aktiv_wp_sc_not<0)bufff=+L" aktiv_wp_sc_not<0 ";
-
+*/
 
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 MessageBox(hWnd,bufff.c_str(),bufff.c_str(), 0);

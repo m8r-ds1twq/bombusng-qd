@@ -19,6 +19,13 @@ public:
     ChessView(HWND parent, Contact::ref contact);
     //virtual ~ChessView();
 
+int Chesspolecv[9][9];//	// цвет квадрата 1-белая 2-чёрная
+int Chesspole[9][9];
+int Chesspolest[9][9];//старое поле
+//[y][x] 1-8
+
+//фигура квадрата 0-пусто  белые  1-пешка  2-тура  3-конь  4-слон  5-ферзь 6-король
+//                         чёрные 11-пешка 12-тура 13-конь 14-слон 15-ферзь 16-король
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
     virtual const ODR * getODR() const;
 
@@ -32,6 +39,8 @@ protected:
     Contact::ref contact;
 
 private:
+void ChessView::initpole(void);
+void ChessView::paintchess(HDC hdc);
     static ATOM windowClass;
     ATOM RegisterWindowClass();
 };

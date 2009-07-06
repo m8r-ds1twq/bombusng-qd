@@ -29,22 +29,29 @@
 #include <windows.h> 
 #include <Wingdi.h> 
 extern std::wstring appRootPath;
+std::wstring filePathCHESS;
 extern HINSTANCE			g_hInst;
 extern int tabHeight;
 extern HWND	g_hWndMenuBar;		// menu bar handle
 extern ResourceContextRef rc;
-extern ImgListRef skin;
+
 extern SmileParser *smileParser;
 extern HWND		mainWnd;
 extern TabsCtrlRef tabs;			/* to vCard ICO */
-extern LONG timstatus;
-extern int idautostatus;
+#define RAZMER 30
+#define RAZMERSKIN 32
 //////////////////////////////////////////////////////////////////////////
 // WARNING!!! ONLY FOR WM2003 and higher
 //////////////////////////////////////////////////////////////////////////
 #ifndef DT_END_ELLIPSIS
 #define DT_END_ELLIPSIS 0x00008000
 #endif
+
+HBITMAP bmpc;
+BITMAP bmc;
+HDC hdcSKIN;
+COLORREF transparentColorCH;
+HWND _HWND;
 
 ATOM ChessView::windowClass=0;
 
@@ -65,7 +72,36 @@ ATOM ChessView::RegisterWindowClass() {
 }
 
 ChessView::ChessView( HWND parent, Contact::ref contact ) 
-{
+{   _HWND=parent;
+filePathCHESS=appRootPath+L"\\games\\chess\\chess_1.png";
+bmpc=SHLoadImageFile(filePathCHESS.c_str());
+/*GetObject(bmpc, sizeof(bmc), &bmc);*/
+HDC hdcImage2=CreateCompatibleDC(NULL);
+    SelectObject(hdcSKIN, bmpc);
+SelectObject(hdcImage2, bmpc);
+transparentColorCH=GetPixel(hdcImage2, 0, 0);DeleteDC(hdcImage2);
+
+
+int Chesspoleinit[9][9]={
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 ,12,13,14,15,16,14,13,12,
+	0 ,11,11,11,11,11,11,11,11,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 1, 1, 1, 1, 1, 1, 1, 1,
+	0 , 2, 3, 4, 5, 6, 4, 3, 2
+
+
+};
+int cvtp=1;
+
+	for(int x=1;x<=8;x++){for(int y=1;y<=8;y++){
+		Chesspolecv[y][x]=cvtp;
+		Chesspole[y][x]=Chesspoleinit[y][x];
+		if(cvtp==2){cvtp=1;}else{cvtp=2;}
+	}}
     BOOST_ASSERT(parent);
 
     if (windowClass==0)
@@ -83,15 +119,42 @@ ChessView::ChessView( HWND parent, Contact::ref contact )
 }
 
 LRESULT CALLBACK ChessView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
-{
+{int cvtp=1;int figura;
 	PAINTSTRUCT ps;
     HDC hdc;
+int Chesspoleinit[9][9]={
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 ,12,13,14,15,16,14,13,12,
+	0 ,11,11,11,11,11,11,11,11,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 0, 0, 0, 0, 0, 0, 0, 0,
+	0 , 1, 1, 1, 1, 1, 1, 1, 1,
+	0 , 2, 3, 4, 5, 6, 4, 3, 2
 
+
+};
+
+ChessView *p=(ChessView *) GetWindowLong(_HWND, GWL_USERDATA);
 	switch (message)
 	{
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		// тута рисовать
+		cvtp=1;
+
+		for(int x=1;x<=8;x++){
+			for(int y=1;y<=8;y++){
+				
+			if(/*p->Chesspolecv[y][x]*/cvtp==1){ TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 13*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}else{TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 14*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
+			if(cvtp==2){cvtp=1;}else{cvtp=2;}//рисуем квадрат
+			//рисуем фигуру
+			if(/*p->Chesspole[y][x]*/Chesspoleinit[y][x]>6){figura=/*p->Chesspole*/Chesspoleinit[y][x]-4;}else{figura=/*p->Chesspole*/Chesspoleinit[y][x];}
+TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, figura*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);
+			}
+			if(cvtp==2){cvtp=1;}else{cvtp=2;}
+		}
 		EndPaint(hWnd, &ps);
 		break;
 	default:
@@ -103,4 +166,8 @@ LRESULT CALLBACK ChessView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPA
 const ODR * ChessView::getODR() const
 {
 	return contact.get();
+}
+
+void ChessView::initpole(void){
+
 }
