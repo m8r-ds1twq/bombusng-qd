@@ -136,9 +136,13 @@ int Chesspoleinit[9][9]={
 
 };
 
-ChessView *p=(ChessView *) GetWindowLong(_HWND, GWL_USERDATA);
+ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 	switch (message)
 	{
+	case WM_CREATE:
+		p=(ChessView *) (((CREATESTRUCT *)lParam)->lpCreateParams);
+        SetWindowLong(hWnd, GWL_USERDATA, (LONG) p );
+		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		// тута рисовать
@@ -150,7 +154,7 @@ ChessView *p=(ChessView *) GetWindowLong(_HWND, GWL_USERDATA);
 			if(/*p->Chesspolecv[y][x]*/cvtp==1){ TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 13*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}else{TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 14*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
 			if(cvtp==2){cvtp=1;}else{cvtp=2;}//рисуем квадрат
 			//рисуем фигуру
-			if(/*p->Chesspole[y][x]*/Chesspoleinit[y][x]>6){figura=/*p->Chesspole*/Chesspoleinit[y][x]-4;}else{figura=/*p->Chesspole*/Chesspoleinit[y][x];}
+			if(/**/p->Chesspole[y][x]/**//*Chesspoleinit[y][x]*/>6){figura=/**/p->Chesspole[y][x]-4;}else{figura=/**/p->Chesspole[y][x];}
 TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, figura*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);
 			}
 			if(cvtp==2){cvtp=1;}else{cvtp=2;}
