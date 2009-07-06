@@ -183,6 +183,13 @@
 #define IDM_EXIT                        40000
 #define IDM_HELP_ABOUT                  40002
 #define AKTIVW                          42350
+#define WM_VYBOR                        42351
+#define WM_STAV                         42352
+#define WM_OTMENA_VYBOR                 42353
+#define IDC_WM_VYBOR                    42354
+#define IDC_WM_STAV                     42355
+
+
 
 // Next default values for new objects
 // 
