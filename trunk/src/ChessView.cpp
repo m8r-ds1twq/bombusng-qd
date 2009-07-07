@@ -120,10 +120,12 @@ int cvtp=1;
 }
 
 LRESULT CALLBACK ChessView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
-{int cvtp=1;int figura;
+{int cvtp=1;int figura;RECT rc2;BOOL postv;BOOL postvput;
+rc2.left=rc2.top=0;
+rc2.bottom=rc2.right=8*RAZMER+2;
 	PAINTSTRUCT ps;
     HDC hdc;
-
+int xf,yf;//для постановки-куда предпологаем ставить
 
 ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 	switch (message)
@@ -160,31 +162,43 @@ ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 					p->fokus_y=(p->pt2.y)/RAZMER+1;
 				p->fokus_f=p->Chesspole[p->fokus_y][p->fokus_x];
 				p->flagaktiv=1;//нажали
+				if(p->fokus_f==0)p->flagaktiv=0;
+				InvalidateRect(hWnd,&rc2,0);
+				PostMessage (hWnd, WM_PAINT, 0, 0);
 
-				SendMessage (hWnd, WM_PAINT, 0, 0);
-RedrawWindow(hWnd,0,0,0);
 					  // UpdateWindow(hWnd);
 					   }
 			
 			
 					   break;
 
-	case IDC_WM_STAV://тут обрабатываем правильность хода в зависимости от фигуры
-					p->Chesspole[p->fokus_y][p->fokus_x]=0;
+	case IDC_WM_STAV:
+		xf=(p->pt2.x)/RAZMER+1;
+		yf=(p->pt2.y)/RAZMER+1;
+				postvput=0;
+				postv=0;//тут обрабатываем правильность хода в зависимости от фигуры
+				if(p->fokus_f<7 && (p->Chesspole[yf][xf]>=7 || p->Chesspole[yf][xf]==0))postv=1;//на чужие или пусто
+				if(p->fokus_f>6 && (p->Chesspole[yf][xf]<=6))postv=1;
+
+			
+				//поставили
+				if(postv){
+				p->Chesspole[p->fokus_y][p->fokus_x]=0;
 				p->fokus_x=(p->pt2.x)/RAZMER+1;
 				p->fokus_y=(p->pt2.y)/RAZMER+1;
 				
 				p->Chesspole[p->fokus_y][p->fokus_x]=p->fokus_f;
-				p->flagaktiv=0;//поставили
-				//UpdateWindow(hWnd);//
 
-				SendMessage (hWnd, WM_PAINT,0 , 0);
-				RedrawWindow(hWnd,0,0,0);
+				}
+				//UpdateWindow(hWnd);//
+				InvalidateRect(hWnd,&rc2,0);
+				PostMessage (hWnd, WM_PAINT,0 , 0);
+					p->flagaktiv=0;
 					 
 					 break;
 
 		case WM_LBUTTONDOWN:
-
+			
 		
 
 			SetFocus(hWnd);
