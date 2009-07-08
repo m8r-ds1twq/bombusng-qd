@@ -22,6 +22,7 @@ int flagaktiv;
 int fokus_x;
 int fokus_y;
 int fokus_f;
+int rocb,rokch;//рокировка 1разрешена,2тока вправо ,3тока влево ,4запретить
 POINT pt2;
 int Chesspole[9][9];
 int Chesspolest[9][9];//старое поле
