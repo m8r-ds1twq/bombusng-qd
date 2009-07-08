@@ -126,6 +126,7 @@ rc2.bottom=rc2.right=8*RAZMER+2;
 	PAINTSTRUCT ps;
     HDC hdc;
 int xf,yf;//дл€ постановки-куда предпологаем ставить
+int z;int z2;
 
 ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 	switch (message)
@@ -176,13 +177,151 @@ ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 		xf=(p->pt2.x)/RAZMER+1;
 		yf=(p->pt2.y)/RAZMER+1;
 				postvput=0;
-				postv=0;//тут обрабатываем правильность хода в зависимости от фигуры
+				postv=0;
 				if(p->fokus_f<7 && (p->Chesspole[yf][xf]>=7 || p->Chesspole[yf][xf]==0))postv=1;//на чужие или пусто
 				if(p->fokus_f>6 && (p->Chesspole[yf][xf]<=6))postv=1;
+               
+				if(postv){//тут обрабатываем правильность хода в зависимости от фигуры
+					if(p->fokus_f==1){postvput=0;//пешка
+						if(p->fokus_y==7){//перепрыгнем на 2 вначале
+							if(yf==5 && p->fokus_x==xf && p->Chesspole[6][xf]==0 && p->Chesspole[5][xf]==0){postvput=1;}else if(yf==6 && p->fokus_x==xf && p->Chesspole[6][xf]==0){postvput=1;}//
+						
+						}else{//на 1вперЄд
+						
+							if(yf==p->fokus_y-1  && p->fokus_x==xf && p->Chesspole[yf][xf]==0){postvput=1;}//вперед на фигуру не идЄм
+							if(yf==p->fokus_y-1  && (p->fokus_x==xf-1 || p->fokus_x==xf+1) && p->Chesspole[yf][xf]>6)postvput=1;//бьЄм на искось
 
+						}
+
+
+					//пешка-end
+					}else if(p->fokus_f==11){postvput=0;//чЄрнпешка
+						
+						if(p->fokus_y==2){//перепрыгнем на 2 вначале
+							if(yf==4 && p->fokus_x==xf && p->Chesspole[3][xf]==0 && p->Chesspole[4][xf]==0){postvput=1;}else if(yf==3 && p->fokus_x==xf){postvput=1;}//
+						
+						}else{//на 1вперЄд
+						
+							if(yf==p->fokus_y+1  && p->fokus_x==xf && p->Chesspole[yf][xf]==0){postvput=1;}//вперед на фигуру не идЄм
+							if(yf==p->fokus_y+1  && (p->fokus_x==xf-1 || p->fokus_x==xf+1) && p->Chesspole[yf][xf]<7)postvput=1;//бьЄм на искось
+
+							}
+
+					//чЄрнпешка-end
+					}else if(p->fokus_f==2 || p->fokus_f==12){//тура
+						if(yf==p->fokus_y){postvput=1;//горизонталь
+						if(xf>p->fokus_x){//вправо
+							for(z=p->fokus_x+1;z<xf;z++){if(p->Chesspole[yf][z]!=0)postvput=0;}}else if(xf<p->fokus_x){//¬Ћ≈¬ќ
+							for(z=p->fokus_x-1;z>xf;z--){if(p->Chesspole[yf][z]!=0)postvput=0;}}
+
+						
+
+						}else if(xf==p->fokus_x){postvput=1;//¬≈–“» јЋ№
+						if(yf>p->fokus_y){//¬¬≈–’
+							for(z=p->fokus_y+1;z<yf;z++){if(p->Chesspole[z][xf]!=0)postvput=0;}}else if(yf<p->fokus_y){//¬Ќ»«
+							for(z=p->fokus_y-1;z>yf;z--){if(p->Chesspole[z][xf]!=0)postvput=0;}}
+
+						
+
+						}
+
+
+//тура-end
+					}else if(p->fokus_f==3 || p->fokus_f==13){//конь
+
+						if(xf==p->fokus_x-2 && yf==p->fokus_y-1)postvput=1;
+						if(xf==p->fokus_x-1 && yf==p->fokus_y-2)postvput=1;
+						if(xf==p->fokus_x+1 && yf==p->fokus_y-2)postvput=1;
+						if(xf==p->fokus_x+2 && yf==p->fokus_y-1)postvput=1;
+						if(xf==p->fokus_x+2 && yf==p->fokus_y+1)postvput=1;
+						if(xf==p->fokus_x+1 && yf==p->fokus_y+2)postvput=1;
+						if(xf==p->fokus_x-1 && yf==p->fokus_y+2)postvput=1;
+						if(xf==p->fokus_x-2 && yf==p->fokus_y+1)postvput=1;
+
+				
+//конь-конец
+					}else if(p->fokus_f==4 || p->fokus_f==14){//слон
+
+						if(abs(p->fokus_x-xf)==abs(p->fokus_y-yf)){postvput=1;
+						z2=0;
+						if(p->fokus_x<xf){//право
+							for(z=p->fokus_x+1;z<xf;z++){
+								if(p->fokus_y<yf && p->Chesspole[p->fokus_y+1+z2][z]!=0){postvput=0;}
+								else 
+									if(p->fokus_y>yf && p->Chesspole[p->fokus_y-1-z2][z]!=0){postvput=0;}
+							++z2;
+							}
+						}else 
+							if(p->fokus_x>xf){
+							for(z=p->fokus_x-1;z>xf;z--){
+								if(p->fokus_y<yf && p->Chesspole[p->fokus_y+1+z2][z]!=0){postvput=0;}
+								else 
+									if(p->fokus_y>yf && p->Chesspole[p->fokus_y-1-z2][z]!=0){postvput=0;}
+							++z2;
+						}
+						
+							}}
+						
+						
+
+//слон-конец
+					}else if(p->fokus_f==5 || p->fokus_f==15){//ферзь
+
+//как слон 
+					if(abs(p->fokus_x-xf)==abs(p->fokus_y-yf)){postvput=1;
+						z2=0;
+						if(p->fokus_x<xf){//право
+							for(z=p->fokus_x+1;z<xf;z++){
+								if(p->fokus_y<yf && p->Chesspole[p->fokus_y+1+z2][z]!=0){postvput=0;}
+								else 
+									if(p->fokus_y>yf && p->Chesspole[p->fokus_y-1-z2][z]!=0){postvput=0;}
+							++z2;
+							}
+						}else 
+							if(p->fokus_x>xf){
+							for(z=p->fokus_x-1;z>xf;z--){
+								if(p->fokus_y<yf && p->Chesspole[p->fokus_y+1+z2][z]!=0){postvput=0;}
+								else 
+									if(p->fokus_y>yf && p->Chesspole[p->fokus_y-1-z2][z]!=0){postvput=0;}
+							++z2;
+						}
+						
+							}}else{
+//или тура
+						if(yf==p->fokus_y){postvput=1;//горизонталь
+						if(xf>p->fokus_x){//вправо
+							for(z=p->fokus_x+1;z<xf;z++){if(p->Chesspole[yf][z]!=0)postvput=0;}}else if(xf<p->fokus_x){//¬Ћ≈¬ќ
+							for(z=p->fokus_x-1;z>xf;z--){if(p->Chesspole[yf][z]!=0)postvput=0;}}
+
+						
+
+						}else if(xf==p->fokus_x){postvput=1;//¬≈–“» јЋ№
+						if(yf>p->fokus_y){//¬¬≈–’
+							for(z=p->fokus_y+1;z<yf;z++){if(p->Chesspole[z][xf]!=0)postvput=0;}}else if(yf<p->fokus_y){//¬Ќ»«
+							for(z=p->fokus_y-1;z>yf;z--){if(p->Chesspole[z][xf]!=0)postvput=0;}}
+
+						
+
+						}}
+
+
+//конец ферз
+					}else if(p->fokus_f==6 || p->fokus_f==16){postvput=0;//король
+
+						if(abs(yf-p->fokus_y)==1  || abs(p->fokus_x-xf)==1){postvput=1;
+						if(p->fokus_f==6)p->rocb=4;
+						if(p->fokus_f==16)p->rokch=4;
+						
+						
+						}//тут будет рокоровка else if()
+
+//конец король
+					}
+
+				}
 			
 				//поставили
-				if(postv){
+				if( postvput){
 				p->Chesspole[p->fokus_y][p->fokus_x]=0;
 				p->fokus_x=(p->pt2.x)/RAZMER+1;
 				p->fokus_y=(p->pt2.y)/RAZMER+1;
