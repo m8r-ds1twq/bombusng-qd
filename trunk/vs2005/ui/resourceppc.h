@@ -88,6 +88,7 @@
 #define IDC_AUTOJOINROOM                1044
 #define IDC_X_COMPOSING                 1045
 #define IDC_AVTOSTATUS                  1045
+#define IDC_XML_LOG                     1145
 #define IDC_X_SOUNDS                    1046
 #define IDC_X_VIBRA                     1047
 #define IDC_X_DIALUP                    1048
@@ -188,8 +189,6 @@
 #define WM_OTMENA_VYBOR                 42353
 #define IDC_WM_VYBOR                    42354
 #define IDC_WM_STAV                     42355
-
-
 
 // Next default values for new objects
 // 
