@@ -7,7 +7,7 @@
 //#include <boost/bind.hpp>
 #include <stack>
 #include <exception>
-
+#include "Config.h"
 #include <utf8.hpp>
 #include <windows.h>
 
@@ -90,7 +90,7 @@ bool JabberStream::tagEnd(const std::string & tagname) {
             err+=xe->toString();
             throw std::exception(err.c_str());
         }
-
+		if(Config::getInstance()->xmllog){Log::getInstance()->msg("xml.in: ", stanza->toXML()->c_str());}
 		JabberStanzaDispatcher * dispatcher= rc->jabberStanzaDispatcherRT.get();
 		if (dispatcher!=NULL) 
             if (! dispatcher->dispatchDataBlock(stanza)) {
@@ -164,6 +164,7 @@ void JabberStream::sendStanza(JabberDataBlockRef stanza){
 }
 
 void JabberStream::sendStanza(JabberDataBlock &stanza){
+	if(Config::getInstance()->xmllog){Log::getInstance()->msg("xml.out: ", stanza.toXML()->c_str());}
     try {
 	    connection->write( stanza.toXML() );
     } catch (std::exception ex) {

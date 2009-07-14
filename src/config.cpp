@@ -75,7 +75,7 @@ void Config::serialize( Serialize &s ) {
 	s.streamBool(saveHistoryHtml, false);
 	s.streamBool(confchat, true);
 	s.streamBool(confclient, true);
-
+	
 	s.streamInt(avatarWidth,50);
 	s.streamInt(tabconf,12);
 	
@@ -97,6 +97,7 @@ void Config::serialize( Serialize &s ) {
 	s.streamBool(his_muc_d, true);
 	s.streamBool(his_ch_d, true);
 	s.streamBool(tune_status_pep, true);
+    s.streamBool(xmllog, false);
 
 }
 

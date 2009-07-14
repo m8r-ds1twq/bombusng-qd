@@ -112,8 +112,10 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                 SetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
                 
                 SetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
-				
+				SetDlgCheckBox(hDlg, IDC_XML_LOG, cfg->xmllog);
 				SetDlgItemInt(hDlg, IDC_X_AWAT,cfg->avatarWidth, false);
+				
+
 				
             }
             if (npage==1) {
@@ -193,6 +195,7 @@ INT_PTR CALLBACK DlgProcConfig(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
                     GetDlgCheckBox(hDlg, IDC_X_GROUPS, cfg->showGroups);
 
                     GetDlgCheckBox(hDlg, IDC_X_CLIENT, cfg->confclient);
+					GetDlgCheckBox(hDlg, IDC_XML_LOG, cfg->xmllog);
 					
 					cfg->avatarWidth = GetDlgItemInt(hDlg, IDC_X_AWAT, &awat1 , false);
 					if (!awat1) cfg->avatarWidth = 50;

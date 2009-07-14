@@ -34,6 +34,7 @@ public:
     bool connectOnStartup;
 	bool confchat;
 	bool confclient;
+	bool xmllog;
 	int avatarWidth;
 	int tabconf;
 	std::string  avtomessage;
