@@ -448,7 +448,7 @@ if(hInst2){
 
     LoadString(g_hInst, IDS_VERSION, wbuf, sizeof(wbuf));
     appVersion=utf8::wchar_utf8(wbuf);
-    appName="BombusQD";//
+    appName="BombusQD-NG";//
      colorsload();//load color
 timerid=SetTimer(0,MAIN_TIMER_ID,TIMER_TIME,TimerProc);
     if (!MyRegisterClass(hInstance, szWindowClass)) 	return FALSE;

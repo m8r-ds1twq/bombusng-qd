@@ -46,7 +46,8 @@ JabberDataBlockRef joinPresence=constructPresence(
                 rc->status, 
                rc->presenceMessage, 
                rc->priority); 
-            JabberDataBlockRef xMuc=joinPresence->addChildNS("x", "http://jabber.org/protocol/muc");
+			JabberDataBlockRef xMuc=joinPresence->addnod("c", "http://bombusng-qd.googlecode.com");
+           xMuc=joinPresence->addChildNS("x", "http://jabber.org/protocol/muc");
             if (b->password.c_str()) xMuc->addChild("password",b->password.c_str());
 
            

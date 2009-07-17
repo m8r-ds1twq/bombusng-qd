@@ -17,7 +17,7 @@ JabberAccount::JabberAccount(const std::string &bareJid, const std::string &reso
 
 JabberAccount::JabberAccount( LPCTSTR filename ) {
     init();
-    setResource("BombusQD(WM)");
+    setResource("BombusQD-NG(WM)");
     Serialize s(filename, Serialize::READ);
     serialize(s);
 }
