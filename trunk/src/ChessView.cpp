@@ -50,9 +50,12 @@ extern TabsCtrlRef tabs;			/* to vCard ICO */
 HBITMAP bmpc;
 BITMAP bmc;
 HDC hdcSKIN;
+HDC hMemDC1;
+HBITMAP hBmp1;
 COLORREF transparentColorCH;
 HWND _HWND;
-
+HWND hWin;
+ 
 ATOM ChessView::windowClass=0;
 
 ATOM ChessView::RegisterWindowClass() {
@@ -124,36 +127,55 @@ LRESULT CALLBACK ChessView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPA
 rc2.left=rc2.top=0;
 rc2.bottom=rc2.right=8*RAZMER+2;
 	PAINTSTRUCT ps;
-    HDC hdc;
+   HDC hdc;
+HDC  hdc2;
 int xf,yf;//для постановки-куда предпологаем ставить
 int z;int z2;
 
 ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 	switch (message)
-	{
+	{case WM_CLOSE:
+		case WM_DESTROY:
+			
+			DeleteObject(hBmp1);//Удалим
+			DeleteDC(hMemDC1);
+		
 	case WM_CREATE:
+
 		p=(ChessView *) (((CREATESTRUCT *)lParam)->lpCreateParams);
         SetWindowLong(hWnd, GWL_USERDATA, (LONG) p );
+		
 		break;
 	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
+		
 		// тута рисовать
 		cvtp=1;
-
+		hdc=GetDC(hWnd);//Получим HDC
+		//hdc = BeginPaint(hWnd, &ps);
+		hMemDC1=CreateCompatibleDC(hdc);
+		hBmp1=CreateCompatibleBitmap(hdc,rc2.bottom,rc2.bottom);
+		SelectObject(hMemDC1,hBmp1);
+		
 		for(int x=1;x<=8;x++){
 			for(int y=1;y<=8;y++){
 		
-			if(cvtp==1){ TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 13*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}else{TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 14*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
+			if(cvtp==1){ TransparentImage(hMemDC1,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 13*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}else{TransparentImage(hMemDC1,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 14*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
 			if(cvtp==2){cvtp=1;}else{cvtp=2;}//рисуем квадрат
 			//рисуем фигуру
 			if(p->Chesspole[y][x]>6){figura=p->Chesspole[y][x]-4;}else{figura=p->Chesspole[y][x];}
-						 TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, figura*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);
-			if(p->flagaktiv==1 && p->fokus_x==x && p->fokus_y==y){TransparentImage(hdc,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 15*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
+						 TransparentImage(hMemDC1,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, figura*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);
+			if(p->flagaktiv==1 && p->fokus_x==x && p->fokus_y==y){TransparentImage(hMemDC1,(x-1)*RAZMER,(y-1)*RAZMER,RAZMER,RAZMER, bmpc, 15*RAZMERSKIN, 0, RAZMERSKIN, RAZMERSKIN, transparentColorCH);}
 			
 			}
 			if(cvtp==2){cvtp=1;}else{cvtp=2;}
 		}
+	
+		hdc2 = BeginPaint(hWnd, &ps);
 		EndPaint(hWnd, &ps);
+		
+		BitBlt(hdc,0,0,rc2.bottom,rc2.bottom,hMemDC1,0,0,SRCCOPY);//Скопируем рисунок из памяти
+	//	EndPaint(hWnd, &ps);
+		
 		break;
 
 	case  IDC_WM_VYBOR:{
@@ -164,7 +186,7 @@ ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 				p->fokus_f=p->Chesspole[p->fokus_y][p->fokus_x];
 				p->flagaktiv=1;//нажали
 				if(p->fokus_f==0)p->flagaktiv=0;
-				InvalidateRect(hWnd,&rc2,0);
+				InvalidateRect(hWnd,&rc2,1);
 				PostMessage (hWnd, WM_PAINT, 0, 0);
 
 					  // UpdateWindow(hWnd);
@@ -330,7 +352,7 @@ ChessView *p=(ChessView *) GetWindowLong(hWnd, GWL_USERDATA);
 
 				}
 				//UpdateWindow(hWnd);//
-				InvalidateRect(hWnd,&rc2,0);
+				InvalidateRect(hWnd,&rc2,1);
 				PostMessage (hWnd, WM_PAINT,0 , 0);
 					p->flagaktiv=0;
 					 

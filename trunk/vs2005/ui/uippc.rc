@@ -90,7 +90,7 @@ EXSTYLE 0x80000000L
 CAPTION "О программе"
 FONT 8, "MS Shell Dlg"
 BEGIN
-    LTEXT           "BombusQD",IDC_STATIC_2,7,15,36,8,SS_NOPREFIX
+    LTEXT           "BombusQD-NG",IDC_STATIC_2,7,15,36,8,SS_NOPREFIX
     LTEXT           "(c) 2006-2007, Eugene Stahov (evgs)",IDC_STATIC_3,7,29,142,10
     ICON            IDI_BOMBUS,-1,128,7,20,20
     LTEXT           "$VERSION$",IDC_AVERSION,45,15,65,8
