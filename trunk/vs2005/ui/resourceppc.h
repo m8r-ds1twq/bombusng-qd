@@ -39,6 +39,8 @@
 #define IDI_MESS_IC                     135
 #define IDD_LOC_CONTACT                 136
 #define IDD_STATUSY                     137
+#define IDB_BITMAP1                     138
+#define IDI_ICON1                       139
 #define IDC_STATIC_2                    202
 #define IDC_STATIC_3                    203
 #define IDC_STATIC_4                    204
@@ -88,7 +90,6 @@
 #define IDC_AUTOJOINROOM                1044
 #define IDC_X_COMPOSING                 1045
 #define IDC_AVTOSTATUS                  1045
-#define IDC_XML_LOG                     1145
 #define IDC_X_SOUNDS                    1046
 #define IDC_X_VIBRA                     1047
 #define IDC_X_DIALUP                    1048
@@ -128,6 +129,7 @@
 #define IDC_X_SIP                       1099
 #define IDC_X_HIS_CH_D                  1101
 #define IDC_X_HISTORY3                  1102
+#define IDC_XML_LOG                     1145
 #define IDC_SB                          1682
 #define IDC_RECONNECT_TRIES             5325
 #define IDC_PINGAKIV                    5326
@@ -195,7 +197,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        138
+#define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         32804
 #define _APS_NEXT_CONTROL_VALUE         1065
 #define _APS_NEXT_SYMED_VALUE           116

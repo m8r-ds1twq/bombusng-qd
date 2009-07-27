@@ -17,6 +17,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "regex", "regex\regex.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dnsquery", "dnsquery\dnsquery.vcproj", "{13D2523C-D62A-4581-B737-0876F972030D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F997E2B-6655-40DA-AAA3-9B2A76EDA3C7}"
+	ProjectSection(SolutionItems) = preProject
+		..\ui\version.rc = ..\ui\version.rc
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms

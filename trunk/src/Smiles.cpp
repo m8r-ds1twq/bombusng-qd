@@ -157,7 +157,7 @@ LRESULT CALLBACK SmileBox::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
         {
             p=(SmileBox *) (((CREATESTRUCT *)lParam)->lpCreateParams);
             SetWindowLong(hWnd, GWL_USERDATA, (LONG) p );
-
+            p->num=0;
             break;
         }
 
@@ -171,7 +171,7 @@ LRESULT CALLBACK SmileBox::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
             int rowcnt=0;
             int iconWidth=p->parser->icons->getElementWidth() + 4;
             
-            for (size_t i=0; i < p->parser->smileAscii.size(); i++){
+            for (size_t i=p->num; i < p->parser->smileAscii.size(); i++){
                 p->parser->icons->drawElement(hdc, i, x,y);
                 x+=iconWidth; rowcnt++;
                 if (rowcnt == p->nwidth ) {
@@ -195,6 +195,45 @@ LRESULT CALLBACK SmileBox::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
             break; 
         } 
 
+
+		case WM_VSCROLL:
+        {
+            int scrollCode=(int)LOWORD(wParam);
+            int nPos=(int)HIWORD(wParam);
+
+            SCROLLINFO si;
+            si.cbSize=sizeof(SCROLLINFO);
+            si.fMask=SIF_ALL;
+
+            GetScrollInfo(p->thisHwnd, SB_VERT, &si);
+
+            //TODO: flicker-free scrolling
+            switch (scrollCode) {
+            case SB_LINEDOWN:   ++si.nPos;(p->num)=(p->num)+5; break;
+            case SB_LINEUP:     --si.nPos;(p->num)=(p->num)-5;if((p->num)<0)(p->num)=0; break;
+            case SB_ENDSCROLL:  break;
+            case SB_PAGEUP:     --si.nPos; (p->num)=(p->num)-5;if((p->num)<0)(p->num)=0; break;
+            case SB_PAGEDOWN:   ++si.nPos; (p->num)=(p->num)+5; break;
+            case SB_THUMBTRACK:
+            case SB_THUMBPOSITION: p->num=p->num+5*(si.nTrackPos-si.nPos);si.nPos=si.nTrackPos; break;
+            //default:            si.nPos=si.nTrackPos; break;
+            }
+
+
+            if (si.nPos<0) si.nPos=0; 
+            if (si.nPos+(int)si.nPage >= si.nMax) si.nPos=si.nMax-si.nPage; 
+
+            //p->winTop= si.nPos;
+
+            //TODO: flicker-free scrolling
+            InvalidateRect(p->thisHwnd, NULL, true);
+
+            si.fMask=SIF_POS;
+            SetScrollInfo(p->thisHwnd, SB_VERT, &si, TRUE);
+            return true;
+
+        }
+
     case WM_LBUTTONDOWN: 
     case WM_LBUTTONDBLCLK:
         {
@@ -208,7 +247,7 @@ LRESULT CALLBACK SmileBox::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
             int width=p->parser->icons->getElementWidth()+4;
             int nx=x/width;
             if (nx>=p->nwidth) break;
-            uint nsmile=nx + p->nwidth*(y/width);
+            uint nsmile=nx + p->nwidth*(y/width)+p->num;
             if (nsmile>=p->parser->smileAscii.size()) break;
 
             SendMessage(

@@ -39,7 +39,7 @@ private:
     //~SmileBox();
 public:
     static void showSmileBox(HWND editBoxWnd, int x, int y, SmileParser *parser);
-
+   int num;
 private:
     HWND thisHwnd;
     HWND editBoxWnd;
