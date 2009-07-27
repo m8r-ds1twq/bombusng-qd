@@ -84,14 +84,14 @@ ProcessResult ProcessMuc::blockArrived(JabberDataBlockRef block, const ResourceC
         if (errText.length()>0) message=errText; // if error description is provided by server
         else // legacy codes
             switch (errCode) {
-                case 401: message="Password required";
-                case 403: message="You are banned in this room";
-                case 404: message="Room does not exists";
-                case 405: message="You can't create room on this server";
-                case 406: message="Reserved roomnick must be used";
-                case 407: message="This room is members-only";
-                case 409: message="Nickname is already in use by another occupant";
-                case 503: message="Maximum number of users has been reached in this room";
+                case 401: message=utf8::wchar_utf8(L"неправильный пароль");
+                case 403: message=utf8::wchar_utf8(L"Вы забанены в этой комнате");
+                case 404: message=utf8::wchar_utf8(L"Комната не существуе");
+                case 405: message=utf8::wchar_utf8(L"Вы не можете создавать комнату на этом сервере");
+                case 406: message=utf8::wchar_utf8(L"Reserved roomnick must be used");
+                case 407: message=utf8::wchar_utf8(L"комната тока для участников");
+                case 409: message=utf8::wchar_utf8(L"ник уже занят другим ");
+                case 503: message=utf8::wchar_utf8(L"Максимальный число пользователей было достигнуто в этой комнате");
                 default: message=*(error->toXML());
             }
     } else {
@@ -139,7 +139,7 @@ ProcessResult ProcessMuc::blockArrived(JabberDataBlockRef block, const ResourceC
 
             switch (statusCode) {
             case 303:
-                message+=" is now known as ";
+                message+=utf8::wchar_utf8(L" теперь известен как ");
                 message+=item->getAttribute("nick");
                 c->jid.setResource(item->getAttribute("nick"));
                 c->rosterJid=c->jid.getJid(); //for vCard
@@ -149,7 +149,7 @@ ProcessResult ProcessMuc::blockArrived(JabberDataBlockRef block, const ResourceC
 
             case 307: //kick
             case 301: //ban
-                message+=(statusCode==307)?" was kicked " : " was banned ";
+                message+=(statusCode==307)?utf8::wchar_utf8(L" выгнан ") : utf8::wchar_utf8(L" забанен ");
                 message+="(";
                 message+=reason;
                 message+=")";
@@ -161,16 +161,16 @@ ProcessResult ProcessMuc::blockArrived(JabberDataBlockRef block, const ResourceC
                 break;
 
             case 321:
-                message+=" has been unaffiliated and kicked from members-only room";
+                message+=utf8::wchar_utf8(L" не зашел в комнату только для участников");
                 break;
 
             case 322:
-                message+=" has been kicked because room became members-only";
+                message+=utf8::wchar_utf8(L" комната стала только для участников-вас выгнали ");
                 break;
 
             default:
                 {
-                    message+=" has left the channel";
+                    message+=utf8::wchar_utf8(L" вышел из комнаты ");
                     const std::string & status=block->getChildText("status");
                     if (status.length()) {
                         message+=" (";
@@ -190,11 +190,11 @@ ProcessResult ProcessMuc::blockArrived(JabberDataBlockRef block, const ResourceC
                     message+=realJid;  //for moderating purposes
                     message+=")";
                 }
-                message+=" has joined the channel as ";
+                message+=utf8::wchar_utf8(L" вошел в комнату ");
                 message+=roleName[role];
 
                 if (affiliation!=MucContact::NONE) {
-                    message+=" and ";
+                    message+=" - ";
                     message+=affiliationName[affiliation-MucContact::OUTCAST];
 
                     const std::string & status=block->getChildText("status");
@@ -204,15 +204,15 @@ ProcessResult ProcessMuc::blockArrived(JabberDataBlockRef block, const ResourceC
                         message+=")";
                     }
                 }
-            } else {
+			} else {
                 //change status
-                message+=" is now ";
+                message+=utf8::wchar_utf8(L" является теперь ");
 
                 if ( roleChanged ) message+=roleName[role];
                 if (affiliationChanged) {
-                    if (roleChanged) message+=" and ";
+                    if (roleChanged) message+=utf8::wchar_utf8(L" и ");
                     message+=(affiliation==MucContact::NONE)? 
-                        "unaffiliated" : affiliationName[affiliation-MucContact::OUTCAST];
+                        utf8::wchar_utf8(L"визитёром") : affiliationName[affiliation-MucContact::OUTCAST];
                 }
                 if (!roleChanged && !affiliationChanged) {
                     const std::string &show=block->getChildText("show");
