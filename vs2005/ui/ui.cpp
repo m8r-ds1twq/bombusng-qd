@@ -61,7 +61,8 @@
 #include "boostheaders.h"
 
 #define MAX_LOADSTRING 100
-
+int sizecaps;
+char **strokicaps;
 #define TIMER_TIME 2000 //ÂÐÅÌß ÎÏÐÎÑÀ ÒÀÉÌÅÐÀ
 //#define TIMER_STATUS 60 //ÂÐÅÌß ÀÂÒÎÑÒÀÒÓÑÀ
 void CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
@@ -908,8 +909,9 @@ ProcessResult Version::blockArrived(JabberDataBlockRef block, const ResourceCont
     if (query->getAttribute("xmlns")!="jabber:iq:version") return BLOCK_REJECTED;
 
     Log::getInstance()->msg("version request ", block->getAttribute("from").c_str());
-
-    std::string version=sysinfo::getOsVersion();
+	std::string vga;
+	if(sysinfo::screenIsVGA()){vga.append(" VGA ");}else{vga.append(" QVGA ");}
+	std::string version=sysinfo::getOsVersion()+vga;
 
  
 

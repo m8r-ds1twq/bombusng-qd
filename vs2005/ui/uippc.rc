@@ -92,12 +92,15 @@ FONT 8, "MS Shell Dlg"
 BEGIN
     LTEXT           "BombusQD-NG",IDC_STATIC_2,7,15,36,8,SS_NOPREFIX
     LTEXT           "(c) 2006-2007, Eugene Stahov (evgs)",IDC_STATIC_3,7,29,142,10
-    ICON            IDI_BOMBUS,-1,128,7,20,20
+    ICON            IDI_BOMBUS,-1,128,7,21,20
     LTEXT           "$VERSION$",IDC_AVERSION,45,15,65,8
-    EDITTEXT        IDC_AREV,7,74,142,35,ES_AUTOHSCROLL | ES_READONLY
     LTEXT           "http://bombus-im.org",IDC_STATIC_4,7,39,106,9
-    LTEXT           "Mod of original NG.",IDC_STATIC_5,7,50,106,8
-    LTEXT           "$HARDWARE$",IDC_AHW,7,62,142,10
+    LTEXT           "Mod of original NG ",IDC_STATIC_5,7,50,106,8
+    LTEXT           "$HARDWARE$",IDC_AHW,7,112,142,10
+    LTEXT           "(c) 2009, fuze",IDC_STATIC_6,7,63,51,10
+    LTEXT           "http://bombusng-qd.googlecode.com/",IDC_STATIC_7,7,75,142,8
+    LTEXT           "помощь в развитии мода:",IDC_STATIC_8,7,85,142,8
+    LTEXT           "Balakinuser  и  gcc ",IDC_STATIC_9,7,93,142,8
 END
 
 IDD_STATUS DIALOG  0, 0, 156, 124
@@ -387,6 +390,11 @@ BEGIN
         RIGHTMARGIN, 149
         TOPMARGIN, 7
         BOTTOMMARGIN, 122
+        HORZGUIDE, 73
+        HORZGUIDE, 75
+        HORZGUIDE, 83
+        HORZGUIDE, 85
+        HORZGUIDE, 93
     END
 
     IDD_STATUS, DIALOG
@@ -565,12 +573,6 @@ END
 IDI_BOMBUS              ICON                    "bombus.ico"
 IDI_MESS_IC             ICON                    "mess.ico"
 IDI_ICON1               ICON                    "icon1.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

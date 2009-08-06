@@ -983,6 +983,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\icon1.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\mess.ico"
 				>
 			</File>

@@ -206,7 +206,7 @@ ProcessResult ProcessMuc::blockArrived(JabberDataBlockRef block, const ResourceC
                 }
 			} else {
                 //change status
-                message+=utf8::wchar_utf8(L" является теперь ");
+				message+=utf8::wchar_utf8(L" сменил статус: ");
 
                 if ( roleChanged ) message+=roleName[role];
                 if (affiliationChanged) {
@@ -378,7 +378,7 @@ MucContact::MucContact( const std::string &jid )
     enableServerHistory=Contact::DISABLED_STATE;
 }
 
-void MucContact::update() {clientIcon=0;if(Config::getInstance()->confclient){
+void MucContact::update() {clientIcon=0;if(Config::getInstance()->confclient){/*
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){clientIcon=icons::ICON_BOMBUS_NG;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"tkabber")!=NULL){clientIcon=icons::ICON_TKAB;}else{
 	if(wcsstr(utf8::utf8_wchar(getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){clientIcon=icons::ICON_BOMBUS_QD;}else{
@@ -396,7 +396,13 @@ void MucContact::update() {clientIcon=0;if(Config::getInstance()->confclient){
 	}else{
 		clientIcon=0;
 
-	}}}}}}}}}}}}}}
+	}}}}}}}}}}}}}}*/
+
+Skin * il= dynamic_cast<Skin *>(skin.get());
+ std::string ClientI=getClientIdIcon();
+
+ if(ClientI.length()>2){if (il) clientIcon=il->getKlientIndex((char*)ClientI.c_str());}else clientIcon=0;
+}
     wjid=utf8::utf8_wchar( jid.getResource() );
     init();
 }

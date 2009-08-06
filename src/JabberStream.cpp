@@ -16,7 +16,7 @@ JabberStream::JabberStream(void){
 }
 extern void reconnect();
 void JabberStream::run(JabberStream * _stream){
-	Log::getInstance()->msg("Reader thread strated");
+	Log::getInstance()->msg("Reader thread started");
 
 	try {
         if (_stream->connection==NULL) {
