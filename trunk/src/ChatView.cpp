@@ -317,20 +317,15 @@ if (bmp4) DeleteObject(bmp4);
 			if(!muc)
 			{//Если конфа,убираем инфо панель
 				if(Config::getInstance()->confclient){
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"gajim")!=NULL){skin->drawElement(hdc, icons::ICON_GAJIM, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.org/ng")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_NG, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod-qd")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_QD, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"Siemens Native Jabber Client")!=NULL){skin->drawElement(hdc, icons::ICON_SJC, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"tkabber")!=NULL){skin->drawElement(hdc, icons::ICON_TKAB, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"qip")!=NULL){skin->drawElement(hdc, icons::ICON_QIP, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"pidgin")!=NULL){skin->drawElement(hdc, icons::ICON_PIDGIN, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"miranda")!=NULL){skin->drawElement(hdc, icons::ICON_MIRANDA, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"kopete")!=NULL){skin->drawElement(hdc, icons::ICON_KOPET, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombus-im.org/java")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"psi")!=NULL){skin->drawElement(hdc, icons::ICON_PSI, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusmod.net.ru")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUSMOD, avWidth , iconwidth);}
-if(wcsstr(utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),L"bombusng-qd.googlecode.com")!=NULL){skin->drawElement(hdc, icons::ICON_BOMBUS_QD_NG, avWidth , iconwidth);}
+int clientIcon;					
+Skin * il= dynamic_cast<Skin *>(skin.get());
+ std::string ClientI=p->contact->getClientIdIcon();
+
+ if(ClientI.length()>2){if (il) clientIcon=il->getKlientIndex((char*)ClientI.c_str());}else clientIcon=0;
+
+					if(clientIcon)skin->drawElement(hdc, clientIcon, avWidth , iconwidth);
 				}
+
 		ExtTextOut(hdc, avWidth + iconwidth + 4, iconwidth, NULL, NULL,
 					utf8::utf8_wchar(p->contact->getClientIdIcon()).c_str(),
 					p->contact->getClientIdIcon().length(),

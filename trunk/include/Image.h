@@ -125,6 +125,9 @@ public:
     virtual int getElementWidth() const;
     virtual int getElementHeight() const;
     virtual int getBaseIndex(const std::string &setName);
+	virtual int Skin::getKlientIndex(char* caps);
+	virtual char** Skin::readFileK(const wchar_t *fileName,int *count);
+	
 protected:
     std::vector<std::string> names;
     std::vector<ImgListRef> iconset;

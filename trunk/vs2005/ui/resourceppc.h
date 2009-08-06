@@ -45,6 +45,10 @@
 #define IDC_STATIC_3                    203
 #define IDC_STATIC_4                    204
 #define IDC_STATIC_5                    205
+#define IDC_STATIC_6                    206
+#define IDC_STATIC_7                    207
+#define IDC_STATIC_8                    208
+#define IDC_STATIC_9                    209
 #define IDC_E_JID                       1003
 #define IDC_E_PASSWORD                  1004
 #define IDC_X_SSL                       1005
