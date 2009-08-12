@@ -32,6 +32,7 @@ IDR_MENU MENU
 BEGIN
     POPUP "Меню"
     BEGIN
+        MENUITEM "Настроение",                  MOODS_AKTIV
         MENUITEM "Статус",                      IDM_JABBER_STATUS
         POPUP "Быстро статус"
         BEGIN
@@ -97,10 +98,11 @@ BEGIN
     LTEXT           "http://bombus-im.org",IDC_STATIC_4,7,39,106,9
     LTEXT           "Mod of original NG ",IDC_STATIC_5,7,50,106,8
     LTEXT           "$HARDWARE$",IDC_AHW,7,112,142,10
-    LTEXT           "(c) 2009, fuze",IDC_STATIC_6,7,63,51,10
-    LTEXT           "http://bombusng-qd.googlecode.com/",IDC_STATIC_7,7,75,142,8
-    LTEXT           "помощь в развитии мода:",IDC_STATIC_8,7,85,142,8
-    LTEXT           "Balakinuser  и  gcc ",IDC_STATIC_9,7,93,142,8
+    LTEXT           "(c) 2009, fuze",IDC_STATIC_6,7,73,51,8
+    LTEXT           "http://bombusng-qd.googlecode.com/",IDC_STATIC_7,7,86,142,8
+    LTEXT           "помощь в развитии мода:",IDC_STATIC_8,7,95,142,8
+    LTEXT           "Balakinuser  и  gcc ",IDC_STATIC_9,7,103,142,8
+    LTEXT           "(c) 2008-2009, agent",IDC_STATIC_10,7,61,97,8
 END
 
 IDD_STATUS DIALOG  0, 0, 156, 124
@@ -375,6 +377,19 @@ BEGIN
     CONTROL         "Автовход в комнату",IDC_AUTOJOINROOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,117,135,11
 END
 
+IDD_MOODS DIALOG  0, 0, 155, 122
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Настроение"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "Отмена",IDOK3,100,101,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,100,101,50,14
+    DEFPUSHBUTTON   "OK",IDOK,7,101,50,14
+    LTEXT           "Выбор",-1,7,15,32,11
+    EDITTEXT        IDC_MES_MOODS,7,67,143,24,ES_AUTOHSCROLL
+    COMBOBOX        IDC_MOODS,48,13,102,71,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -390,11 +405,13 @@ BEGIN
         RIGHTMARGIN, 149
         TOPMARGIN, 7
         BOTTOMMARGIN, 122
+        HORZGUIDE, 56
+        HORZGUIDE, 69
         HORZGUIDE, 73
-        HORZGUIDE, 75
-        HORZGUIDE, 83
-        HORZGUIDE, 85
-        HORZGUIDE, 93
+        HORZGUIDE, 82
+        HORZGUIDE, 94
+        HORZGUIDE, 103
+        HORZGUIDE, 110
     END
 
     IDD_STATUS, DIALOG
@@ -525,6 +542,15 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 128
         HORZGUIDE, 116
+    END
+
+    IDD_MOODS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 150
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+        HORZGUIDE, 26
     END
 END
 #endif    // APSTUDIO_INVOKED
