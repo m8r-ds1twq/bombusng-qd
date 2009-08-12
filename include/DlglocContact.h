@@ -1,6 +1,6 @@
 #pragma once
 #include "Contact.h"
-
+#include "getconfig.h"
 class DlglocContact {
 private:
     DlglocContact(){};

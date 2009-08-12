@@ -37,6 +37,7 @@
 #include "DlgConfig.h"
 #include "DlgStatus.h"
 #include "DlgMucJoin.h"
+#include "DlgMoods.h"
 #include "VirtualListView.h"
 #include "ChatView.h"
 #include "TabCtrl.h"
@@ -527,44 +528,14 @@ WndRef chat2;
 
 				    break;
                 }
-				case ID_TOOLS_COLORRE:/*
-					if(aktiv_wp_s<0)bufff+=L" aktiv_wp_s<0 ";
-					if(aktiv_wp_s==0)bufff+=L" aktiv_wp_s==0 ";
-					if(aktiv_wp_s==1)bufff+=L" aktiv_wp_s==1 ";
-					if(aktiv_wp_s==2)bufff+=L" aktiv_wp_s==2 ";
-					if(aktiv_wp_s==3)bufff+=L" aktiv_wp_s==3 ";
-					if(aktiv_wp_s==4)bufff+=L" aktiv_wp_s==4 ";
-					if(aktiv_wp_s>4)bufff+=L" aktiv_wp_s>4 ";
-					if(aktiv_wp_sc==0)bufff+=L" aktiv_wp_sc==0 ";
-					if(aktiv_wp_sc==1)bufff+=L" aktiv_wp_sc==1 ";
-					if(aktiv_wp_sc==2)bufff+=L" aktiv_wp_sc==2 ";
-					if(aktiv_wp_sc==3)bufff+=L" aktiv_wp_sc==3 ";
-					if(aktiv_wp_sc==4)bufff+=L" aktiv_wp_sc==4 ";
-					if(aktiv_wp_sc==5)bufff+=L" aktiv_wp_sc==5 ";
-					if(aktiv_wp_sc==6)bufff+=L" aktiv_wp_sc==6 ";
-					if(aktiv_wp_sc==7)bufff+=L" aktiv_wp_sc==7 ";
-					if(aktiv_wp_sc==8)bufff+=L" aktiv_wp_sc==8 ";
-					if(aktiv_wp_sc==9)bufff+=L" aktiv_wp_sc==9 ";
-					if(aktiv_wp_sc>9)bufff=+L" aktiv_wp_sc>9 ";
-					if(aktiv_wp_sc<0)bufff=+L" aktiv_wp_sc<0 ";
-					if(aktiv_wp_sc_not==0)bufff+=L" aktiv_wp_sc_not==0 ";
-					if(aktiv_wp_sc_not==1)bufff+=L" aktiv_wp_sc_not==1 ";
-					if(aktiv_wp_sc_not==2)bufff+=L" aktiv_wp_sc_not==2 ";
-					if(aktiv_wp_sc_not==3)bufff+=L" aktiv_wp_sc_not==3 ";
-					if(aktiv_wp_sc_not==4)bufff+=L" aktiv_wp_sc_not==4 ";
-					if(aktiv_wp_sc_not==5)bufff+=L" aktiv_wp_sc_not==5 ";
-					if(aktiv_wp_sc_not==6)bufff+=L" aktiv_wp_sc_not==6 ";
-					if(aktiv_wp_sc_not==7)bufff+=L" aktiv_wp_sc_not==7 ";
-					if(aktiv_wp_sc_not==8)bufff+=L" aktiv_wp_sc_not==8 ";
-					if(aktiv_wp_sc_not==9)bufff+=L" aktiv_wp_sc_not==9 ";
-					if(aktiv_wp_sc_not>9)bufff=+L" aktiv_wp_sc_not>9 ";
-					if(aktiv_wp_sc_not<0)bufff=+L" aktiv_wp_sc_not<0 ";
-*/
+				case ID_TOOLS_COLORRE:
+					
 
-SHNotificationRemove(&APP_GUID, NOTIFY_ID);
-MessageBox(hWnd,bufff.c_str(),bufff.c_str(), 0);
 //
 					 //colorsload();
+					break;
+				case MOODS_AKTIV:
+					DlgMoods::createDialog(hWnd, rc);
 					break;
 				case AKTIVW:
 					SetForegroundWindow(mainWnd);

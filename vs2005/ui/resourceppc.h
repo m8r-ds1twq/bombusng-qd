@@ -40,6 +40,7 @@
 #define IDD_LOC_CONTACT                 136
 #define IDD_STATUSY                     137
 #define IDB_BITMAP1                     138
+#define IDD_MOODS                       138
 #define IDI_ICON1                       139
 #define IDC_STATIC_2                    202
 #define IDC_STATIC_3                    203
@@ -49,6 +50,7 @@
 #define IDC_STATIC_7                    207
 #define IDC_STATIC_8                    208
 #define IDC_STATIC_9                    209
+#define IDC_STATIC_10                   210
 #define IDC_E_JID                       1003
 #define IDC_E_PASSWORD                  1004
 #define IDC_X_SSL                       1005
@@ -128,6 +130,8 @@
 #define IDC_E_JID2                      1062
 #define IDC_E_SHIR                      1063
 #define IDOK3                           1064
+#define IDC_MOODS                       1065
+#define IDC_MES_MOODS                   1066
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
@@ -195,6 +199,7 @@
 #define WM_OTMENA_VYBOR                 42353
 #define IDC_WM_VYBOR                    42354
 #define IDC_WM_STAV                     42355
+#define MOODS_AKTIV                     42358
 
 // Next default values for new objects
 // 
@@ -203,7 +208,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1065
+#define _APS_NEXT_CONTROL_VALUE         1067
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif

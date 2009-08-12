@@ -214,12 +214,13 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				AdditionalOptions="&#x0D;&#x0A;"
-				Optimization="2"
+				Optimization="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="\libs\boost;..\..\zlib\include;..\..\include"
 				PreprocessorDefinitions="_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;_WINDOWS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;POCKETPC2003_UI_MODEL"
 				StringPooling="true"
 				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="false"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -447,6 +448,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DlgMoods.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DlgMucJoin.cpp"
 				>
 			</File>
@@ -464,6 +469,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\EntityCaps.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\getconfig.cpp"
 				>
 			</File>
 			<File
@@ -741,6 +750,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\DlgMoods.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\DlgMucJoin.h"
 				>
 			</File>
@@ -758,6 +771,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\EntityCaps.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\getconfig.h"
 				>
 			</File>
 			<File
