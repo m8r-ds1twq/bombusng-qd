@@ -181,7 +181,7 @@ void Contact::update() {
 Skin * il= dynamic_cast<Skin *>(skin.get());
  std::string ClientI=getClientIdIcon();
 
- if(ClientI.length()>2){if (il) clientIcon=il->getKlientIndex((char*)ClientI.c_str());}else clientIcon=0;
+ if(ClientI.length()>2 ){if (il) clientIcon=il->getKlientIndex((char*)ClientI.c_str());}else clientIcon=0;
 	}
     if (resource.length()) { s+='/'; s+=resource; }
     wjid=utf8::utf8_wchar( s );

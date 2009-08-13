@@ -5,7 +5,7 @@
 #include <string>
 #include <utf8.hpp>
 #include "lstring.h"
-
+#include "Log.h"
 #define NORASTEROP (0x00AA0029)
 
 #define MAX_LEN 0xff
@@ -151,19 +151,23 @@ char** Skin::readFileK(const wchar_t *fileName,int *count){
 	return res1;
 }
 int Skin::getKlientIndex(char* caps) {
-	int n;
+	int n=0;
 	for (int d=sizecaps-1; d>=0; d--){
 		if(strstr(caps,(const char*)strokicaps[d]))n=d;
 	}
-n=n+1;
+//n=n+1;
 	int k=0;int v;
     for (int i=names.size()-1; i>0; i--) {
         if (names[i]=="klients") k=i<<8;
     }
-    
-	if(n<=8){k=k+n-1;}else{
+    int z=k;
+	if(n<=8){k=k+n;}else{
 		v=n%8;
-	if(v==0)v=9;
-		k=k+((n-1)/8)*16+v-1;}
+	//if(v==0)v=9;
+		k=k+(n/8)*16+v;}
+
+/*char * cnotif=new char[200];
+sprintf(cnotif,"%s %d:%d:%d:%d ",caps,n,v,k,z);
+Log::getInstance()->msg("c: ",cnotif);*/
     return k;
 }
