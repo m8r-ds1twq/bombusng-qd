@@ -151,9 +151,11 @@ char** Skin::readFileK(const wchar_t *fileName,int *count){
 	return res1;
 }
 int Skin::getKlientIndex(char* caps) {
-	int n=0;
+	int n=0;bool est=0;
 	for (int d=sizecaps-1; d>=0; d--){
-		if(strstr(caps,(const char*)strokicaps[d]))n=d;
+		if(strstr(caps,(const char*)strokicaps[d])){n=d;
+		est=1;
+		}
 	}
 //n=n+1;
 	int k=0;int v;
@@ -161,10 +163,11 @@ int Skin::getKlientIndex(char* caps) {
         if (names[i]=="klients") k=i<<8;
     }
     int z=k;
-	if(n<=8){k=k+n;}else{
+	if(!est){k=k+135;}else{
+	if(n<=7){k=k+n;}else{
 		v=n%8;
 	//if(v==0)v=9;
-		k=k+(n/8)*16+v;}
+		k=k+(n/8)*16+v;}}
 
 /*char * cnotif=new char[200];
 sprintf(cnotif,"%s %d:%d:%d:%d ",caps,n,v,k,z);
