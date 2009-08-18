@@ -9,7 +9,7 @@ public:
     ~BNode();
     BNode * bTrue;
     BNode * bFalse;
-    char sIndex;
+    int sIndex;
     char nodeChar;
 };
 

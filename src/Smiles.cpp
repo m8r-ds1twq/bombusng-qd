@@ -124,6 +124,7 @@ int SmileParser::findSmile(LPCTSTR *pstr){
     }
     int result=psmile->sIndex;
     if (result>=0) *pstr=p;
+
     return result;
 }
 
@@ -297,7 +298,7 @@ void SmileBox::showSmileBox(HWND editBoxWnd, int x, int y, SmileParser *parser) 
     int nheight=total/b->nwidth;
     if (total - nheight * b->nwidth) nheight++;
 
-    int width=6 + b->nwidth*iconwidth;
+    int width=6 + b->nwidth*iconwidth+GetSystemMetrics(SM_CXVSCROLL);
     int height=6 + nheight*iconwidth;
 
     if (x+width>parent.right) x=parent.right-width-5;

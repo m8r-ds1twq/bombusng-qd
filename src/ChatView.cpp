@@ -603,9 +603,9 @@ if(idautostatus==1)idautostatus=2;
     Message::ref msg=Message::ref(new Message(body, rc->account->getNickname(), false, Message::SENT, strtime::getCurrentUtc() ));
     bool muc=boost::dynamic_pointer_cast<MucRoom>(contact);
 if (Config::getInstance()->history)
-		{if (!muc){
+{if (!muc){
 			History::getInstance()->appendHistory(contact, msg,false);}}
-	if (Config::getInstance()->saveHistoryMuc){
+if (Config::getInstance()->saveHistoryMuc){
 		if (!muc){
 			contact->messageList->push_back(msg);
 
@@ -750,7 +750,7 @@ void ChatView::mucNickComplete() {
             if (ws.length()<clen) continue;
             if (clen>0) if (_wcsnicmp(buf+nbegin, ws.c_str(), clen)!=0) continue;
 
-            nicks.push_back(ws);
+      if((*i)->status<5) nicks.push_back(ws);
         }
     }
     if (nicks.empty()) return;
@@ -953,6 +953,7 @@ void MessageElement::render( HDC hdc, RECT &rt, bool measure ) const{
 				smileEnd=end;
 				if (smiles) if (!inUrl) {
 					smileIndex=smileParser->findSmile(&smileEnd);
+
 					if (smileIndex>=0) {
 						if (!measure) ExtTextOut(hdc, xbegin, ypos, ETO_CLIPPED, &rt, lineBegin, end-lineBegin, NULL);
 						if (inUrl) {
