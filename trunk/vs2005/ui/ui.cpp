@@ -11,7 +11,7 @@
 #include <afxwin.h>
 #include "wmuser.h"
 #include "Notify.h"
-
+#include "boostheaders.h"
 #include "LogPanel.h"
 #include "Socket.h"
 #include "CETLSSocket.h"
@@ -175,15 +175,15 @@ HWND hwnvs;
 #define NOTIFY_ID 997
 static const GUID APP_GUID = { 0xbaeef0cf, 0xd06e, 0x490c, { 0x92, 0x6, 0x3b, 0x25, 0x25, 0xc2, 0x84, 0x9c } };
 
-std::wstring encloseHTML(std::wstring ostr) {
-  std::wstring::iterator s=ostr.begin(),smax=ostr.end();
-  std::wstring str;
+std::string encloseHTML(std::string ostr) {
+  std::string::iterator s=ostr.begin(),smax=ostr.end();
+  std::string str;
   str.reserve(smax-s);
   while(s!=smax) {
     switch(*s) { 
-      case '&': str+=L"&amp;"; break;
-      case '<': str+=L"&lt;"; break;
-      case '>': str+=L"&gt;"; break;
+      case '&': str+="&amp;"; break;
+      case '<': str+="&lt;"; break;
+      case '>': str+="&gt;"; break;
       default: str+=*s;
     }
     s++;
@@ -1118,8 +1118,7 @@ ProcessResult MessageRecv::blockArrived(JabberDataBlockRef block, const Resource
 		}
 
 		
-		if (mucMessage) {Notify::PlayNotify(1);}else{
-			Notify::PlayNotify(0);}
+		
 
 
 //ÂÑÏËÛÂÀÅÌ ;)
@@ -1129,43 +1128,41 @@ ProcessResult MessageRecv::blockArrived(JabberDataBlockRef block, const Resource
 
 		if ((hwnvs != GetActiveWindow()) || (Config::getInstance()->vstrymess)){
 
-std::wstring messn2;
+//std::wstring messn2;
 std::wstring messn1;
-std::wstring mesfrom2;
+//std::wstring mesfrom2;
 
 char * cnotif=new char[55];
 std::string cnotifs;
 //messn2=utf8::utf8_wchar(msg->body.c_str());
-
+char *format =" <body bgcolor=\"#%06X\"><br><b><font color=\"#%06X\">--%s--</font></b><br><font color=\"#%06X\">%s</font></body>";
+messn1=L"<input type=\"button\" value=\"îòêðûòü\" name=\"cmd:42350\" ><input type=\"button\" value=\"çàêðûòü\" name=\"cmd:700\" >";
 if (mucMessage  ) {if((Config::getInstance()->confchat)){
-	//printf(cnotif,#%06X\"><br><b><font color=\"#%06X\">--%S--</font></b><br><font color=\"#%06X\">%S</font></body>",,COLORS[15],from.c_str(),COLORS[14],msg->body.c_str());
-	messn1=L"<input type=\"button\" value=\"îòêðûòü\" name=\"cmd:42350\" ><input type=\"button\" value=\"çàêðûòü\" name=\"cmd:700\" > <body bgcolor=\"";
-	sprintf(cnotif,"#%06X\"><br><b><font color=\"",COLORS[13]);
-cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs);
-sprintf(cnotif,"#%06X\">--",COLORS[14]);
-cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(from.c_str())+L"--</font></b><br><font color=\"";
-sprintf(cnotif,"#%06X\">",COLORS[15]);
-cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs)+encloseHTML(utf8::utf8_wchar(msg->body.c_str()))+L"</font></body>";
-
+	
+cnotifs=boost::str(boost::format(format) 
+        % COLORS[13]
+		% COLORS[14]
+        % from
+        % COLORS[15]
+        % encloseHTML(msg->body.c_str())
+        );
 bufc=c;
+messn1+=utf8::utf8_wchar(cnotifs);
 SHNotificationRemove(&APP_GUID, NOTIFY_ID);
 
 AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);}
 }else{ 
 
-std::string avatarsjid=c->rosterJid;
+//std::string avatarsjid=c->rosterJid;
 size_t i3=0;
-                while (i3<avatarsjid.length()) {
-                    if (avatarsjid[i3]=='/') {
-                       avatarsjid[i3]='.';
+                while (i3<c->rosterJid.length()) {
+                    if (c->rosterJid[i3]=='/') {
+                       c->rosterJid[i3]='.';
                         continue;
                     }
                     i3++;
 				}
-std::wstring filePathavatar5=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(avatarsjid)+L".jpg";
+std::wstring filePathavatar5=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(c->rosterJid)+L".jpg";
 HBITMAP bmp3=SHLoadImageFile(filePathavatar5.c_str());
 
 filePathavatar5=L"file://"+filePathavatar5;
@@ -1187,27 +1184,26 @@ if (bmp3) {if(bm3.bmWidth==bm3.bmHeight){avWidth=avataraWidth;
 	avHeight=avataraWidth;
 	avWidth=(avataraWidth*bm3.bmWidth*100)/(100*bm3.bmHeight);
 	}}
+char *format2 = "<img  width=%d height=%d alt=\"";
+cnotifs=boost::str(boost::format(format2) 
+        % avWidth
+		% avHeight
+        );
+messn1=utf8::utf8_wchar(cnotifs)+filePathavatar5+L"\" src=\""+filePathavatar5+L"\"  />"+L"<input type=\"button\" value=\"îòêðûòü\" name=\"cmd:42350\" ><input type=\"button\" value=\"çàêðûòü\" name=\"cmd:700\" >";
 }
-if (bmp3) {sprintf(cnotif,"%d ",avWidth);}else{sprintf(cnotif,"%d ",0);}
-cnotifs=cnotif;
- messn1=L"<img  width=";
 
- messn1+= utf8::utf8_wchar(cnotifs);
- messn1+=L" height=";
-if (bmp3) {sprintf(cnotif,"%d ",avHeight);}else{sprintf(cnotif,"%d ",0);}
-cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs);
 if (bmp3) DeleteObject(bmp3);
-	 messn1+=L" alt=\" "+filePathavatar5+L"\" src=\""+filePathavatar5+L"\"  />"+L"<input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" > <body bgcolor=\"";
-	 sprintf(cnotif,"#%06X\"><br><b><font color=\"",COLORS[16]);
-cnotifs=cnotif;
+ //char *format2 =" <body bgcolor=\"#%06X\"><br><b><font color=\"#%06X\">--%s--</font></b><br><font color=\"#%06X\">%s</font></body>";
+cnotifs=boost::str(boost::format(format) 
+        % COLORS[16]
+		% COLORS[17]
+        % c->getFullName()
+        % COLORS[18]
+        % encloseHTML(msg->body.c_str())
+        );
+	 
 messn1+= utf8::utf8_wchar(cnotifs);
-sprintf(cnotif,"#%06X\">--",COLORS[17]);
-cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs)+utf8::utf8_wchar(c->getFullName())+L"--</font></b><br><font color=\"";
-sprintf(cnotif,"#%06X\">",COLORS[18]);
-cnotifs=cnotif;
-messn1+= utf8::utf8_wchar(cnotifs)+encloseHTML(utf8::utf8_wchar(msg->body.c_str()))+L"</font></body>";
+
 	
 //int result=MessageBox(NULL, messn1.c_str(), TEXT("Îòêðûòü"), MB_YESNOCANCEL | MB_ICONWARNING );
 
@@ -1217,7 +1213,7 @@ AddNotification(hwnvs,(LPCTSTR)messn1.c_str(),0);
 }
 		}
 
-}
+		}
 if (mucMessage) {Notify::PlayNotify(1);}else{
 			Notify::PlayNotify(0);}
 	}
@@ -1291,13 +1287,13 @@ std::wstring statvs;
 
 	if(typevs=="chat" || typevs=="away" || typevs=="xa" || typevs=="dnd" || typevs=="online" || typevs=="offline"){
     statvs=L"<br>óñòàíîâèë ñòàòóñ:<br>"+utf8::utf8_wchar(typevs);
-
-		if(typevs=="chat")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#53ff53\"><br><b><br><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
-		if(typevs=="away")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#00cccc\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
-		if(typevs=="xa")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#7975cb\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
-		if(typevs=="dnd")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#cc0000\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
-		if(typevs=="online")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#ffffff\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
-		if(typevs=="offline")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#777777\"><br><b><font color=\"#ffffff\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+encloseHTML(utf8::utf8_wchar(statusMessage2))+L" </font></body>";
+statusMessage2=encloseHTML(contact->getStatusMessage());
+		if(typevs=="chat")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#53ff53\"><br><b><br><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="away")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#00cccc\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="xa")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#7975cb\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="dnd")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#cc0000\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="online")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#ffffff\"><br><b><font color=\"#000000\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
+		if(typevs=="offline")	statusMessage1=L"<br><input type=\"button\" value=\"ÎÒÊÐÛÒÜ\" name=\"cmd:42350\" ><input type=\"button\" value=\"ÇÀÊÐÛÒÜ\" name=\"cmd:700\" ><body bgcolor=\"#777777\"><br><b><font color=\"#ffffff\">"+utf8::utf8_wchar(contact->getFullName())+statvs+L" </b><br>"+utf8::utf8_wchar(statusMessage2)+L" </font></body>";
 
 
 if (Config::getInstance()->vs_status && Config::getInstance()->vsmess){

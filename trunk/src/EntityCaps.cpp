@@ -137,5 +137,11 @@ MyCaps::MyCaps() {
     addFeature("urn:xmpp:time");
 	addFeature("http://jabber.org/protocol/pubsub");//XEP-0118 
 	addFeature("http://jabber.org/protocol/pubsub#publish");
+	addFeature("http://jabber.org/protocol/activity");
+	addFeature("http://jabber.org/protocol/activity+notify");
+	addFeature("http://jabber.org/protocol/mood");
+	addFeature("http://jabber.org/protocol/mood+notify");
+	addFeature("http://jabber.org/protocol/tune");
+	addFeature("http://jabber.org/protocol/tune+notify");
 
 }

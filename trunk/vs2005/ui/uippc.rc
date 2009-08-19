@@ -91,18 +91,18 @@ EXSTYLE 0x80000000L
 CAPTION "О программе"
 FONT 8, "MS Shell Dlg"
 BEGIN
-    LTEXT           "BombusQD-NG",IDC_STATIC_2,7,15,36,8,SS_NOPREFIX
-    LTEXT           "(c) 2006-2007, Eugene Stahov (evgs)",IDC_STATIC_3,7,29,142,10
+    LTEXT           "BombusQD-NG",IDC_STATIC_2,7,7,36,8,SS_NOPREFIX
+    LTEXT           "(c)2006-2007 Eugene Stahov (evgs)",IDC_STATIC_3,7,21,117,10
     ICON            IDI_BOMBUS,-1,128,7,21,20
-    LTEXT           "$VERSION$",IDC_AVERSION,45,15,65,8
-    LTEXT           "http://bombus-im.org",IDC_STATIC_4,7,39,106,9
-    LTEXT           "Mod of original NG ",IDC_STATIC_5,7,50,106,8
-    LTEXT           "$HARDWARE$",IDC_AHW,7,112,142,10
-    LTEXT           "(c) 2009, fuze",IDC_STATIC_6,7,73,51,8
-    LTEXT           "http://bombusng-qd.googlecode.com/",IDC_STATIC_7,7,86,142,8
-    LTEXT           "помощь в развитии мода:",IDC_STATIC_8,7,95,142,8
-    LTEXT           "Balakinuser  и  gcc ",IDC_STATIC_9,7,103,142,8
-    LTEXT           "(c) 2008-2009, agent",IDC_STATIC_10,7,61,97,8
+    LTEXT           "$VERSION$",IDC_AVERSION,45,7,65,8
+    LTEXT           "http://bombus-im.org",IDC_STATIC_4,7,31,106,9
+    LTEXT           "Mod of original NG ",IDC_STATIC_5,7,42,106,8
+    LTEXT           "$HARDWARE$",IDC_AHW,7,104,142,18
+    LTEXT           "(c) 2009, fuze",IDC_STATIC_6,7,65,51,8
+    LTEXT           "http://bombusng-qd.googlecode.com/",IDC_STATIC_7,7,78,142,8
+    LTEXT           "помощь в развитии мода:",IDC_STATIC_8,7,87,142,8
+    LTEXT           "Balakinuser  и  gcc ",IDC_STATIC_9,7,96,142,8
+    LTEXT           "(c) 2008-2009, agent",IDC_STATIC_10,7,53,97,8
 END
 
 IDD_STATUS DIALOG  0, 0, 156, 124
@@ -410,8 +410,7 @@ BEGIN
         HORZGUIDE, 73
         HORZGUIDE, 82
         HORZGUIDE, 94
-        HORZGUIDE, 103
-        HORZGUIDE, 110
+        HORZGUIDE, 104
     END
 
     IDD_STATUS, DIALOG
