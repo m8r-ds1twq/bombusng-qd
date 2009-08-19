@@ -210,13 +210,13 @@ LRESULT CALLBACK SmileBox::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
 
             //TODO: flicker-free scrolling
             switch (scrollCode) {
-            case SB_LINEDOWN:   ++si.nPos;(p->num)=(p->num)+5; break;
-            case SB_LINEUP:     --si.nPos;(p->num)=(p->num)-5;if((p->num)<0)(p->num)=0; break;
+            case SB_LINEDOWN:   ++si.nPos;(p->num)=(p->num)+p->nwidth; break;
+            case SB_LINEUP:     --si.nPos;(p->num)=(p->num)-p->nwidth;if((p->num)<0)(p->num)=0; break;
             case SB_ENDSCROLL:  break;
-            case SB_PAGEUP:     --si.nPos; (p->num)=(p->num)-5;if((p->num)<0)(p->num)=0; break;
-            case SB_PAGEDOWN:   ++si.nPos; (p->num)=(p->num)+5; break;
+            case SB_PAGEUP:     --si.nPos; (p->num)=(p->num)-p->nwidth;if((p->num)<0)(p->num)=0; break;
+            case SB_PAGEDOWN:   ++si.nPos; (p->num)=(p->num)+p->nwidth; break;
             case SB_THUMBTRACK:
-            case SB_THUMBPOSITION: p->num=p->num+5*(si.nTrackPos-si.nPos);si.nPos=si.nTrackPos; break;
+            case SB_THUMBPOSITION: p->num=p->num+p->nwidth*(si.nTrackPos-si.nPos);si.nPos=si.nTrackPos; break;
             //default:            si.nPos=si.nTrackPos; break;
             }
 
@@ -287,7 +287,7 @@ void SmileBox::showSmileBox(HWND editBoxWnd, int x, int y, SmileParser *parser) 
     RECT parent;
     GetClientRect(editBoxWnd, &parent);
 
-    b->nwidth=(int)sqrt(parser->smileAscii.size())+1;
+    b->nwidth=(int)sqrt(parser->smileAscii.size());
     int total=parser->smileAscii.size();
 
     int iconwidth=parser->icons->getElementWidth() + 4;
@@ -314,5 +314,5 @@ void SmileBox::showSmileBox(HWND editBoxWnd, int x, int y, SmileParser *parser) 
 
     if (windowClass==0) throw std::exception("Can't create window class");
     b->thisHwnd=CreateWindow((LPCTSTR)windowClass, _T("SmileBox"), WS_POPUP | WS_DLGFRAME  |WS_VSCROLL |WS_BORDER | WS_VISIBLE ,
-        x, y, width, height, editBoxWnd, NULL, g_hInst, (LPVOID)b);
+        2, y, width, height, editBoxWnd, NULL, g_hInst, (LPVOID)b);
 }

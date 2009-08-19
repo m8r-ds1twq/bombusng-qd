@@ -17,7 +17,7 @@ const std::string sysinfo::getOsVersion() {
     SystemParametersInfo(SPI_GETOEMINFO, sizeof(buf)/sizeof(wchar_t), buf, 0);  
     const std::string & platform=utf8::wchar_utf8( std::wstring(buf));
 
-    char *format = "%s (WCE%d.%d.%d)/%s";
+    char *format = "%s (WCE%d.%d.%d)/%s memoryload=%d o/o  total/free=%db/%db ";
     char *name="Unknown";
 
     if (osv.dwMajorVersion<=3) name="PocketPC 2002";
@@ -25,16 +25,20 @@ const std::string sysinfo::getOsVersion() {
     if (osv.dwMajorVersion==4 && osv.dwMinorVersion>=21) name="WindowsMobile 2003 SE";
     if (osv.dwMajorVersion==5 && osv.dwMinorVersion==1) name="WindowsMobile 5";
     if (osv.dwMajorVersion==5 && osv.dwMinorVersion==2) name="WindowsMobile 6/6.1";
-
-    return name;
-		/*boost::str(boost::format(format) 
+LPMEMORYSTATUS lpBuffer;
+lpBuffer->dwLength=sizeof(MEMORYSTATUS);
+GlobalMemoryStatus( lpBuffer);
+		return boost::str(boost::format(format) 
         % name 
         % osv.dwMajorVersion 
         % osv.dwMinorVersion
         % osv.dwBuildNumber
         % platform
+		% lpBuffer->dwMemoryLoad
+		% lpBuffer->dwTotalPhys
+		% lpBuffer->dwAvailPhys
         );
-		*/
+		   
 }
 
 bool sysinfo::screenIsRotate()
