@@ -822,7 +822,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {std::wstring bufff=L"";
     int wmId, wmEvent;
     PAINTSTRUCT ps;
-    HDC hdc;
+    HDC hdc;HCURSOR OC=NULL;
 WndRef chat2;int result;
     static SHACTIVATEINFO s_sai;
 	Serialize s(L"config\\status", Serialize::READ);
@@ -854,8 +854,9 @@ WndRef chat2;int result;
 					break;
 				case NEWS:
 result=MessageBox(NULL, TEXT("Открыть новости? Программа будет занята некоторое время обработкой."), TEXT("NEWS"), MB_YESNO | MB_ICONWARNING );
-					if (result==IDYES){
-						news_parse();}
+					if (result==IDYES){OC=SetCursor(LoadCursor(NULL, IDC_WAIT));
+						news_parse();
+					SetCursor(OC);}
 					
 
 				break;
