@@ -32,7 +32,6 @@ IDR_MENU MENU
 BEGIN
     POPUP "Меню"
     BEGIN
-        MENUITEM "Настроение",                  MOODS_AKTIV
         MENUITEM "Статус",                      IDM_JABBER_STATUS
         POPUP "Быстро статус"
         BEGIN
@@ -43,6 +42,11 @@ BEGIN
             MENUITEM "DND",                         IDM_STATUS_DND
             MENUITEM "Off line",                    IDM_STATUS_OFFLINE
         END
+        POPUP "PEP"
+        BEGIN
+            MENUITEM "Настроение",                  MOODS_AKTIV
+            MENUITEM "Активность",                  AKTIV_PEP
+        END
         MENUITEM SEPARATOR
         MENUITEM "Добавить контакт",            ID_JABBER_ADDACONTACT
         MENUITEM "Войти в комнату",             ID_JABBER_JOINCONFERENCE
@@ -50,7 +54,7 @@ BEGIN
         POPUP "Инструменты"
         BEGIN
             MENUITEM "Обзор сервисов",              ID_TOOLS_SERVICEDISCOVERY
-            MENUITEM "Файлы",                       ID_TOOLS_FILETRANSFERS, GRAYED
+            MENUITEM "Файлы",                       ID_TOOLS_FILETRANSFERS
             MENUITEM "Мой vCard",                   ID_TOOLS_MYVCARD
             MENUITEM SEPARATOR
             MENUITEM "Лог",                         IDM_WINDOWS_LOG
@@ -60,7 +64,14 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Настройки",                   ID_JABBER_OPTIONS
         MENUITEM SEPARATOR
-        MENUITEM "О программе",                 IDM_HELP_ABOUT
+        POPUP "Справка"
+        BEGIN
+            MENUITEM "О программе",                 IDM_HELP_ABOUT
+            MENUITEM "Он-лайн поддержка",           ID_SUPP
+            MENUITEM "Новости",                     NEWS
+            MENUITEM SEPARATOR
+            MENUITEM "Благотворительность",         ID_BLAGO
+        END
         MENUITEM "Выход",                       IDM_EXIT
     END
     MENUITEM "Окна",                        IDS_WINDOWS
@@ -97,11 +108,11 @@ BEGIN
     LTEXT           "$VERSION$",IDC_AVERSION,45,7,65,8
     LTEXT           "http://bombus-im.org",IDC_STATIC_4,7,31,106,9
     LTEXT           "Mod of original NG ",IDC_STATIC_5,7,42,106,8
-    LTEXT           "$HARDWARE$",IDC_AHW,7,104,142,18
+    LTEXT           "$HARDWARE$",IDC_AHW,7,104,142,25
     LTEXT           "(c) 2009, fuze",IDC_STATIC_6,7,65,51,8
     LTEXT           "http://bombusng-qd.googlecode.com/",IDC_STATIC_7,7,78,142,8
-    LTEXT           "помощь в развитии мода:",IDC_STATIC_8,7,87,142,8
-    LTEXT           "Balakinuser  и  gcc ",IDC_STATIC_9,7,96,142,8
+    LTEXT           "кодопомощь в развитии мода:",IDC_STATIC_8,7,87,142,8
+    LTEXT           "Balakinuser , gcc , feanor",IDC_STATIC_9,7,96,142,8
     LTEXT           "(c) 2008-2009, agent",IDC_STATIC_10,7,53,97,8
 END
 
@@ -390,6 +401,18 @@ BEGIN
     COMBOBOX        IDC_MOODS,48,13,102,71,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
+IDD_BLAGO DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Помощь проекту"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_EDIT1,17,18,121,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2,17,36,121,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT3,17,54,121,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT4,17,72,121,12,ES_AUTOHSCROLL
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -404,7 +427,6 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 149
         TOPMARGIN, 7
-        BOTTOMMARGIN, 122
         HORZGUIDE, 56
         HORZGUIDE, 69
         HORZGUIDE, 73
@@ -550,6 +572,25 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 115
         HORZGUIDE, 26
+    END
+
+    IDD_BLAGO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        VERTGUIDE, 17
+        VERTGUIDE, 138
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 121
+        HORZGUIDE, 18
+        HORZGUIDE, 30
+        HORZGUIDE, 36
+        HORZGUIDE, 48
+        HORZGUIDE, 54
+        HORZGUIDE, 66
+        HORZGUIDE, 72
+        HORZGUIDE, 84
+        HORZGUIDE, 121
     END
 END
 #endif    // APSTUDIO_INVOKED

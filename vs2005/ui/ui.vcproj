@@ -213,7 +213,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
-				AdditionalOptions="&#x0D;&#x0A;"
 				Optimization="1"
 				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="\libs\boost;..\..\zlib\include;..\..\include"
@@ -437,6 +436,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\DlgAddEditContact.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\DlgBLAG.cpp"
 				>
 			</File>
 			<File
@@ -739,6 +742,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\DlgAddEditContact.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\DlgBLAG.h"
 				>
 			</File>
 			<File
