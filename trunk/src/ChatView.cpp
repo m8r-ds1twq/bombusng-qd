@@ -27,6 +27,7 @@
 #include "Log.h"
 #include <windows.h> 
 #include <Wingdi.h> 
+
 extern std::wstring appRootPath;
 extern HINSTANCE			g_hInst;
 extern int tabHeight;
@@ -48,6 +49,9 @@ extern int idautostatus;
 #endif
 //////////////////////////////////////////////////////////////////////////
 #define GOTOURL   1225
+std::wstring filePathavatargo;
+LONG avWidthgo;
+LONG avHeightgo;
 void ExecFile(LPCTSTR link, LPCTSTR param)
 {
    SHELLEXECUTEINFO info;
@@ -82,7 +86,7 @@ ATOM ChatView::RegisterWindowClass() {
     return RegisterClass(&wc);
 }
 
-
+bool avatbool;
 
 //////////////////////////////////////////////////////////////////////////
 // real WndProc for edit box
@@ -265,12 +269,14 @@ size_t i2=0;
 				}
 std::wstring filePathavatar6=appRootPath+L"userdata\\avatars\\"+utf8::utf8_wchar(avatarsjid)+L".jpg";
 HBITMAP bmp4=SHLoadImageFile(filePathavatar6.c_str());
+filePathavatargo=filePathavatar6;
 //int result2=MessageBox(NULL, filePathavatar6.c_str(), TEXT("Открыть"), MB_YESNOCANCEL | MB_ICONWARNING );
 BITMAP bm4;
 GetObject(bmp4, sizeof(bm4), &bm4);
 LONG avataraWidthL = Config::getInstance()->avatarWidth ;
-
+avatbool=0;
 if (bmp4) {
+	avatbool=1;
 	if(bm4.bmWidth==bm4.bmHeight){avWidth=avataraWidthL;
 	avHeight=avWidth;}else{
 	if(bm4.bmWidth>bm4.bmHeight){
@@ -285,7 +291,8 @@ if (bmp4) {
     SelectObject(hdc, bmp4);
 SelectObject(hdcImage2, bmp4);
 COLORREF transparentColor2=GetPixel(hdcImage2, 0, 0);DeleteDC(hdcImage2);
-    TransparentImage(hdc,rc.top,rc.left,avWidth, avHeight, bmp4, 0, 0,  bm4.bmWidth, bm4.bmHeight, transparentColor2);
+ avWidthgo= avWidth;avHeightgo=avHeight;
+TransparentImage(hdc,rc.top,rc.left,avWidth, avHeight, bmp4, 0, 0,  bm4.bmWidth, bm4.bmHeight, transparentColor2);
 rc.left+=avWidth+1;
 }
 if (bmp4) DeleteObject(bmp4);
@@ -485,10 +492,17 @@ Skin * il= dynamic_cast<Skin *>(skin.get());
 				p->contact->messageList->clear();
 				p->msgList->moveCursorEnd();
 			}
+
+			//if(!(boost::dynamic_pointer_cast<MucRoom>(p->contact))){
+				
+			//}
 			break;
 		}
 if(!boost::dynamic_pointer_cast<MucRoom>(p->contact))
-			{
+{if(avatbool){
+		if (GET_X_LPARAM(lParam)<avWidthgo && GET_X_LPARAM(lParam)>0 ){
+					//MessageBox(NULL, TEXT("avatar"), TEXT("proba"), 0);
+			ExecFile(filePathavatargo.c_str(),L"");break;}}
 		if (GET_X_LPARAM(lParam) > (p->width)-2-(skin->getElementWidth())*3) {
 				if (!rc->isLoggedIn()) break;
 				WndRef vc=VcardForm::createVcardForm(tabs->getHWnd(),p->contact->rosterJid, rc, false);
@@ -888,7 +902,7 @@ void MessageElement::render( HDC hdc, RECT &rt, bool measure ) const{
 
 	int xpos=rt.left;
 	int xbegin=xpos;
-	int mw=rt.right;
+	int mw=rt.right-GetSystemMetrics(SM_CXVSCROLL)/2;
 
 	bool inUrl=FALSE;
 	int lHeight=fmc.getHeight();
@@ -963,12 +977,21 @@ void MessageElement::render( HDC hdc, RECT &rt, bool measure ) const{
 						}
 						int smileWidth=smileParser->icons->getElementWidth();
 						lHeight=smileWidth;
-						lineBegin=end=smileEnd; wordBegin=NULL; xbegin=xpos+smileWidth;
+						
+						
+
+						lineBegin=end=smileEnd; wordBegin=NULL; 
+						xbegin=xpos+smileWidth;
+						if (xbegin>=mw) {ypos+=smileWidth;xpos=rt.left;xbegin=xpos+smileWidth;wordBegin=smileEnd;} 
+
 						if (!measure) {
 							if (ypos<rt.bottom && ypos+smileWidth>=rt.top)
 								smileParser->icons->drawElement(hdc, smileIndex, xpos, ypos);
 						}
+
 						xpos=xbegin;
+						
+
 						continue;
 					}
 				}

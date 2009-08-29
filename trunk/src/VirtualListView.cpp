@@ -9,6 +9,8 @@
 #include "TabCtrl.h"    
 extern TabsCtrlRef tabs;
 extern HINSTANCE			g_hInst;
+#define VK_3 0x33
+#define VK_9 0x39
 extern int tabHeight;
 extern int COLORS[];
 ATOM VirtualListView::RegisterWindowClass() {
@@ -31,7 +33,7 @@ ATOM VirtualListView::RegisterWindowClass() {
 
 LRESULT CALLBACK VirtualListView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam ) {
     VirtualListView *p=(VirtualListView *) GetWindowLong(hWnd, GWL_USERDATA);
-
+ int klav=0;
     switch (message) {
     case WM_CREATE:
         {
@@ -228,7 +230,7 @@ LRESULT CALLBACK VirtualListView::WndProc( HWND hWnd, UINT message, WPARAM wPara
             break;
         }
     case WM_KEYDOWN:
-        {
+        {bool kl2=1;
           int vKey=(int)wParam;
             int lkeyData=lParam;
             if (lkeyData & 0x80000000) break; //keyRelease 
@@ -239,7 +241,70 @@ LRESULT CALLBACK VirtualListView::WndProc( HWND hWnd, UINT message, WPARAM wPara
                                 PostMessage(tabs->getHWnd(), WM_COMMAND, TabsCtrl::NEXTTAB, 0);
                                 break;
 
+						case VK_3:kl2=0;
+                              //  MessageBox(hWnd, TEXT("Clicked 3"), TEXT("!"), 0);
+                               SCROLLINFO si2;
+            si2.cbSize=sizeof(SCROLLINFO);
+            si2.fMask=SIF_ALL;
 
+            GetScrollInfo(p->thisHWnd, SB_VERT, &si2);
+
+            //TODO: flicker-free scrolling
+          
+           /* case SB_LINEDOWN: *///  si2.nPos+=tabHeight; break;
+            //case SB_LINEUP:    
+			si2.nPos-=tabHeight; 
+            //case SB_ENDSCROLL:  break;
+            /*//case SB_PAGEUP:    */// si2.nPos-=si2.nPage; 
+            //case SB_PAGEDOWN:   si2.nPos+=si2.nPage;  break;
+           
+      
+
+
+            if (si2.nPos<0) si2.nPos=0; 
+            if (si2.nPos+(int)si2.nPage >= si2.nMax) si2.nPos=si2.nMax-si2.nPage; 
+
+            p->winTop= si2.nPos;
+
+            //TODO: flicker-free scrolling
+            InvalidateRect(p->getHWnd(), NULL, true);
+
+            si2.fMask=SIF_POS;
+            SetScrollInfo(p->thisHWnd, SB_VERT, &si2, TRUE); 
+							break;
+								
+						case VK_9:kl2=0;
+                                SCROLLINFO si3;
+            si3.cbSize=sizeof(SCROLLINFO);
+            si3.fMask=SIF_ALL;
+
+            GetScrollInfo(p->thisHWnd, SB_VERT, &si3);
+
+            //TODO: flicker-free scrolling
+          
+           /* case SB_LINEDOWN: *///  
+			si3.nPos+=tabHeight; 
+            //case SB_LINEUP:    si2.nPos-=tabHeight; 
+            //case SB_ENDSCROLL:  break;
+            /*//case SB_PAGEUP:    */// si2.nPos-=si2.nPage; 
+            //case SB_PAGEDOWN:   si2.nPos+=si2.nPage;  break;
+           
+      
+
+
+            if (si3.nPos<0) si3.nPos=0; 
+            if (si3.nPos+(int)si3.nPage >= si3.nMax) si3.nPos=si3.nMax-si3.nPage; 
+
+            p->winTop= si3.nPos;
+
+            //TODO: flicker-free scrolling
+            InvalidateRect(p->getHWnd(), NULL, true);
+
+            si3.fMask=SIF_POS;
+            SetScrollInfo(p->thisHWnd, SB_VERT, &si3, TRUE); 
+							break;
+							// MessageBox(hWnd, TEXT("Clicked 3"), TEXT("!"), 0);
+                               
                         case VK_LEFT:
                                 PostMessage(tabs->getHWnd(), WM_COMMAND, TabsCtrl::PREVTAB, 0);
                                 break;
@@ -258,8 +323,8 @@ LRESULT CALLBACK VirtualListView::WndProc( HWND hWnd, UINT message, WPARAM wPara
                 if (lkeyData &0xc0000000) break;
                 p->eventOk();
                                 break;
-                        }
-            p->cursorFit();
+			}
+            if(kl2)p->cursorFit();
             InvalidateRect(p->getHWnd(), NULL, true);
 
 

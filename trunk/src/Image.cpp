@@ -148,6 +148,7 @@ char** Skin::readFileK(const wchar_t *fileName,int *count){
 	free(res);
 	free(buf);
 	*count=lines;
+	fclose(f);
 	return res1;
 }
 int Skin::getKlientIndex(char* caps) {

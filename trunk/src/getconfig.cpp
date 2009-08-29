@@ -166,6 +166,7 @@ char** readFileLines(const wchar_t *fileName,int *count)
         free(res);
         free(buf);
         *count=lines;
+		fclose(f);
         return res1;
 }
 

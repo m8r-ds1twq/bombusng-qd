@@ -42,6 +42,7 @@
 #define IDB_BITMAP1                     138
 #define IDD_MOODS                       138
 #define IDI_ICON1                       139
+#define IDD_BLAGO                       139
 #define IDC_STATIC_2                    202
 #define IDC_STATIC_3                    203
 #define IDC_STATIC_4                    204
@@ -132,6 +133,10 @@
 #define IDOK3                           1064
 #define IDC_MOODS                       1065
 #define IDC_MES_MOODS                   1066
+#define IDC_EDIT1                       1068
+#define IDC_EDIT2                       1069
+#define IDC_EDIT3                       1070
+#define IDC_EDIT4                       1071
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
@@ -165,15 +170,24 @@
 #define ID_STATUS_AWAY                  32802
 #define ID_STATUS_FFC                   32803
 #define ID_STATUS_OFFLINE               32804
+#define IDM_HELP_ABOUT2                 32804
 #define ID_CONTACT_SUBSCRIBE            32805
+#define ID_Menu32805                    32805
 #define ID_SUBSCRIBE_GRAND              32806
+#define ID_SUPP                         32806
 #define ID_SUBSCRIPTION_GRANTSUBSCRIPTION 32807
+#define ID_32807                        32807
 #define ID_SUBSCRIPTION_REVOKESUBSCRIPTION 32808
+#define ID_BLAGO                        32808
 #define ID_CONTACT_INFO                 32809
+#define ID_PEP_32809                    32809
 #define IDM_STATUS_ONLINE               32810
 #define ID_STATUS_EXTENDEDAWAY          32811
+#define AKTIV_PEP                       32811
 #define ID_STATUS_DND                   32812
+#define ID_32812                        32812
 #define IDM_STATUS_OFFLINE              32813
+
 #define IDM_STATUS_DND                  32814
 #define IDM_STATUS_EXTENDEDAWAY         32815
 #define IDM_STATUS_AWAY                 32816
@@ -200,15 +214,16 @@
 #define IDC_WM_VYBOR                    42354
 #define IDC_WM_STAV                     42355
 #define MOODS_AKTIV                     42358
-
+#define ID_32806                        42360
+#define NEWS                            42362
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        140
-#define _APS_NEXT_COMMAND_VALUE         32804
-#define _APS_NEXT_CONTROL_VALUE         1067
+#define _APS_NEXT_COMMAND_VALUE         32814
+#define _APS_NEXT_CONTROL_VALUE         1072
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif
