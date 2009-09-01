@@ -52,6 +52,8 @@ extern int idautostatus;
 std::wstring filePathavatargo;
 LONG avWidthgo;
 LONG avHeightgo;
+bool mucak=0;
+HWND chatHWND;
 void ExecFile(LPCTSTR link, LPCTSTR param)
 {
    SHELLEXECUTEINFO info;
@@ -98,7 +100,8 @@ namespace editbox {
 
 long WINAPI EditSubClassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) { 
     WNDPROC OldWndProc=(WNDPROC) GetWindowLong(hWnd, GWL_USERDATA);
-    switch(msg) { 
+   
+	switch(msg) { 
     case WM_LBUTTONDOWN:
         {
 
@@ -158,6 +161,9 @@ long WINAPI EditSubClassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
     case WM_KEYUP:
         editbox::editBoxShifts=false;
         break;
+	//case CLEAR2M:
+	//	PostMessage(GetParent(hWnd), CLEARMESS, 0, 0);
+     //       return 0;
     case WM_CHAR:
         if (wParam==VK_RETURN && !editbox::editBoxShifts) {
             PostMessage(GetParent(hWnd), WM_COMMAND, IDS_SEND, 0);
@@ -215,10 +221,10 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
     PAINTSTRUCT ps;
     HDC hdc;
     ChatView *p=(ChatView *) GetWindowLong(hWnd, GWL_USERDATA);
-
+   
     switch (message) {
     case WM_CREATE:
-        {
+		{
             p=(ChatView *) (((CREATESTRUCT *)lParam)->lpCreateParams);
             SetWindowLong(hWnd, GWL_USERDATA, (LONG) p );
 
@@ -238,11 +244,11 @@ LRESULT CALLBACK ChatView::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPAR
     case WM_PAINT:
         hdc = BeginPaint(hWnd, &ps);
 
-        {
+		{
             //p->contact->nUnread=0;
 			int avataraWidth = Config::getInstance()->avatarWidth ;
 			bool muc=boost::dynamic_pointer_cast<MucRoom>(p->contact);
-			
+			mucak=muc;
 			 /*if(muc){
 			   avataraWidth = 0;
 			 }*/
@@ -379,7 +385,7 @@ Skin * il= dynamic_cast<Skin *>(skin.get());
     //    break;
 
     case WM_SIZE: 
-        { 
+		{
             HDWP hdwp; 
             RECT rc; 
 //
@@ -430,7 +436,7 @@ Skin * il= dynamic_cast<Skin *>(skin.get());
         } 
 
     case WM_COMMAND: 
-        {
+		{
             if (wParam==IDS_SEND) {
                 p->sendJabberMessage();
             }
@@ -473,7 +479,18 @@ Skin * il= dynamic_cast<Skin *>(skin.get());
 		skin->drawElement(hdc, icons::ICON_VCARD, avatarWidth+iconwidth*3+10,iconwidth*2);         p->width-2-iconwidth*3,0  // vCard in Tab
 
         }*/
-
+	case CLEARMESS:
+		{int result=MessageBox(
+				p->getHWnd(), 
+				L"Очистить окно от сообщений?", 
+				L"Очистить", 
+				MB_YESNO | MB_ICONWARNING);
+			if (result==IDYES) {
+				p->contact->messageList->clear();
+				p->msgList->moveCursorEnd();
+			}
+			break;
+				   }
 	case WM_LBUTTONDOWN:
 		SetFocus(hWnd);
 		if ((GET_Y_LPARAM(lParam))>(boost::dynamic_pointer_cast<MucRoom>(p->contact)?tabHeight:50)) break; //если конфа,ставим tabHeight
@@ -544,6 +561,7 @@ ChatView::ChatView( HWND parent, Contact::ref contact )
         0, 0, 
 		CW_USEDEFAULT, CW_USEDEFAULT,//ширина+высота
 		parent, NULL, g_hInst, (LPVOID)this);
+chatHWND=thisHWnd;
 }
 
 //const wchar_t * ChatView::getWindowTitle() const{  return TEXT("stub"); }
@@ -1050,7 +1068,7 @@ HMENU MessageElement::getContextMenu( HMENU menu ) {
 	else
 		AppendMenu(menu, MF_SEPARATOR , 0, NULL);
 
-	AppendMenu(menu, MF_STRING | MF_GRAYED, CGETNICK, L"Ник" );
+	if(mucak)AppendMenu(menu, MF_STRING , CGETNICK, L"Ответить" );
 	AppendMenu(menu, MF_STRING, CQUOTE, L"Цитировать" );
 	AppendMenu(menu, MF_SEPARATOR , 0, NULL);
 	AppendMenu(menu, MF_STRING, WM_COPY, L"Копировать" );
@@ -1059,13 +1077,14 @@ HMENU MessageElement::getContextMenu( HMENU menu ) {
 	AppendMenu(menu, (singleLine)? MF_STRING  :  MF_STRING | MF_CHECKED, IDOK, L"Свернуть" );
 	AppendMenu(menu, (smiles)? MF_STRING | MF_CHECKED  :  MF_STRING, IDM_SMILES, L"Смайлы" );
 	AppendMenu(menu, MF_SEPARATOR , 0, NULL);
-	AppendMenu(menu, MF_STRING | MF_GRAYED, CCLRMSGS, L"Очистить" );
+	AppendMenu(menu, MF_STRING , CCLRMSGS, L"Очистить" );
 	return menu;
 }
 
 
 bool MessageElement::OnMenuCommand(int cmdId, HWND parent, HWND edithwnd){
-    switch (cmdId) {
+   
+	switch (cmdId) {
         case WM_COPY:
             {
                 std::wstring copy=wstr;
@@ -1134,8 +1153,29 @@ bool MessageElement::OnMenuCommand(int cmdId, HWND parent, HWND edithwnd){
                 InvalidateRect(parent, NULL, true);
                 return true;
             }
+		case CCLRMSGS:{
+			PostMessage(chatHWND, CLEARMESS, NULL, false);
+			return true;}
+		case CGETNICK:{
+			if (!edithwnd) return true;
+				std::wstring copy=wstr;
+                // striping formating
+                size_t i=0;
+                while (i<copy.length()) {
+                    if (copy[i]<0x09) {
+                        copy.erase(i,1);
+                        continue;
+                    }
+                    i++;
+                }
+				copy.erase(0,11);
+				copy.replace(copy.find('>'),copy.length(),L":");
+				SendMessage(edithwnd, EM_REPLACESEL, TRUE, (LPARAM)copy.c_str());
+				SetFocus(edithwnd);
+					  return true;}
 		case CQUOTE:
 				if (!edithwnd) return true;
+				//
 				std::wstring copy=wstr;
                 // striping formating
                 size_t i=0;

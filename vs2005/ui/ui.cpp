@@ -23,7 +23,7 @@
 #include "JabberDataBlockListener.h"
 #include "ResourceContext.h"
 #include "HostFeatures.h"
-
+#include "DlgNEWS.h"
 #include "EntityCaps.h"
 #include "Roster.h"
 
@@ -83,13 +83,14 @@ std::wstring out_title;//чё играет
 std::wstring out_OriginalArtist;
 std::wstring out_title_st;
 std::wstring out_OriginalArtist_st;
+std::string newsstring;
 #define AKTIV_PLAY 15  //ВРЕМЯ НА РЕАГИРОВАНИЕ
 int  aktiv_wp=0;
 long aktiv_wp_sc=0;//плеер играет-значение растёт 1-2 сек 2-4 сек 3-6сек 4-8сек
 long aktiv_wp_sc_not=0;//плеер не играет-значение растёт 1-2 сек 2-4 сек 3-6сек 4-8сек
 bool aktiv_wp_sc_flag=1;//0-не играет 1-играет
 int aktiv_wp_s=1;//
-
+/*
 typedef struct {
   char date[32];
   char title[1024];
@@ -206,7 +207,7 @@ char *html_decode(char *s)
   *d=0;
   return dest;
 }
-
+*/
 
 BOOL regmuz_mp(void){
 HKEY rKey;
@@ -288,7 +289,7 @@ HWND hwnvs;
 #include <WinInet.h>
 #pragma comment(lib,"wininet") //линковка с использованием статичексой библиотеки WinInet.lib
 
-const int IBUFFER_LENGTH = 16384;
+const int IBUFFER_LENGTH = 8192;
 const TCHAR pcszAppCaption[] = TEXT("NEWS");
 
 //
@@ -298,20 +299,37 @@ static const GUID APP_GUID = { 0xbaeef0cf, 0xd06e, 0x490c, { 0x92, 0x6, 0x3b, 0x
 //boost::regex e3("((?:(?:ht|f)tps?://|www\\.)[^<\\s\\n]+)(?<![]\\.,:;!\\})<-])");
 
 
-void news_parse(void){//MessageBox(NULL, TEXT("NEWS start"), pcszAppCaption, 0);
- HINTERNET hInet = InternetOpen(TEXT("WinInet Test. Windows CE x.x"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-    if(hInet)
-    {
-        HINTERNET hConnection = InternetConnect(hInet, TEXT("code.google.com"), INTERNET_DEFAULT_HTTP_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 1u);
-        if(hConnection)
-        {
+int news_parse(void){
+	SHELLEXECUTEINFO info;
+   info.cbSize = sizeof(info);
+   info.fMask = SEE_MASK_FLAG_NO_UI;
+   info.hwnd = NULL;
+   info.lpVerb = L"open";
+   info.lpFile = L"http://bombusng-qd.googlecode.com/files/news.html";
+   info.lpParameters = L"";
+   info.lpDirectory = L"";
+   info.nShow = SW_SHOW;
+   //info.hInstApp = AfxGetInstanceHandle(); // можно не заполнять данное поле, и так работает
+   ShellExecuteEx(&info);
+   return 1;
+	//MessageBox(NULL, TEXT("NEWS start"), pcszAppCaption, 0);
+ /*HINTERNET hInet = InternetOpen(TEXT("WinInet Test. Windows CE x.x"), NULL, NULL, NULL, 0);
+    //HCURSOR OC=NULL;
+	//OC=SetCursor(LoadCursor(NULL, IDC_WAIT));
+ if(hInet)
+ {
+       // HINTERNET hConnection = InternetConnect(hInet, TEXT("bombusng-qd.googlecode.com"), INTERNET_DEFAULT_HTTP_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 1u);
+        //if(hConnection)
+		//{
 
-            HINTERNET hRequest = HttpOpenRequest(hConnection, TEXT("GET"), TEXT("/feeds/p/bombusng-qd/updates/basic"),NULL, NULL, 0, INTERNET_FLAG_KEEP_CONNECTION, 1);
-            if(hRequest)
-            {
-                BOOL bSend = HttpSendRequest(hRequest, NULL, 0, NULL, 0);
-                if(bSend)
-                {std::string data;
+       //     HINTERNET hRequest = HttpOpenRequest(hConnection, TEXT("GET"), TEXT("/files/news.txt"),NULL, NULL, 0, INTERNET_FLAG_DONT_CACHE, 1);
+         //   if(hRequest)
+         //   {
+           //      HttpSendRequest(hRequest, NULL, 0, NULL, 0);
+	  HINTERNET hRequest= InternetOpenUrl(hInet,TEXT("http://bombusng-qd.googlecode.com/files/news.txt"),NULL, NULL, 0,0);
+		if(hRequest)
+				{std::string data;
+				//std::wstring resul;
                     char szBuffer[IBUFFER_LENGTH];
                     DWORD dwBytesRead;
                     //считываем первые IBUFFER_LENGTH байт
@@ -319,171 +337,59 @@ void news_parse(void){//MessageBox(NULL, TEXT("NEWS start"), pcszAppCaption, 0);
 					
 						
                     if(bRead && dwBytesRead > 0)
-                    {data.assign((const char*)&szBuffer);
+                    {
+						data.assign((const char*)&szBuffer);
 					while(InternetReadFile(hRequest, szBuffer, IBUFFER_LENGTH-1, &dwBytesRead))
 					{
 						if(!dwBytesRead)break;
 						data.append((const char*)&szBuffer);
 					}
-                       
+					//data.assign("123654");
+//SetCursor(OC);
+newsstring=data;//utf8::utf8_wchar(&szBuffer);
+//lgNEWS(g_hInst, mainWnd);
+			Log::getInstance()->msg(newsstring);
 
-						
-   // std::string data=boost::regex_replace(temp2, e3, std::string("\x01\\1\x02"));
-std::string result;
-
-  //char buff[32566];
-  char *buff=new char[data.length()+5]; 
-
-    
-  sprintf(buff,"%s",data.c_str());
-   
-//===========================================================================
-int items=0;
-int i,j=0;
-
-for (i=0; i!=strlen(buff); i++)
-{
-    if(!strncmp(buff+i,"<entry>",7) ) {items++;}
-
-    /*if(!strncmp(buff+i,"&quot;",6) ) {buff[i]="\""; i+=5;}
-    if(!strncmp(buff+i,"&amp;",5) ) {buff[i]="\'"; i+=4;}
-    if(!strncmp(buff+i,"&lt;",4) ) {buff[i]="<"; i+=3;}
-    if(!strncmp(buff+i,"&gt;",4) ) {buff[i]=">"; i+=3;}
-    buff[i]=*/
-
-}
-
-
-it = (ITEM*)malloc (sizeof(ITEM)*items);
-
-for(i=0; i!=items; i++)
-{
-     memset(it[j].date,'\0',32);
-	 memset(it[j].title,'\0',1024);
-     memset(it[j].text,'\0',5120);
-     memset(it[j].author,'\0',32);
-}
-
-strcpy(buff, strstr(buff,"<entry>")+1);
-
-char flag;
-for (i=0; i!=strlen(buff); i++)
-{
-  if(!strncmp(buff+i,"<entry>",7) )  {j++;}
-
-  if(!strncmp(buff+i,"<updated>",9) )  {flag=1; i+=9; }
-  if(!strncmp(buff+i,"</updated>",10) )  {flag=0;}
-  if(!strncmp(buff+i,"<title type=\"html\">",19) )  {flag=2; i+=19; }
-  if(!strncmp(buff+i,"</title>",8) )  {flag=0;}
-  if(!strncmp(buff+i,"<name>",6) )  {flag=3; i+=6; }
-  if(!strncmp(buff+i,"</name>",7) )  {flag=0;}
-  if(!strncmp(buff+i,"<content type=\"html\">",21) )  {flag=4; i+=21; }
-  if(!strncmp(buff+i,"</content>",10) )  {flag=0;}
-  //if(!strncmp(buff+i,"&quot;",6) )  {flag=0; i+=6; }
-
-  if(flag==1) it[j].date[strlen(it[j].date)] = buff[i];
-  if(flag==2) it[j].title[strlen(it[j].title)] = buff[i];
-  if(flag==3) it[j].author[strlen(it[j].author)] = buff[i];
-if(flag==4) it[j].text[strlen(it[j].text)] = buff[i];
-}
-char *format6="date:%s \n title:%s \n text:%s \n author:%s \n\n";
-std::string restemp;
-for(i=0; i!=items; i++)
-{
-    strcpy(it[i].date , html_decode(it[i].date));
-	 strcpy(it[i].title , html_decode(it[i].title));
-     strcpy(it[i].text , html_decode(it[i].text));
-     strcpy(it[i].author , html_decode(it[i].author));
-	restemp=boost::str(boost::format(format6)
-		% it[i].date
-		% it[i].title
-		% it[i].text
-		% it[i].author
-		);
-	result.append(restemp.c_str());
-	// result=result+"date: "+it[j].date+" title:"+it[j].title+" text:"+it[j].text+" author:"+it[j].author+"\n\n";
-	
-    /* printf(it[j].date);
-     printf("\r\n\r\n");
-     printf(it[j].text);
-     printf("\r\n\r\n");
-     printf(it[j].author);
-     printf("\r\n\r\n");
-     printf("\r\n\r\n");*/
-
-}
-delete buff;
-if (it) free(it);
-  /*  std::string escapedChar;
-    bool inEsc=false;
-	for (std::string::const_iterator i=data.begin(); i!=data.end(); i++) {
-        char ch=*i;
-        switch (ch) {
-            case '&':
-                //if (inEsc) throw std::exception("Malformed XML escape sequence");
-                inEsc=true; 
-                escapedChar.clear();
-                break;
-            case ';':   
-				if (inEsc) {
-                    ch=0;
-                    inEsc=false;
-                    if (escapedChar=="amp")  ch='&';
-                    if (escapedChar=="quot") ch='"'; 
-                    if (escapedChar=="lt")   ch='<'; 
-                    if (escapedChar=="gt")   ch='>';
-                    if (escapedChar=="apos") ch='\'';
-                    /*if (escapedChar[0]=='#') { 
-                        escapedChar[0]=' ';
-                        ch=atoi(escapedChar.c_str()
-							);*/
-/*                    
-                   // if (ch==0) throw std::exception("Malformed XML escape sequence");
-		}
-            default: if (inEsc) escapedChar+=ch; else result+=ch;
-        }}
-			
-*/
-   // if (inEsc) throw std::exception("Malformed XML escape sequence");
-
-
-	Log::getInstance()->msg("news: ",result.c_str());
+//	MessageBox(NULL, TEXT("NEWS has been read!!!"), pcszAppCaption, 0);
 	if (!tabs->switchByWndRef(odrLog)) {
-                        tabs->addWindow(odrLog);
-                        tabs->switchByWndRef(odrLog);
-                    }
-// MessageBox(NULL, TEXT("NEWS has been read!!!"), pcszAppCaption, 0);
+                    tabs->addWindow(odrLog);
+                    tabs->switchByWndRef(odrLog);
+	}
 
+InternetCloseHandle(hRequest);
+//InternetCloseHandle(hConnection);
+InternetCloseHandle(hInet);
+return 1;
 					}
                     else
-                    {
+                    {//SetCursor(OC);
                         MessageBox(NULL, TEXT("NEWS cannot be read"), pcszAppCaption, MB_OK | MB_ICONWARNING);
-                    }
-                }
-                else
-                {
-                    MessageBox(NULL, TEXT("Unable to send request"), pcszAppCaption, MB_OK | MB_ICONWARNING);
-                }
-                InternetCloseHandle(hRequest);
-            }
-            else
-            {
-                MessageBox(NULL, TEXT("Unable to open http request"), pcszAppCaption, MB_OK | MB_ICONWARNING);
-            }
-            InternetCloseHandle(hConnection);
+                    return 0;}
 		}
-        else
-        {
-            MessageBox(NULL, TEXT("Unable to open internet connection"), pcszAppCaption, MB_OK | MB_ICONWARNING);
-        }
-
+            // /   else
+            // /   {//SetCursor(OC);
+             //       MessageBox(NULL, TEXT("Unable to send request"), pcszAppCaption, MB_OK | MB_ICONWARNING);
+             //    return 0;}
+          //      InternetCloseHandle(hRequest);
+			//}
+       //     else
+       //     {//SetCursor(OC);
+       //         MessageBox(NULL, TEXT("Unable to open http request"), pcszAppCaption, MB_OK | MB_ICONWARNING);
+       //      return 0;}
+       //  /   InternetCloseHandle(hConnection);
+	//	}
+     //   else
+     //   {//SetCursor(OC);
+     //       MessageBox(NULL, TEXT("Unable to open internet connection"), pcszAppCaption, MB_OK | MB_ICONWARNING);
+     //   return 0; }
+//
 
         InternetCloseHandle(hInet);
-    }
+ }
     else
-    {
+    {//SetCursor(OC);
         MessageBox(NULL, TEXT("Cannot open Internet"), pcszAppCaption, MB_OK | MB_ICONWARNING);
-    }
+    return 0; }*/
 }
 
 std::string encloseHTML(std::string ostr) {
@@ -822,7 +728,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {std::wstring bufff=L"";
     int wmId, wmEvent;
     PAINTSTRUCT ps;
-    HDC hdc;HCURSOR OC=NULL;
+    HDC hdc;
 WndRef chat2;int result;
     static SHACTIVATEINFO s_sai;
 	Serialize s(L"config\\status", Serialize::READ);
@@ -853,10 +759,10 @@ WndRef chat2;int result;
 					 //colorsload();
 					break;
 				case NEWS:
-result=MessageBox(NULL, TEXT("Открыть новости? Программа будет занята некоторое время обработкой."), TEXT("NEWS"), MB_YESNO | MB_ICONWARNING );
-					if (result==IDYES){OC=SetCursor(LoadCursor(NULL, IDC_WAIT));
+result=MessageBox(NULL, TEXT("Открыть новости? При неоходимости обновите страницу"), TEXT("NEWS"), MB_YESNO | MB_ICONWARNING );
+					if (result==IDYES){
 						news_parse();
-					SetCursor(OC);}
+					}
 					
 
 				break;
