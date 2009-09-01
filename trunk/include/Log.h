@@ -17,7 +17,7 @@ protected:
     //static Log::ref instance;
 
 public:
-
+	void msg(const std::wstring &message);
 	void msg(const std::string &message);
 	void msg(const char * message);
 	void msg(const char * message, const char * message2);

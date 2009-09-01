@@ -459,6 +459,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DlgNEWS.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DlgStatus.cpp"
 				>
 			</File>
@@ -762,6 +766,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\DlgMucJoin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\DlgNEWS.h"
 				>
 			</File>
 			<File

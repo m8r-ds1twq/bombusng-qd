@@ -43,6 +43,8 @@
 #define IDD_MOODS                       138
 #define IDI_ICON1                       139
 #define IDD_BLAGO                       139
+#define IDD_BLAGO1                      140
+#define IDD_HISTOR                      140
 #define IDC_STATIC_2                    202
 #define IDC_STATIC_3                    203
 #define IDC_STATIC_4                    204
@@ -137,6 +139,7 @@
 #define IDC_EDIT2                       1069
 #define IDC_EDIT3                       1070
 #define IDC_EDIT4                       1071
+#define IDC_NEWS_EDIT                   1072
 #define IDC_AHW                         1095
 #define IDC_X_HISTORY                   1098
 #define IDC_X_SIP                       1099
@@ -187,7 +190,6 @@
 #define ID_STATUS_DND                   32812
 #define ID_32812                        32812
 #define IDM_STATUS_OFFLINE              32813
-
 #define IDM_STATUS_DND                  32814
 #define IDM_STATUS_EXTENDEDAWAY         32815
 #define IDM_STATUS_AWAY                 32816
@@ -216,6 +218,8 @@
 #define MOODS_AKTIV                     42358
 #define ID_32806                        42360
 #define NEWS                            42362
+#define CLEARMESS						42365
+#define CLEAR2M							42366
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
@@ -223,7 +227,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         32814
-#define _APS_NEXT_CONTROL_VALUE         1072
+#define _APS_NEXT_CONTROL_VALUE         1073
 #define _APS_NEXT_SYMED_VALUE           116
 #endif
 #endif

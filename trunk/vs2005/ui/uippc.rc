@@ -413,6 +413,15 @@ BEGIN
     EDITTEXT        IDC_EDIT4,17,72,121,12,ES_AUTOHSCROLL
 END
 
+IDD_HISTOR DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE 0x80000000L
+CAPTION "Новости"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_NEWS_EDIT,7,7,142,114,ES_AUTOHSCROLL
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -590,6 +599,25 @@ BEGIN
         HORZGUIDE, 66
         HORZGUIDE, 72
         HORZGUIDE, 84
+        HORZGUIDE, 121
+    END
+
+    IDD_HISTOR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        VERTGUIDE, 17
+        VERTGUIDE, 138
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 121
+        HORZGUIDE, 18
+        HORZGUIDE, 30
+        HORZGUIDE, 36
+        HORZGUIDE, 48
+        HORZGUIDE, 54
+        HORZGUIDE, 66
+        HORZGUIDE, 72
+        HORZGUIDE, 110
         HORZGUIDE, 121
     END
 END

@@ -6,10 +6,15 @@ Log::~Log(){}
 
 void Log::addLog(const wchar_t * msg) {}
 
+
 void Log::msg(const std::string &message){
     addLog(utf8::utf8_wchar(message).c_str());
 }
 
+void Log::msg(const std::wstring &message){
+    addLog(message.c_str());
+	
+}
 void Log::msg(const char * message){
     msg(std::string(message));
 }
